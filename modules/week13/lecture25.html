@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 25: Performance – model size, star design, measure efficiency, and practical tuning habits." />
+  <title>Lecture 25: Performance | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 5 · Modeling & DAX</div>
+        <a href="../week12/lecture22.html" data-lecture-id="22"><span class="progress-ring"></span> L22 · Data Modeling</a>
+        <a href="../week12/lecture23.html" data-lecture-id="23"><span class="progress-ring"></span> L23 · DAX Basics</a>
+        <a href="lecture24.html" data-lecture-id="24"><span class="progress-ring"></span> L24 · Advanced DAX</a>
+        <a href="lecture25.html" class="active" data-lecture-id="25"><span class="progress-ring"></span> L25 · Performance</a>
+        <a href="lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 5 › <span>Lecture 25</span></nav>
+      <div class="lecture-meta">
+        <span class="badge badge-advanced">Advanced</span>
+        <span class="badge badge-time">⏱ ~90 min</span>
+        <span class="badge">Module 5</span>
+      </div>
+      <h1>Lecture 25: Performance</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Keep models lean and measures efficient so reports stay responsive as data grows.</p>
+
+      <section class="card" id="objectives">
+        <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Reduce model size by removing unused columns and choosing correct types.</li>
+          <li><span class="obj-num">2</span> Prefer star schema and single-direction filters for predictable queries.</li>
+          <li><span class="obj-num">3</span> Write measures that avoid unnecessary iterators and repeated calculations.</li>
+          <li><span class="obj-num">4</span> Use Performance Analyzer habits to find slow visuals.</li>
+          <li><span class="obj-num">5</span> Apply a practical performance checklist before publishing.</li>
+        </ul>
+      </section>
+
+      <section id="model-size">
+        <h2>2. Model Size</h2>
+        <ul>
+          <li>Remove columns you never use in visuals or relationships</li>
+          <li>Prefer integers/keys over long text where possible</li>
+          <li>Split date/time if time-of-day is unused</li>
+          <li>Avoid high-cardinality text in fact tables</li>
+          <li>Disable “Auto date/time” when you own a date table</li>
+        </ul>
+      </section>
+
+      <section id="design">
+        <h2>3. Design for Speed</h2>
+        <ul>
+          <li>Star schema over complex many-to-many webs</li>
+          <li>Single-direction filters unless bidirectional is proven necessary</li>
+          <li>Pre-aggregate only when grain requires it — don’t over-summarize away needed detail</li>
+          <li>Fewer visuals per page; avoid tables with tens of thousands of rows on open</li>
+        </ul>
+      </section>
+
+      <section id="measures">
+        <h2>4. Measure Efficiency</h2>
+        <ul>
+          <li>Use VAR so expensive expressions run once</li>
+          <li>Prefer SUM of a column over SUMX when the line value already exists</li>
+          <li>Avoid CALCULATE inside tight row iterators without need</li>
+          <li>Replace repeated logic with base measures referenced by others</li>
+        </ul>
+      </section>
+
+      <section id="analyzer">
+        <h2>5. Performance Analyzer (Habit)</h2>
+        <p>In Power BI Desktop: View → Performance Analyzer → Start recording → refresh visuals → inspect DAX duration vs visual display time. Fix the slowest measure or the densest visual first.</p>
+      </section>
+
+      <section id="checklist">
+        <h2>6. Publish Checklist</h2>
+        <ul>
+          <li>☐ Unused columns removed</li>
+          <li>☐ Date table marked; auto date/time off if appropriate</li>
+          <li>☐ Relationships reviewed</li>
+          <li>☐ Heavy pages tested with Performance Analyzer</li>
+          <li>☐ Aggregations and filters sensible for the audience</li>
+        </ul>
+      </section>
+
+      <section id="quiz">
+        <h2>7. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="c" data-success="Correct — unused high-cardinality columns inflate memory without benefit." data-fail="Model size is driven heavily by columns stored, especially high-cardinality ones.">
+          <p><strong>Q1.</strong> A practical first step to shrink a slow Import model:</p>
+          <div class="quiz-option" data-value="a">A. Add more bidirectional relationships</div>
+          <div class="quiz-option" data-value="b">B. Convert every measure to a calculated column</div>
+          <div class="quiz-option" data-value="c">C. Remove unused columns</div>
+          <div class="quiz-option" data-value="d">D. Turn on every auto time intelligence option</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2>8. Summary</h2>
+        <ul>
+          <li>Lean models and simple stars outperform clever complexity.</li>
+          <li>Measure design and visual density matter as much as hardware.</li>
+          <li>Measure → analyze → fix the bottleneck.</li>
+        </ul>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="lecture24.html" class="nav-btn">← Lecture 24</a>
+        <a href="lecture26.html" class="nav-btn primary" onclick="markLectureComplete(25)">Next: Lecture 26 →</a>
+      </div>
+      <footer class="site-footer"><p>Lecture 25 of 30 · Module 5</p></footer>
+    </main>
+  </div>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 25: Performance",url:"lecture25.html",module:"Module 5",keywords:"performance model size dax analyzer star schema",summary:"Optimize Power BI models and measures"}];</script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

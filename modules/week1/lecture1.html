@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 1: Modern Data Analytics Ecosystem – What is Data Analytics, types, CRISP-DM, industry roles, and real-world stories." />
+  <title>Lecture 1: Modern Data Analytics Ecosystem | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+    <a href="../../index.html" class="header-brand">
+      <div class="logo">DA</div>
+      <span>Data Analytics Course</span>
+    </a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search (Ctrl+K)" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+
+  <!-- Search -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search lectures, concepts…" autocomplete="off" />
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 1 · Foundations</div>
+        <a href="lecture1.html" class="active" data-lecture-id="1"><span class="progress-ring"></span> L1 · Analytics Ecosystem</a>
+        <a href="lecture2.html" data-lecture-id="2"><span class="progress-ring"></span> L2 · Data Pipeline</a>
+        <a href="lecture3.html" data-lecture-id="3"><span class="progress-ring"></span> L3 · Data Acquisition</a>
+        <a href="../week2/lecture4.html" data-lecture-id="4"><span class="progress-ring"></span> L4 · Business Framing</a>
+        <div class="module-title">Module 2 · Cleaning</div>
+        <a href="../week3/lecture5.html" data-lecture-id="5"><span class="progress-ring"></span> L5 · Data Quality</a>
+        <a href="../week3/lecture6.html" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers</a>
+        <a href="../week4/lecture7.html" data-lecture-id="7"><span class="progress-ring"></span> L7 · Transformation</a>
+        <a href="../week4/lecture8.html" data-lecture-id="8"><span class="progress-ring"></span> L8 · Feature Engineering</a>
+        <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Validation</a>
+        <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
+        <div class="module-title">Module 3 · EDA</div>
+        <a href="../week6/lecture11.html" data-lecture-id="11"><span class="progress-ring"></span> L11 · Descriptive Stats</a>
+        <a href="../week6/lecture12.html" data-lecture-id="12"><span class="progress-ring"></span> L12 · Correlation</a>
+        <a href="../week7/lecture13.html" data-lecture-id="13"><span class="progress-ring"></span> L13 · Aggregation</a>
+        <a href="../week7/lecture14.html" data-lecture-id="14"><span class="progress-ring"></span> L14 · Time Series</a>
+        <a href="../week8/lecture15.html" data-lecture-id="15"><span class="progress-ring"></span> L15 · EDA Case Study</a>
+        <div class="module-title">Module 4 · Visualization</div>
+        <a href="../week9/lecture16.html" data-lecture-id="16"><span class="progress-ring"></span> L16 · Viz Foundations</a>
+        <a href="../week9/lecture17.html" data-lecture-id="17"><span class="progress-ring"></span> L17 · Principles</a>
+        <a href="../week10/lecture18.html" data-lecture-id="18"><span class="progress-ring"></span> L18 · Advanced Charts</a>
+        <a href="../week10/lecture19.html" data-lecture-id="19"><span class="progress-ring"></span> L19 · Dashboard Thinking</a>
+        <a href="../week11/lecture20.html" data-lecture-id="20"><span class="progress-ring"></span> L20 · Power BI Import</a>
+        <a href="../week11/lecture21.html" data-lecture-id="21"><span class="progress-ring"></span> L21 · Power BI Viz</a>
+        <div class="module-title">Module 5 · Modeling & DAX</div>
+        <a href="../week12/lecture22.html" data-lecture-id="22"><span class="progress-ring"></span> L22 · Data Modeling</a>
+        <a href="../week12/lecture23.html" data-lecture-id="23"><span class="progress-ring"></span> L23 · DAX Basics</a>
+        <a href="../week13/lecture24.html" data-lecture-id="24"><span class="progress-ring"></span> L24 · Advanced DAX</a>
+        <a href="../week13/lecture25.html" data-lecture-id="25"><span class="progress-ring"></span> L25 · Performance</a>
+        <a href="../week13/lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
+        <div class="module-title">Module 6 · Capstone</div>
+        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Project Proposal</a>
+        <a href="../week14/lecture28.html" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
+        <a href="../week15/lecture29.html" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
+        <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation & Viva</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../index.html">Home</a> ›
+        <a href="../../index.html">Module 1</a> ›
+        <span>Lecture 1</span>
+      </nav>
+
+      <div class="lecture-meta">
+        <span class="badge badge-beginner">Beginner</span>
+        <span class="badge badge-time">⏱ ~90 min</span>
+        <span class="badge">Module 1 · Foundations</span>
+        <span class="badge">CLO 1–5</span>
+      </div>
+
+      <h1>Lecture 1: Modern Data Analytics Ecosystem</h1>
+      <p style="font-size: 1.1rem; color: var(--text-muted);">Understand what data analytics really is, how it differs from neighboring fields, how organizations use it, the full lifecycle, and the careers it creates.</p>
+
+      <!-- 1. Learning Objectives -->
+      <section class="card" id="objectives">
+        <h2 style="margin-top: 0;">1. Learning Objectives</h2>
+        <p>By the end of this lecture you will be able to:</p>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Define Data Analytics and clearly distinguish it from Data Science, Business Intelligence, and Machine Learning.</li>
+          <li><span class="obj-num">2</span> Explain the four classic types of analytics (Descriptive, Diagnostic, Predictive, Prescriptive) with concrete examples.</li>
+          <li><span class="obj-num">3</span> Describe the CRISP-DM lifecycle and map each phase to real project activities.</li>
+          <li><span class="obj-num">4</span> Identify key industry roles (Data Analyst, BI Developer, Analytics Engineer, ML Engineer) and their typical responsibilities.</li>
+          <li><span class="obj-num">5</span> Recognize analytics use-cases across e-commerce, healthcare, fintech, government, and sports.</li>
+        </ul>
+      </section>
+
+      <!-- 2. Motivation -->
+      <section id="motivation">
+        <h2>2. Motivation — Why This Matters</h2>
+        <p>Every major decision in a modern organization is (or should be) informed by data. Whether a hospital reduces readmission rates, a bank detects fraud in milliseconds, or a retailer optimizes inventory, the underlying discipline is data analytics.</p>
+        <p>Yet many beginners confuse “analytics” with “coding”, “dashboards”, or “machine learning”. This lecture gives you the mental model that professionals use so that every later technical skill has a clear purpose.</p>
+        <div class="callout callout-tip">
+          <div class="callout-title">💡 Key Insight</div>
+          Analytics is not about tools. Tools change. The ability to turn a vague business question into a structured investigation, extract trustworthy insights, and communicate them so that someone acts — that is the durable skill.
+        </div>
+      </section>
+
+      <!-- 3. Real-world Story -->
+      <section id="story">
+        <h2>3. Real-World Story</h2>
+        <div class="card">
+          <h3 style="margin-top: 0;">How a Global Retailer Turned “Why are sales falling?” into Action</h3>
+          <p>A large online retailer noticed that conversion rate in one region had dropped 8% over six weeks. Marketing blamed product mix; operations blamed logistics; product blamed the website redesign.</p>
+          <p>The analytics team did not start by building models. They started by framing the problem:</p>
+          <ol>
+            <li>Pulled order, traffic, inventory, and promotion data for the last 90 days.</li>
+            <li>Segmented by device, new vs returning customers, and product category.</li>
+            <li>Discovered that mobile conversion for a specific high-margin category had collapsed after a checkout-page change that only affected certain browsers.</li>
+            <li>Presented a clear finding with a recommended A/B test and a temporary UI rollback.</li>
+          </ol>
+          <p>Within two weeks conversion recovered and the team quantified the revenue impact. The technical work was important, but the framing, segmentation logic, and communication were what created value.</p>
+          <p>That sequence — business question → data → analysis → insight → action — is the heart of the analytics ecosystem you are about to learn.</p>
+        </div>
+      </section>
+
+      <!-- 4. Problem Statement -->
+      <section id="problem">
+        <h2>4. Problem Statement</h2>
+        <p>Organizations sit on growing volumes of data yet still make decisions based on gut feel, incomplete reports, or conflicting dashboards. The core problem this course solves is:</p>
+        <div class="callout callout-warning">
+          <div class="callout-title">The Analytics Gap</div>
+          How do we systematically convert raw data into reliable, actionable insights that improve decisions — while remaining ethical, reproducible, and understandable to non-technical stakeholders?
+        </div>
+      </section>
+
+      <!-- 5. Theory -->
+      <section id="theory">
+        <h2>5. Theory — What Is Data Analytics?</h2>
+        <p><strong>Data Analytics</strong> is the systematic computational analysis of data for the purpose of discovering meaningful patterns, measuring performance, testing hypotheses, and supporting decision-making.</p>
+        <p>It sits at the intersection of:</p>
+        <ul>
+          <li><strong>Domain knowledge</strong> (understanding the business or scientific context)</li>
+          <li><strong>Statistical & mathematical thinking</strong></li>
+          <li><strong>Data engineering & tooling</strong></li>
+          <li><strong>Communication & visualization</strong></li>
+        </ul>
+
+        <h3>Data Analytics vs Related Fields</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Primary Goal</th>
+                <th>Typical Output</th>
+                <th>Time Horizon</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Business Intelligence (BI)</strong></td>
+                <td>Monitor what happened and what is happening</td>
+                <td>Dashboards, reports, KPI scorecards</td>
+                <td>Historical + near real-time</td>
+              </tr>
+              <tr>
+                <td><strong>Data Analytics</strong></td>
+                <td>Explain why it happened and what it means</td>
+                <td>Insights, root-cause analysis, segmented findings</td>
+                <td>Historical + diagnostic</td>
+              </tr>
+              <tr>
+                <td><strong>Data Science</strong></td>
+                <td>Build models that predict or optimize</td>
+                <td>Predictive models, experiments, algorithms</td>
+                <td>Future-oriented</td>
+              </tr>
+              <tr>
+                <td><strong>Machine Learning Engineering</strong></td>
+                <td>Productionize and maintain models at scale</td>
+                <td>Serving systems, pipelines, monitoring</td>
+                <td>Operational</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>In practice the boundaries blur. A strong data analyst often performs light predictive work; a data scientist spends significant time on cleaning and visualization. The distinctions above help you orient yourself and communicate clearly with stakeholders.</p>
+      </section>
+
+      <!-- 6. Easy Explanation -->
+      <section id="easy">
+        <h2>6. Easy Explanation</h2>
+        <p>Think of a hospital.</p>
+        <ul>
+          <li><strong>BI</strong> shows the dashboard: “Average length of stay this month is 4.2 days.”</li>
+          <li><strong>Analytics</strong> digs deeper: “Length of stay rose because of delayed lab results on weekends for orthopedic patients.”</li>
+          <li><strong>Data Science</strong> builds a model that predicts which patients are likely to stay longer than expected so staff can intervene early.</li>
+          <li><strong>ML Engineering</strong> deploys that model into the hospital system so it runs automatically every night and alerts the care team.</li>
+        </ul>
+        <p>All four are valuable. This course focuses primarily on the analytics layer while giving you solid foundations that also support BI and the early stages of data science.</p>
+      </section>
+
+      <!-- 7. Deep Explanation — Types of Analytics -->
+      <section id="types">
+        <h2>7. Deep Explanation — The Four Types of Analytics</h2>
+        <p>A useful taxonomy (widely used in industry) classifies analytics by the question it answers:</p>
+
+        <div class="diagram-box">
+          <svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" aria-label="Four types of analytics spectrum">
+            <defs>
+              <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#3b82f6"/>
+                <stop offset="33%" stop-color="#8b5cf6"/>
+                <stop offset="66%" stop-color="#ec4899"/>
+                <stop offset="100%" stop-color="#f59e0b"/>
+              </linearGradient>
+            </defs>
+            <rect x="20" y="40" width="680" height="12" rx="6" fill="url(#g1)"/>
+            <!-- Boxes -->
+            <rect x="30" y="80" width="150" height="160" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="105" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#1e40af">Descriptive</text>
+            <text x="105" y="135" text-anchor="middle" font-size="12" fill="#1e3a8a">What happened?</text>
+            <text x="105" y="165" text-anchor="middle" font-size="11" fill="#334155">Reports</text>
+            <text x="105" y="185" text-anchor="middle" font-size="11" fill="#334155">Dashboards</text>
+            <text x="105" y="205" text-anchor="middle" font-size="11" fill="#334155">KPI tracking</text>
+
+            <rect x="200" y="80" width="150" height="160" rx="12" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+            <text x="275" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#5b21b6">Diagnostic</text>
+            <text x="275" y="135" text-anchor="middle" font-size="12" fill="#4c1d95">Why did it happen?</text>
+            <text x="275" y="165" text-anchor="middle" font-size="11" fill="#334155">Root-cause</text>
+            <text x="275" y="185" text-anchor="middle" font-size="11" fill="#334155">Drill-down</text>
+            <text x="275" y="205" text-anchor="middle" font-size="11" fill="#334155">Segmentation</text>
+
+            <rect x="370" y="80" width="150" height="160" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+            <text x="445" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#9d174d">Predictive</text>
+            <text x="445" y="135" text-anchor="middle" font-size="12" fill="#831843">What will happen?</text>
+            <text x="445" y="165" text-anchor="middle" font-size="11" fill="#334155">Forecasting</text>
+            <text x="445" y="185" text-anchor="middle" font-size="11" fill="#334155">Scoring</text>
+            <text x="445" y="205" text-anchor="middle" font-size="11" fill="#334155">Classification</text>
+
+            <rect x="540" y="80" width="150" height="160" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <text x="615" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#92400e">Prescriptive</text>
+            <text x="615" y="135" text-anchor="middle" font-size="12" fill="#78350f">What should we do?</text>
+            <text x="615" y="165" text-anchor="middle" font-size="11" fill="#334155">Optimization</text>
+            <text x="615" y="185" text-anchor="middle" font-size="11" fill="#334155">Recommendations</text>
+            <text x="615" y="205" text-anchor="middle" font-size="11" fill="#334155">Simulation</text>
+          </svg>
+        </div>
+
+        <h3>Descriptive Analytics</h3>
+        <p>Summarizes historical data. “Sales last quarter were $4.2 M, up 6% from the previous quarter.” Tools: Excel pivot tables, basic SQL aggregates, Power BI cards and charts.</p>
+
+        <h3>Diagnostic Analytics</h3>
+        <p>Explains the “why”. Uses drilling, filtering, correlation, and comparative analysis. “Sales rose mainly because of a 22% increase in the mobile channel for category X after a promotion.”</p>
+
+        <h3>Predictive Analytics</h3>
+        <p>Uses statistical models or machine learning to estimate future outcomes or unknown values. “Given current trends and seasonality, we expect next month’s demand for product Y to be between 1,800 and 2,100 units.”</p>
+
+        <h3>Prescriptive Analytics</h3>
+        <p>Recommends actions. Often combines prediction with optimization or decision rules. “To maximize margin while keeping stock-out risk under 5%, order 1,950 units and allocate 60% to the online channel.”</p>
+      </section>
+
+      <!-- 8. Visual Explanation — CRISP-DM -->
+      <section id="crispdm">
+        <h2>8. Visual Explanation — The Analytics Lifecycle (CRISP-DM)</h2>
+        <p>CRISP-DM (Cross-Industry Standard Process for Data Mining) remains the most widely referenced lifecycle for analytics projects. It is iterative, not strictly linear.</p>
+
+        <div class="diagram-box">
+          <svg viewBox="0 0 640 420" xmlns="http://www.w3.org/2000/svg" aria-label="CRISP-DM cycle">
+            <!-- Outer circle suggestion -->
+            <circle cx="320" cy="210" r="175" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 4" opacity="0.5"/>
+            <!-- Center -->
+            <circle cx="320" cy="210" r="48" fill="#3b82f6"/>
+            <text x="320" y="205" text-anchor="middle" font-size="12" font-weight="700" fill="white">CRISP-DM</text>
+            <text x="320" y="222" text-anchor="middle" font-size="10" fill="#dbeafe">Iterative</text>
+
+            <!-- Phase boxes -->
+            <rect x="250" y="20" width="140" height="52" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="320" y="42" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">1. Business</text>
+            <text x="320" y="58" text-anchor="middle" font-size="11" fill="#1e3a8a">Understanding</text>
+
+            <rect x="450" y="90" width="140" height="52" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+            <text x="520" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#5b21b6">2. Data</text>
+            <text x="520" y="128" text-anchor="middle" font-size="11" fill="#4c1d95">Understanding</text>
+
+            <rect x="450" y="250" width="140" height="52" rx="10" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+            <text x="520" y="272" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d">3. Data</text>
+            <text x="520" y="288" text-anchor="middle" font-size="11" fill="#831843">Preparation</text>
+
+            <rect x="250" y="340" width="140" height="52" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <text x="320" y="362" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">4. Modeling</text>
+            <text x="320" y="378" text-anchor="middle" font-size="11" fill="#78350f">(optional)</text>
+
+            <rect x="50" y="250" width="140" height="52" rx="10" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+            <text x="120" y="272" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">5. Evaluation</text>
+            <text x="120" y="288" text-anchor="middle" font-size="11" fill="#064e3b">Business + Tech</text>
+
+            <rect x="50" y="90" width="140" height="52" rx="10" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/>
+            <text x="120" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#3730a3">6. Deployment</text>
+            <text x="120" y="128" text-anchor="middle" font-size="11" fill="#312e81">& Monitoring</text>
+          </svg>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <h4>1. Business Understanding</h4>
+            <p>Clarify the business objective, success criteria, constraints, and risks. Translate the business problem into an analytical problem.</p>
+          </div>
+          <div class="timeline-item">
+            <h4>2. Data Understanding</h4>
+            <p>Collect initial data, explore it, identify quality issues, and form first hypotheses about what the data can and cannot answer.</p>
+          </div>
+          <div class="timeline-item">
+            <h4>3. Data Preparation</h4>
+            <p>Select, clean, construct, integrate, and format data. This phase often consumes 50–80% of project time.</p>
+          </div>
+          <div class="timeline-item">
+            <h4>4. Modeling</h4>
+            <p>Select modeling techniques, generate test designs, build and assess models. For pure analytics projects this may be statistical tests or simple segmentations rather than complex ML.</p>
+          </div>
+          <div class="timeline-item">
+            <h4>5. Evaluation</h4>
+            <p>Evaluate results against business success criteria. Review the process. Decide whether to proceed to deployment or iterate.</p>
+          </div>
+          <div class="timeline-item">
+            <h4>6. Deployment</h4>
+            <p>Put the solution into production: dashboards, scheduled reports, automated alerts, or model services. Plan monitoring and maintenance.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. Architecture Diagram placeholder style already used -->
+      <section id="roles">
+        <h2>9. Roles in the Analytics Ecosystem</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Role</th>
+                <th>Core Focus</th>
+                <th>Typical Tools</th>
+                <th>Key Deliverables</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Data Analyst</strong></td>
+                <td>Insight generation & communication</td>
+                <td>SQL, Python/Pandas, Excel, Power BI / Tableau</td>
+                <td>Analyses, dashboards, presentations, recommendations</td>
+              </tr>
+              <tr>
+                <td><strong>BI Developer</strong></td>
+                <td>Reliable reporting infrastructure</td>
+                <td>Power BI, SSAS, data modeling, DAX</td>
+                <td>Semantic models, enterprise dashboards, self-service datasets</td>
+              </tr>
+              <tr>
+                <td><strong>Analytics Engineer</strong></td>
+                <td>Analytics-ready data transformations</td>
+                <td>dbt, SQL, cloud warehouses</td>
+                <td>Clean, tested, documented transformation pipelines</td>
+              </tr>
+              <tr>
+                <td><strong>Data Engineer</strong></td>
+                <td>Data movement & platform reliability</td>
+                <td>Spark, Airflow, Kafka, cloud services</td>
+                <td>ETL/ELT pipelines, data lakes/warehouses</td>
+              </tr>
+              <tr>
+                <td><strong>ML Engineer / Data Scientist</strong></td>
+                <td>Predictive & prescriptive systems</td>
+                <td>Python, ML frameworks, MLOps tools</td>
+                <td>Models, experiments, production scoring services</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>This course primarily develops the <strong>Data Analyst</strong> and early <strong>BI Developer</strong> skill sets, with strong foundations that later support Analytics Engineering and introductory Data Science work.</p>
+      </section>
+
+      <!-- Industry examples -->
+      <section id="industry">
+        <h2>10. Industry Examples</h2>
+
+        <h3>E-commerce / Retail</h3>
+        <ul>
+          <li>Conversion funnel analysis and cart-abandonment diagnostics</li>
+          <li>Customer lifetime value (CLV) segmentation</li>
+          <li>Inventory optimization and demand sensing</li>
+          <li>Personalized recommendation performance measurement</li>
+        </ul>
+
+        <h3>Healthcare</h3>
+        <ul>
+          <li>Readmission risk identification</li>
+          <li>Length-of-stay and bed-occupancy analysis</li>
+          <li>Claims anomaly detection</li>
+          <li>Population health dashboards for public health agencies</li>
+        </ul>
+
+        <h3>Banking & Fintech</h3>
+        <ul>
+          <li>Credit risk scorecards and early-warning indicators</li>
+          <li>Transaction fraud pattern detection</li>
+          <li>Customer churn prediction and retention campaign measurement</li>
+          <li>Regulatory reporting and stress-test analytics</li>
+        </ul>
+
+        <h3>Government & Public Sector</h3>
+        <ul>
+          <li>Service delivery performance dashboards</li>
+          <li>Budget vs actual variance analysis</li>
+          <li>Traffic and public-safety pattern analysis</li>
+        </ul>
+
+        <h3>Sports</h3>
+        <ul>
+          <li>Player performance and load management analytics</li>
+          <li>Scouting and recruitment data models</li>
+          <li>Fan engagement and ticket pricing optimization</li>
+        </ul>
+      </section>
+
+      <!-- Practical -->
+      <section id="practical">
+        <h2>11. Practical — Case Discussion</h2>
+        <div class="card">
+          <h3 style="margin-top: 0;">Exercise: Identify the Analytics Opportunity</h3>
+          <p>Read the short scenario below and answer the questions that follow (write your answers before revealing the sample solution).</p>
+          <p><em>Scenario:</em> A mid-size university notices that first-year student retention has dropped from 88% to 79% over three years. Leadership wants to know why and what can be done.</p>
+          <ol>
+            <li>What type(s) of analytics are needed (descriptive, diagnostic, predictive, prescriptive)?</li>
+            <li>Which data sources would you request first?</li>
+            <li>Name three possible hypotheses you might test.</li>
+            <li>Who are the key stakeholders you would involve?</li>
+          </ol>
+
+          <div class="collapse-header" data-collapse="sol1">
+            Sample Solution <span class="collapse-icon">+</span>
+          </div>
+          <div class="collapse-body" id="sol1">
+            <div class="collapse-content">
+              <ol>
+                <li><strong>Primarily diagnostic</strong> (why did retention fall?), supported by descriptive baselines and potentially predictive models for at-risk students, leading to prescriptive interventions.</li>
+                <li>Student information system (enrollment, grades, major, demographics), learning management system activity, financial aid status, counseling/advising records, survey data on belonging and satisfaction, housing data.</li>
+                <li>Possible hypotheses: (a) larger class sizes in gateway courses reduced engagement; (b) financial pressure increased after a tuition change; (c) weaker academic preparation of incoming cohorts; (d) reduced advising capacity.</li>
+                <li>Academic affairs, student success / advising office, institutional research, finance, faculty representatives, student government.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interview & Viva -->
+      <section id="interview">
+        <h2>12. Interview & Viva Questions</h2>
+        <div class="card">
+          <h4>Common Interview Questions</h4>
+          <ol>
+            <li>What is the difference between data analytics and data science?</li>
+            <li>Explain the CRISP-DM process and why the business understanding phase is critical.</li>
+            <li>Give an example of a diagnostic analytics project you would run for an e-commerce company whose conversion rate suddenly dropped.</li>
+            <li>How would you measure the success of an analytics project?</li>
+            <li>What ethical considerations should a data analyst keep in mind?</li>
+          </ol>
+          <h4>Viva-style Questions</h4>
+          <ol>
+            <li>Why is data preparation often the most time-consuming phase?</li>
+            <li>Can you have prescriptive analytics without predictive analytics? Explain.</li>
+            <li>How does a BI developer’s work differ from a data analyst’s day-to-day work?</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- MCQs -->
+      <section id="quiz">
+        <h2>13. Knowledge Check — MCQs</h2>
+
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct! Diagnostic analytics focuses on explaining why something occurred." data-fail="Review the four types: Descriptive = what, Diagnostic = why, Predictive = what will, Prescriptive = what should.">
+          <p><strong>Q1.</strong> A company notices revenue declined last quarter and asks the analytics team to find the root cause. Which type of analytics is primarily required?</p>
+          <div class="quiz-option" data-value="a">A. Descriptive</div>
+          <div class="quiz-option" data-value="b">B. Diagnostic</div>
+          <div class="quiz-option" data-value="c">C. Predictive</div>
+          <div class="quiz-option" data-value="d">D. Prescriptive</div>
+          <button class="nav-btn" style="margin-top: 0.75rem;" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" id="q2" data-answer="c" data-success="Correct! CRISP-DM starts with Business Understanding." data-fail="Remember the order: Business Understanding → Data Understanding → Data Preparation → Modeling → Evaluation → Deployment.">
+          <p><strong>Q2.</strong> According to CRISP-DM, which phase comes first?</p>
+          <div class="quiz-option" data-value="a">A. Data Preparation</div>
+          <div class="quiz-option" data-value="b">B. Modeling</div>
+          <div class="quiz-option" data-value="c">C. Business Understanding</div>
+          <div class="quiz-option" data-value="d">D. Deployment</div>
+          <button class="nav-btn" style="margin-top: 0.75rem;" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" id="q3" data-answer="a" data-success="Correct! BI focuses on monitoring and reporting what is happening." data-fail="BI is primarily about monitoring and reporting (descriptive). Deeper explanation is analytics; prediction is data science / ML.">
+          <p><strong>Q3.</strong> Which statement best describes Business Intelligence?</p>
+          <div class="quiz-option" data-value="a">A. Monitoring historical and current performance through reports and dashboards</div>
+          <div class="quiz-option" data-value="b">B. Building production machine-learning models</div>
+          <div class="quiz-option" data-value="c">C. Optimizing inventory with linear programming</div>
+          <div class="quiz-option" data-value="d">D. Collecting raw data from APIs</div>
+          <button class="nav-btn" style="margin-top: 0.75rem;" onclick="checkQuiz('q3')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" id="q4" data-answer="d" data-success="Correct! All of these are legitimate concerns for ethical analytics practice." data-fail="Ethics covers privacy, bias, transparency, and appropriate use of insights.">
+          <p><strong>Q4.</strong> Which of the following is an ethical consideration in data analytics?</p>
+          <div class="quiz-option" data-value="a">A. Protecting personal and sensitive data</div>
+          <div class="quiz-option" data-value="b">B. Avoiding biased or discriminatory conclusions</div>
+          <div class="quiz-option" data-value="c">C. Being transparent about data limitations</div>
+          <div class="quiz-option" data-value="d">D. All of the above</div>
+          <button class="nav-btn" style="margin-top: 0.75rem;" onclick="checkQuiz('q4')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" id="q5" data-answer="b" data-success="Correct! Data preparation (cleaning, transforming, integrating) typically consumes the majority of project effort." data-fail="In real projects, data preparation often takes more time than modeling or visualization.">
+          <p><strong>Q5.</strong> In most real analytics projects, which phase consumes the largest share of time?</p>
+          <div class="quiz-option" data-value="a">A. Modeling</div>
+          <div class="quiz-option" data-value="b">B. Data Preparation</div>
+          <div class="quiz-option" data-value="c">C. Deployment</div>
+          <div class="quiz-option" data-value="d">D. Business Understanding</div>
+          <button class="nav-btn" style="margin-top: 0.75rem;" onclick="checkQuiz('q5')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <!-- Flashcards -->
+      <section id="flashcards">
+        <h2>14. Flashcards</h2>
+        <p>Click each card to flip.</p>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="flashcard">
+              <div class="flashcard-inner">
+                <div class="flashcard-front"><strong>What does CRISP-DM stand for?</strong></div>
+                <div class="flashcard-back">Cross-Industry Standard Process for Data Mining — a six-phase iterative lifecycle for analytics projects.</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="flashcard">
+              <div class="flashcard-inner">
+                <div class="flashcard-front"><strong>Descriptive vs Diagnostic analytics?</strong></div>
+                <div class="flashcard-back">Descriptive answers “What happened?”; Diagnostic answers “Why did it happen?”</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="flashcard">
+              <div class="flashcard-inner">
+                <div class="flashcard-front"><strong>Primary goal of a Data Analyst?</strong></div>
+                <div class="flashcard-back">Turn data into clear, actionable insights and communicate them so decisions improve.</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="flashcard">
+              <div class="flashcard-inner">
+                <div class="flashcard-front"><strong>Name the four types of analytics</strong></div>
+                <div class="flashcard-back">Descriptive → Diagnostic → Predictive → Prescriptive</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Summary & Cheat Sheet -->
+      <section id="summary">
+        <h2>15. Summary</h2>
+        <ul>
+          <li>Data Analytics systematically converts data into insights that improve decisions.</li>
+          <li>It is distinct from (but overlaps with) BI, Data Science, and ML Engineering.</li>
+          <li>The four types — Descriptive, Diagnostic, Predictive, Prescriptive — answer progressively richer questions.</li>
+          <li>CRISP-DM provides a reliable, iterative process: Business Understanding → Data Understanding → Data Preparation → Modeling → Evaluation → Deployment.</li>
+          <li>Multiple roles collaborate in the modern analytics ecosystem; this course builds the analyst + BI foundation.</li>
+        </ul>
+      </section>
+
+      <section id="cheatsheet" class="card">
+        <h2 style="margin-top: 0;">Cheat Sheet — Lecture 1</h2>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Concept</th><th>One-line definition</th></tr>
+            <tr><td>Data Analytics</td><td>Systematic analysis of data to discover patterns and support decisions</td></tr>
+            <tr><td>Descriptive</td><td>What happened?</td></tr>
+            <tr><td>Diagnostic</td><td>Why did it happen?</td></tr>
+            <tr><td>Predictive</td><td>What is likely to happen?</td></tr>
+            <tr><td>Prescriptive</td><td>What should we do about it?</td></tr>
+            <tr><td>CRISP-DM</td><td>Standard iterative lifecycle for analytics projects</td></tr>
+            <tr><td>BI</td><td>Monitoring & reporting layer</td></tr>
+            <tr><td>Data Analyst</td><td>Insight generation + communication specialist</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- Common Mistakes & Best Practices -->
+      <section id="mistakes">
+        <h2>16. Common Mistakes & Best Practices</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="callout callout-warning">
+              <div class="callout-title">Common Mistakes</div>
+              <ul style="margin-bottom:0">
+                <li>Jumping straight to tools or models without clarifying the business question</li>
+                <li>Treating every problem as a prediction problem</li>
+                <li>Ignoring data quality until late in the project</li>
+                <li>Presenting numbers without context or recommended action</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="callout callout-success">
+              <div class="callout-title">Best Practices</div>
+              <ul style="margin-bottom:0">
+                <li>Always start with Business Understanding</li>
+                <li>Write the analytical question and success criteria before touching data</li>
+                <li>Document assumptions and data limitations</li>
+                <li>Pair every insight with a clear “so what” and next step</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="next">
+        <h2>17. What’s Next</h2>
+        <p>In <strong>Lecture 2</strong> we move from the conceptual ecosystem to the concrete architecture of data pipelines: ingestion, storage, processing, ETL vs ELT, warehouses vs lakes, and batch vs real-time.</p>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="../../index.html" class="nav-btn">← Course Home</a>
+        <a href="lecture2.html" class="nav-btn primary" onclick="markLectureComplete(1)">Next: Lecture 2 — Designing a Data Pipeline →</a>
+      </div>
+
+      <footer class="site-footer">
+        <p>Lecture 1 of 30 · Fundamentals of Data Analytics · Progress saved locally</p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    window.COURSE_SEARCH_INDEX = [
+      { title: "Lecture 1: Modern Data Analytics Ecosystem", url: "lecture1.html", module: "Module 1", keywords: "data analytics bi data science crisp-dm roles types descriptive diagnostic predictive prescriptive", summary: "Ecosystem, types of analytics, CRISP-DM, roles" },
+      { title: "Lecture 2: Designing a Data Pipeline", url: "lecture2.html", module: "Module 1", keywords: "etl elt pipeline warehouse lake", summary: "Pipeline architecture" }
+    ];
+  </script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 17: Visualization Principles – declutter, hierarchy, color, annotation, and storytelling with a single visual." />
+  <title>Lecture 17: Visualization Principles | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 4 · Visualization</div>
+        <a href="lecture16.html" data-lecture-id="16"><span class="progress-ring"></span> L16 · Viz Foundations</a>
+        <a href="lecture17.html" class="active" data-lecture-id="17"><span class="progress-ring"></span> L17 · Principles</a>
+        <a href="../week10/lecture18.html" data-lecture-id="18"><span class="progress-ring"></span> L18 · Advanced Charts</a>
+        <a href="../week10/lecture19.html" data-lecture-id="19"><span class="progress-ring"></span> L19 · Dashboard Thinking</a>
+        <a href="../week11/lecture20.html" data-lecture-id="20"><span class="progress-ring"></span> L20 · Power BI Import</a>
+        <a href="../week11/lecture21.html" data-lecture-id="21"><span class="progress-ring"></span> L21 · Power BI Viz</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 4 › <span>Lecture 17</span></nav>
+      <div class="lecture-meta">
+        <span class="badge badge-intermediate">Intermediate</span>
+        <span class="badge badge-time">⏱ ~85 min</span>
+        <span class="badge">Module 4</span>
+      </div>
+      <h1>Lecture 17: Visualization Principles</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Declutter, establish hierarchy, use color with purpose, annotate insights, and turn a chart into a clear story.</p>
+
+      <section class="card" id="objectives">
+        <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Apply decluttering rules to remove non-data ink.</li>
+          <li><span class="obj-num">2</span> Design visual hierarchy so the main message is seen first.</li>
+          <li><span class="obj-num">3</span> Use color intentionally (categorical, sequential, diverging) and accessibly.</li>
+          <li><span class="obj-num">4</span> Annotate charts so the insight is explicit, not left to guesswork.</li>
+          <li><span class="obj-num">5</span> Structure a short visual story: context → finding → implication.</li>
+        </ul>
+      </section>
+
+      <section id="declutter">
+        <h2>2. Declutter</h2>
+        <p>Every extra line, grid, border, and label competes with the data. Remove what does not help the message.</p>
+        <ul>
+          <li>Lighten or remove heavy gridlines</li>
+          <li>Avoid chart borders and 3D effects</li>
+          <li>Prefer direct labels over legends when space allows</li>
+          <li>Round numbers in labels when precision is not critical</li>
+          <li>Keep one primary message per chart</li>
+        </ul>
+      </section>
+
+      <section id="hierarchy">
+        <h2>3. Visual Hierarchy</h2>
+        <p>Guide the eye: title → key number or highlight → supporting series → footnotes. Hierarchy is both <em>within</em> one chart and <em>across</em> a dashboard page.</p>
+        <div class="diagram-box">
+          <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" aria-label="Visual hierarchy within a chart and dashboard">
+            <text x="340" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">A. Hierarchy inside one chart</text>
+            <rect x="40" y="36" width="600" height="36" rx="8" fill="#3b82f6"/>
+            <text x="340" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Title / insight (largest attention)</text>
+            <rect x="40" y="80" width="600" height="32" rx="8" fill="#60a5fa"/>
+            <text x="340" y="100" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">KPI or highlighted series / point</text>
+            <rect x="40" y="120" width="600" height="32" rx="8" fill="#93c5fd"/>
+            <text x="340" y="140" text-anchor="middle" font-size="12" fill="#1e3a8a">Supporting series, axes, grid (secondary)</text>
+            <rect x="40" y="160" width="600" height="28" rx="8" fill="#e2e8f0"/>
+            <text x="340" y="178" text-anchor="middle" font-size="11" fill="#64748b">Source, filters, footnotes (smallest)</text>
+            <text x="340" y="210" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">B. Hierarchy across a dashboard page</text>
+            <rect x="40" y="222" width="140" height="56" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+            <text x="110" y="246" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">KPI strip</text>
+            <text x="110" y="262" text-anchor="middle" font-size="10" fill="#334155">top of page</text>
+            <rect x="200" y="222" width="160" height="56" rx="8" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.5"/>
+            <text x="280" y="246" text-anchor="middle" font-size="11" font-weight="700" fill="#5b21b6">Main chart</text>
+            <text x="280" y="262" text-anchor="middle" font-size="10" fill="#334155">primary question</text>
+            <rect x="380" y="222" width="140" height="56" rx="8" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
+            <text x="450" y="246" text-anchor="middle" font-size="11" font-weight="700" fill="#9d174d">Breakdown</text>
+            <text x="450" y="262" text-anchor="middle" font-size="10" fill="#334155">why / drivers</text>
+            <rect x="540" y="222" width="100" height="56" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+            <text x="590" y="246" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">Detail</text>
+            <text x="590" y="262" text-anchor="middle" font-size="10" fill="#64748b">table</text>
+          </svg>
+        </div>
+        <div class="callout callout-info">
+          <div class="callout-title">Practical hierarchy</div>
+          <ul style="margin-bottom:0">
+            <li><strong>Title</strong> — states the insight or question, not just “Sales”</li>
+            <li><strong>Highlight</strong> — one series or point in a stronger color</li>
+            <li><strong>Context</strong> — comparison period, target line, or average</li>
+            <li><strong>Source / notes</strong> — small and secondary</li>
+            <li><strong>Dashboard</strong> — KPI strip → main visual → driver breakdown → detail table</li>
+          </ul>
+        </div>
+        <div class="callout callout-tip">
+          <div class="callout-title">Website / learning analytics example</div>
+          For this course site: top KPIs (active learners, completion %) → trend of weekly lecture opens → bar of modules with lowest quiz scores → table of specific lectures to improve. Same hierarchy applies to retail or healthcare dashboards.
+        </div>
+      </section>
+
+      <section id="color">
+        <h2>4. Color with Purpose</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Use case</th><th>Palette type</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td>Distinct categories</td><td>Categorical</td><td>Region A, B, C</td></tr>
+              <tr><td>Low → high intensity</td><td>Sequential</td><td>Sales volume heatmap</td></tr>
+              <tr><td>Deviation from midpoint</td><td>Diverging</td><td>Profit vs loss; variance to target</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Keep color-blind safe defaults (avoid pure red/green only). Limit categorical colors to ~5–7 distinct hues. Gray out non-focus series.</p>
+      </section>
+
+      <section id="annotate">
+        <h2>5. Annotation & Storytelling</h2>
+        <p>Do not force the audience to hunt for the point. Call it out:</p>
+        <ul>
+          <li>Label the peak, trough, or crossover</li>
+          <li>Add a short callout: “+18% after campaign launch”</li>
+          <li>Show a reference line (target, last year, average)</li>
+          <li>End with implication: what should change?</li>
+        </ul>
+        <div class="callout callout-tip">
+          <div class="callout-title">Story arc for one visual</div>
+          Context (what/when) → Finding (what changed) → Why it matters (decision or next question)
+        </div>
+      </section>
+
+      <section id="practical">
+        <h2>6. Practical</h2>
+        <div class="card">
+          <p><strong>A.</strong> Take a default software chart (busy grid, rainbow legend, generic title “Revenue”). Rewrite:</p>
+          <ol>
+            <li>A title that states the insight</li>
+            <li>What to remove (declutter list)</li>
+            <li>Which series to highlight and in what color role</li>
+            <li>One annotation sentence</li>
+          </ol>
+          <p style="margin-top:1rem"><strong>B. Website / course analytics:</strong> Design hierarchy for this course site’s learning data.</p>
+          <ol>
+            <li>KPIs: weekly active learners, quiz completion %, median time on lecture</li>
+            <li>Main chart: weekly lecture opens (line)</li>
+            <li>Breakdown: modules sorted by lowest average quiz score (bar)</li>
+            <li>Detail: table of lectures with completion &lt; 50%</li>
+            <li>Write one insight title and one annotation for the main chart</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="quiz">
+        <h2>7. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — sequential encodes magnitude from low to high." data-fail="Categorical = distinct groups; sequential = intensity; diverging = two directions from a midpoint.">
+          <p><strong>Q1.</strong> Heatmap of sales volume by region and month is best with which palette?</p>
+          <div class="quiz-option" data-value="a">A. Categorical rainbow</div>
+          <div class="quiz-option" data-value="b">B. Sequential</div>
+          <div class="quiz-option" data-value="c">C. Random hues</div>
+          <div class="quiz-option" data-value="d">D. Only black and white hatching</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2>8. Summary</h2>
+        <ul>
+          <li>Remove non-data ink; keep focus on the message.</li>
+          <li>Hierarchy: insight title → highlight → context → notes.</li>
+          <li>Color is a coding system, not decoration.</li>
+          <li>Annotate so the insight is explicit.</li>
+        </ul>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="lecture16.html" class="nav-btn">← Lecture 16</a>
+        <a href="../week10/lecture18.html" class="nav-btn primary" onclick="markLectureComplete(17)">Next: Lecture 18 →</a>
+      </div>
+      <footer class="site-footer"><p>Lecture 17 of 30 · Module 4</p></footer>
+    </main>
+  </div>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 17: Visualization Principles",url:"lecture17.html",module:"Module 4",keywords:"declutter hierarchy color annotation storytelling",summary:"Design principles for clear charts"}];</script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

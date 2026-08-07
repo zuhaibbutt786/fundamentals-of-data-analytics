@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 7: Data Transformation – Min-Max, Z-score standardization, log transform, categorical encoding." />
+  <title>Lecture 7: Data Transformation | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 2 · Cleaning &amp; Prep</div>
+        <a href="../week3/lecture5.html" data-lecture-id="5"><span class="progress-ring"></span> L5 · Data Quality</a>
+        <a href="../week3/lecture6.html" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers &amp; Noise</a>
+        <a href="lecture7.html" class="active" data-lecture-id="7"><span class="progress-ring"></span> L7 · Transformation</a>
+        <a href="lecture8.html" data-lecture-id="8"><span class="progress-ring"></span> L8 · Feature Engineering</a>
+        <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Splitting &amp; Validation</a>
+        <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 2 › <span>Lecture 7</span></nav>
+      <div class="lecture-meta">
+        <span class="badge badge-intermediate">Intermediate</span>
+        <span class="badge badge-time">⏱ ~100 min</span>
+        <span class="badge">Module 2 · CLO-2</span>
+      </div>
+      <h1>Lecture 7: Data Transformation</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Min-Max normalization, Z-score standardization, log transformation, and categorical encoding — with Python scaling practice from the syllabus.</p>
+
+      <section class="card" id="objectives">
+        <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Apply Min-Max scaling to a [0, 1] range.</li>
+          <li><span class="obj-num">2</span> Standardize features with Z-score (mean 0, SD 1).</li>
+          <li><span class="obj-num">3</span> Use log transforms for right-skewed positive variables.</li>
+          <li><span class="obj-num">4</span> Encode categorical variables (label / one-hot) appropriately.</li>
+          <li><span class="obj-num">5</span> Know when scaling is required (distance-based methods) vs optional (tree models).</li>
+        </ul>
+      </section>
+
+      <section id="minmax">
+        <h2>2. Normalization (Min-Max)</h2>
+        <p>\[
+        x' = \frac{x - x_{\min}}{x_{\max} - x_{\min}}
+        \]
+        Maps values into [0, 1]. Sensitive to outliers (min/max can be extreme).</p>
+      </section>
+
+      <section id="zscore">
+        <h2>3. Standardization (Z-score)</h2>
+        <p>\[
+        x' = \frac{x - \bar{x}}{s}
+        \]
+        Centers at 0 with unit variance. Preferred when features have different units (speed vs count).</p>
+      </section>
+
+      <section id="log">
+        <h2>4. Log Transformation</h2>
+        <p>For positive right-skewed measures: <code>np.log1p(x)</code> (handles zeros). Compresses long tails so models and correlations behave better (links to L11 shape content).</p>
+      </section>
+
+      <section id="encode">
+        <h2>5. Encoding Categorical Variables</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Method</th><th>Use when</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Label encoding</td><td>Ordinal categories (Low/Med/High)</td><td>Implies order</td></tr>
+              <tr><td>One-hot encoding</td><td>Nominal categories (region, weather)</td><td>Creates binary columns</td></tr>
+              <tr><td>Frequency / target</td><td>High cardinality (advanced)</td><td>Careful with leakage</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="python">
+        <h2>6. Python — Scaling Practical</h2>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>import pandas as pd
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+df = pd.read_csv("../../datasets/sample_accidents.csv")
+num = df[["speed_limit", "vehicles", "casualties"]].copy()
+
+minmax = MinMaxScaler()
+num_mm = pd.DataFrame(minmax.fit_transform(num), columns=num.columns)
+
+z = StandardScaler()
+num_z = pd.DataFrame(z.fit_transform(num), columns=num.columns)
+
+df["casualties_log"] = np.log1p(df["casualties"])
+dummies = pd.get_dummies(df["weather"], prefix="weather")</code></pre>
+      </section>
+
+      <section id="practical">
+        <h2>7. Practical</h2>
+        <div class="card">
+          <ol>
+            <li>Min-Max and standardize <code>speed_limit</code> and <code>vehicles</code>; compare ranges.</li>
+            <li>Log-transform <code>casualties</code>; recompute skew.</li>
+            <li>One-hot encode <code>weather</code> or <code>region</code>.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="quiz">
+        <h2>8. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="a" data-success="Correct — Min-Max maps to [0,1] using min and max." data-fail="Min-Max uses min and max; Z-score uses mean and SD.">
+          <p><strong>Q1.</strong> Which maps features into [0, 1]?</p>
+          <div class="quiz-option" data-value="a">A. Min-Max normalization</div>
+          <div class="quiz-option" data-value="b">B. Z-score only</div>
+          <div class="quiz-option" data-value="c">C. Dropping nulls</div>
+          <div class="quiz-option" data-value="d">D. Sorting the index</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2>9. Summary</h2>
+        <ul>
+          <li>Min-Max → [0,1]; Z-score → mean 0, SD 1.</li>
+          <li>Log for right skew; encode categoricals before most ML models.</li>
+          <li>Fit scalers on train only in real pipelines (preview of L9).</li>
+        </ul>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="../week3/lecture6.html" class="nav-btn">← Lecture 6</a>
+        <a href="lecture8.html" class="nav-btn primary" onclick="markLectureComplete(7)">Next: Lecture 8 →</a>
+      </div>
+      <footer class="site-footer"><p>Lecture 7 of 30 · Module 2 · Data Transformation</p></footer>
+    </main>
+  </div>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 7: Data Transformation",url:"lecture7.html",module:"Module 2",keywords:"minmax standardization log encoding scaling",summary:"Scaling and encoding transforms"}];</script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

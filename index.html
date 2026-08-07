@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fundamentals of Data Analytics – Free world-class course by Zuhaib Hussain Butt covering the full analytics lifecycle, Python, Power BI, EDA, and more." />
+  <title>Fundamentals of Data Analytics | World-Class Free Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    .main-content { margin-left: 0; max-width: 1100px; margin-left: auto; margin-right: auto; }
+    .hero-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin: 2rem 0; }
+    .stat-item { text-align: center; }
+    .stat-item .num { font-size: 1.75rem; font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .stat-item .label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* Instructor section */
+    .instructor-card {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+    .instructor-photo {
+      width: 180px;
+      height: 180px;
+      border-radius: 20px;
+      object-fit: cover;
+      object-position: center top;
+      border: 3px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      flex-shrink: 0;
+    }
+    .instructor-info { flex: 1; min-width: 260px; }
+    .instructor-info h2 { margin-top: 0; margin-bottom: 0.35rem; }
+    .instructor-title {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .instructor-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+      margin: 1rem 0 1.25rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    .instructor-meta a { color: var(--accent); }
+    .instructor-meta span { display: inline-flex; align-items: center; gap: 0.35rem; }
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.85rem;
+      margin-top: 1.25rem;
+    }
+    .exp-item {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+    }
+    .exp-item .exp-role { font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
+    .exp-item .exp-org { font-size: 0.8rem; color: var(--text-muted); }
+    .exp-item .exp-years { font-size: 0.75rem; color: var(--accent); margin-top: 0.25rem; }
+    @media (max-width: 576px) {
+      .instructor-photo { width: 140px; height: 140px; margin: 0 auto; }
+      .instructor-card { justify-content: center; text-align: center; }
+      .instructor-meta { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <a href="index.html" class="header-brand">
+      <div class="logo">DA</div>
+      <span>Data Analytics Course</span>
+    </a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search (Ctrl+K)" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle dark/light mode"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search lectures, concepts, tools…" autocomplete="off" />
+      <div class="search-results" id="searchResults">
+        <div class="search-result-item"><p>Start typing to search the entire course…</p></div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content" style="padding-top: calc(var(--header-height) + 1rem);">
+    <section class="hero">
+      <h1>Fundamentals of Data Analytics</h1>
+      <p class="hero-sub">
+        A complete, production-ready, free course that takes you from zero to building real analytics pipelines, dashboards, and insights — without ever leaving this website.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="num">30</div><div class="label">Lectures</div></div>
+        <div class="stat-item"><div class="num">6</div><div class="label">Modules</div></div>
+        <div class="stat-item"><div class="num">15</div><div class="label">Weeks</div></div>
+        <div class="stat-item"><div class="num">100%</div><div class="label">Free & Self-Contained</div></div>
+      </div>
+      <a href="modules/week1/lecture1.html" class="nav-btn primary" style="margin-top: 0.5rem;">
+        Start Learning →
+      </a>
+    </section>
+
+    <section class="card" style="margin-top: 1rem;">
+      <h2 style="margin-top: 0;">What You Will Master</h2>
+      <p>This course follows a rigorous university-level syllabus (CS 399) while delivering an interactive, industry-grade learning experience. Every concept includes theory, visual explanations, Python & Power BI implementations, labs, quizzes, and interview preparation.</p>
+      <ul>
+        <li>Design end-to-end data analytics pipelines (ETL / ELT)</li>
+        <li>Clean, profile, transform, and engineer features with Python & Pandas</li>
+        <li>Perform deep exploratory data analysis and statistical interpretation</li>
+        <li>Build interactive dashboards and data models in Power BI with DAX</li>
+        <li>Communicate insights ethically and effectively</li>
+        <li>Complete a full industry-style capstone project</li>
+      </ul>
+    </section>
+
+    <h2>Course Modules</h2>
+    <div class="module-grid">
+      <a href="modules/week1/lecture1.html" class="module-card">
+        <div class="mod-num">Module 1 · Weeks 1–2</div>
+        <h3>Data Analytics Foundations & Pipeline</h3>
+        <p>Modern ecosystem, CRISP-DM, pipeline architecture, data acquisition, business framing. Lectures 1–4.</p>
+      </a>
+      <a href="modules/week3/lecture5.html" class="module-card">
+        <div class="mod-num">Module 2 · Weeks 3–5</div>
+        <h3>Advanced Data Cleaning & Preprocessing</h3>
+        <p>Quality & profiling, outliers, transformation, feature engineering, validation, ML basics. Lectures 5–10.</p>
+      </a>
+      <a href="modules/week6/lecture11.html" class="module-card">
+        <div class="mod-num">Module 3 · Weeks 6–8</div>
+        <h3>Advanced Exploratory Data Analysis</h3>
+        <p>Descriptive statistics, correlation, aggregation, time series, complete EDA case study. Lectures 11–15.</p>
+      </a>
+      <a href="modules/week9/lecture16.html" class="module-card">
+        <div class="mod-num">Module 4 · Weeks 9–11</div>
+        <h3>Data Visualization & Storytelling</h3>
+        <p>Principles, advanced charts, dashboard thinking, Power BI import & visualization. Lectures 16–21.</p>
+      </a>
+      <a href="modules/week12/lecture22.html" class="module-card">
+        <div class="mod-num">Module 5 · Weeks 12–13</div>
+        <h3>Data Modeling & DAX</h3>
+        <p>Star/Snowflake schemas, DAX fundamentals & advanced patterns, performance, dashboard project. Lectures 22–26.</p>
+      </a>
+      <a href="modules/week14/lecture27.html" class="module-card">
+        <div class="mod-num">Module 6 · Weeks 14–15</div>
+        <h3>Capstone Project</h3>
+        <p>End-to-end industry project: proposal, lab, final dashboard, presentation & viva. Lectures 27–30.</p>
+      </a>
+    </div>
+
+    <section class="card">
+      <h2 style="margin-top: 0;">Learning Experience Highlights</h2>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="callout callout-tip" style="height: 100%;">
+            <div class="callout-title">Interactive Everything</div>
+            Quizzes, flashcards, drag-and-drop, live code examples, and instant feedback on every lecture.
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="callout callout-info" style="height: 100%;">
+            <div class="callout-title">Industry + Exam Ready</div>
+            Real business, healthcare, banking, e-commerce, sports examples plus interview & viva questions.
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="callout callout-success" style="height: 100%;">
+            <div class="callout-title">Self-Contained</div>
+            No external links required. Datasets, code, diagrams, cheat sheets, and explanations live here.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 style="margin-top: 0;">Course Learning Outcomes</h2>
+      <ol>
+        <li><strong>CLO-1</strong> — Design a complete data analytics pipeline for real-world problems.</li>
+        <li><strong>CLO-2</strong> — Apply advanced data preprocessing and transformation techniques; perform exploratory analysis.</li>
+        <li><strong>CLO-3</strong> — Develop interactive dashboards, data models, and communicate actionable insights.</li>
+        <li><strong>CLO-4</strong> — Practice ethics in data collection, analysis, and communication.</li>
+      </ol>
+    </section>
+
+    <!-- Instructor / About -->
+    <section class="card" id="instructor">
+      <h2 style="margin-top: 0;">Your Instructor</h2>
+      <div class="instructor-card">
+        <img
+          src="assets/images/zuhaib-hussain-butt.jpg"
+          alt="Zuhaib Hussain Butt – Course Instructor"
+          class="instructor-photo"
+          width="180"
+          height="180"
+        />
+        <div class="instructor-info">
+          <h2>Zuhaib Hussain Butt</h2>
+          <div class="instructor-title">Senior Data Scientist · AI/ML Engineer · Educationist</div>
+          <p>
+            Lecturer in Data Science at <strong>GIFT University</strong> (Gujranwala, Pakistan). Driving AI innovation,
+            data-centric business strategy, and next-gen analytics. Passionate about making world-class data analytics
+            education free and accessible.
+          </p>
+          <p>
+            5+ years of experience across machine learning, deep learning, LLMs/RAG, computer vision, big data (Spark/Hadoop),
+            Power BI &amp; Tableau, and cloud (Azure Databricks, AWS). Delivered 50+ freelance projects and mentored 500+ students;
+            supervised 12+ final-year projects.
+          </p>
+
+          <div class="instructor-meta">
+            <span>
+              📧
+              <a href="mailto:zuhaibbutt3@gmail.com">zuhaibbutt3@gmail.com</a>
+            </span>
+            <span>
+              📧
+              <a href="mailto:zuhaib.hussain@gift.edu.pk">zuhaib.hussain@gift.edu.pk</a>
+            </span>
+            <span>📍 Gujranwala, Pakistan</span>
+            <span>📱 +92 316 7609216</span>
+          </div>
+
+          <div class="exp-grid">
+            <div class="exp-item">
+              <div class="exp-role">Lecturer in Data Science</div>
+              <div class="exp-org">GIFT University</div>
+              <div class="exp-years">Mar 2024 – Present</div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-role">FYP Technology Manager</div>
+              <div class="exp-org">GIFT University</div>
+              <div class="exp-years">Jan 2025 – Present</div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-role">Freelance Data Scientist</div>
+              <div class="exp-org">Fiverr &amp; Upwork</div>
+              <div class="exp-years">2020 – Present · 50+ projects</div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-role">Co-Founder</div>
+              <div class="exp-org">DeepVidia (AI Startup)</div>
+              <div class="exp-years">2024 – Present</div>
+            </div>
+          </div>
+
+          <p style="margin-top: 1.25rem; margin-bottom: 0; font-size: 0.9rem; color: var(--text-muted);">
+            Portfolio &amp; more projects:
+            <a href="https://zuhaibbutt.vercel.app" target="_blank" rel="noopener">zuhaibbutt.vercel.app</a>
+            ·
+            <a href="https://www.linkedin.com/in/zuhaib-hussain-butt-6628141a4" target="_blank" rel="noopener">LinkedIn</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="lecture-nav" style="border: none; margin-top: 2rem;">
+      <span></span>
+      <a href="modules/week1/lecture1.html" class="nav-btn primary">Begin Lecture 1: Modern Data Analytics Ecosystem →</a>
+    </div>
+
+    <footer class="site-footer">
+      <p>
+        Fundamentals of Data Analytics · CS 399 · Instructor: Zuhaib Hussain Butt ·
+        <a href="mailto:zuhaibbutt3@gmail.com">zuhaibbutt3@gmail.com</a> ·
+        <a href="mailto:zuhaib.hussain@gift.edu.pk">zuhaib.hussain@gift.edu.pk</a>
+      </p>
+      <p style="margin-top: 0.35rem;">Progress is saved in your browser</p>
+    </footer>
+  </main>
+
+  <script>
+    window.COURSE_SEARCH_INDEX = [
+      { title: "Lecture 1: Modern Data Analytics Ecosystem", url: "modules/week1/lecture1.html", module: "Module 1", keywords: "data analytics bi data science crisp-dm roles amazon", summary: "What is analytics, types, lifecycle, roles" },
+      { title: "Lecture 2: Designing a Data Pipeline", url: "modules/week1/lecture2.html", module: "Module 1", keywords: "etl elt pipeline warehouse lake batch realtime", summary: "End-to-end pipeline architecture" },
+      { title: "Lecture 3: Data Acquisition Types & Storage", url: "modules/week1/lecture3.html", module: "Module 1", keywords: "structured unstructured csv json sql scraping", summary: "Data types and storage options" },
+      { title: "Lecture 4: Analytical Thinking & Business Framing", url: "modules/week2/lecture4.html", module: "Module 1", keywords: "kpi hypothesis business problem analytical question", summary: "Convert business problems into analytics tasks" }
+    ];
+  </script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 5: Data Quality & Profiling – completeness, consistency, validity, accuracy, MCAR/MAR/MNAR, deletion vs imputation, Pandas profiling and imputation." />
+  <title>Lecture 5: Data Quality & Profiling | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 1 · Foundations</div>
+        <a href="../week1/lecture1.html" data-lecture-id="1"><span class="progress-ring"></span> L1 · Analytics Ecosystem</a>
+        <a href="../week1/lecture2.html" data-lecture-id="2"><span class="progress-ring"></span> L2 · Data Pipeline</a>
+        <a href="../week1/lecture3.html" data-lecture-id="3"><span class="progress-ring"></span> L3 · Data Acquisition</a>
+        <a href="../week2/lecture4.html" data-lecture-id="4"><span class="progress-ring"></span> L4 · Business Framing</a>
+        <div class="module-title">Module 2 · Cleaning &amp; Prep</div>
+        <a href="lecture5.html" class="active" data-lecture-id="5"><span class="progress-ring"></span> L5 · Data Quality</a>
+        <a href="lecture6.html" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers &amp; Noise</a>
+        <a href="../week4/lecture7.html" data-lecture-id="7"><span class="progress-ring"></span> L7 · Transformation</a>
+        <a href="../week4/lecture8.html" data-lecture-id="8"><span class="progress-ring"></span> L8 · Feature Engineering</a>
+        <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Splitting &amp; Validation</a>
+        <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
+        <div class="module-title">Module 3 · EDA</div>
+        <a href="../week6/lecture11.html" data-lecture-id="11"><span class="progress-ring"></span> L11 · Descriptive Stats</a>
+        <a href="../week6/lecture12.html" data-lecture-id="12"><span class="progress-ring"></span> L12 · Correlation</a>
+        <a href="../week7/lecture13.html" data-lecture-id="13"><span class="progress-ring"></span> L13 · Aggregation</a>
+        <a href="../week7/lecture14.html" data-lecture-id="14"><span class="progress-ring"></span> L14 · Time Series</a>
+        <a href="../week8/lecture15.html" data-lecture-id="15"><span class="progress-ring"></span> L15 · EDA Case Study</a>
+        <div class="module-title">Module 4 · Visualization</div>
+        <a href="../week9/lecture16.html" data-lecture-id="16"><span class="progress-ring"></span> L16 · Viz Foundations</a>
+        <a href="../week9/lecture17.html" data-lecture-id="17"><span class="progress-ring"></span> L17 · Principles</a>
+        <a href="../week10/lecture18.html" data-lecture-id="18"><span class="progress-ring"></span> L18 · Advanced Charts</a>
+        <a href="../week10/lecture19.html" data-lecture-id="19"><span class="progress-ring"></span> L19 · Dashboard Thinking</a>
+        <a href="../week11/lecture20.html" data-lecture-id="20"><span class="progress-ring"></span> L20 · Power BI Import</a>
+        <a href="../week11/lecture21.html" data-lecture-id="21"><span class="progress-ring"></span> L21 · Power BI Viz</a>
+        <div class="module-title">Module 5 · Modeling &amp; DAX</div>
+        <a href="../week12/lecture22.html" data-lecture-id="22"><span class="progress-ring"></span> L22 · Data Modeling</a>
+        <a href="../week12/lecture23.html" data-lecture-id="23"><span class="progress-ring"></span> L23 · DAX Basics</a>
+        <a href="../week13/lecture24.html" data-lecture-id="24"><span class="progress-ring"></span> L24 · Advanced DAX</a>
+        <a href="../week13/lecture25.html" data-lecture-id="25"><span class="progress-ring"></span> L25 · Performance</a>
+        <a href="../week13/lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
+        <div class="module-title">Module 6 · Capstone</div>
+        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Project Proposal</a>
+        <a href="../week14/lecture28.html" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
+        <a href="../week15/lecture29.html" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
+        <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation &amp; Viva</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 2</span> › <span>Lecture 5</span></nav>
+      <div class="lecture-meta">
+        <span class="badge badge-intermediate">Intermediate</span>
+        <span class="badge badge-time">⏱ ~110 min</span>
+        <span class="badge">Module 2 · CLO-2</span>
+      </div>
+
+      <h1>Lecture 5: Data Quality &amp; Profiling</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Completeness, consistency, validity, accuracy, missing-data mechanisms (MCAR / MAR / MNAR), deletion vs imputation, and practical profiling + imputation in Python — as specified in the course syllabus.</p>
+
+      <!-- 1. Learning Objectives -->
+      <section class="card" id="objectives">
+        <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <p>By the end of this lecture you will be able to:</p>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Define completeness, consistency, validity, and accuracy with operational checks.</li>
+          <li><span class="obj-num">2</span> Profile a dataset using <code>.info()</code>, <code>.describe()</code>, and missing-value counts.</li>
+          <li><span class="obj-num">3</span> Distinguish MCAR, MAR, and MNAR and choose deletion vs imputation accordingly.</li>
+          <li><span class="obj-num">4</span> Apply mean / median / mode imputation and forward / backward fill in Pandas.</li>
+          <li><span class="obj-num">5</span> Document quality issues before any modeling or dashboard work.</li>
+        </ul>
+      </section>
+
+      <!-- 2. Motivation -->
+      <section id="motivation">
+        <h2>2. Motivation — Why Quality Before Analysis</h2>
+        <p>Garbage in, garbage out is not a slogan — it is a project failure mode. A beautiful dashboard built on incomplete, inconsistent, or invalid data will mislead decisions and destroy trust.</p>
+        <p>Profiling is the first technical step after acquisition (L3) and framing (L4). It answers: What is here? What is missing? What is impossible? What conflicts? Only then do you decide what to fix, drop, or escalate.</p>
+        <div class="callout callout-tip">
+          <div class="callout-title">💡 Key Insight</div>
+          Spend 20–30% of early project time on quality. It is cheaper than explaining wrong insights later in the viva or to a stakeholder.
+        </div>
+      </section>
+
+      <!-- 3. Real-World Story -->
+      <section id="story">
+        <h2>3. Real-World Story</h2>
+        <div class="card">
+          <h3 style="margin-top:0">The Dashboard That “Proved” Zero Accidents</h3>
+          <p>A transport analytics team published a weekly safety dashboard showing zero serious accidents in one district. Leadership celebrated. A week later, a journalist reported two fatal crashes in the same district. The cause: the district code in the source system had changed, and the join to the geography table silently dropped those rows. Completeness looked fine on the fact table; validity of the key failed.</p>
+          <p>Profiling foreign keys and row counts against expected volumes would have caught the break before the dashboard went live.</p>
+        </div>
+      </section>
+
+      <!-- 4. Problem Statement -->
+      <section id="problem">
+        <h2>4. Problem Statement</h2>
+        <p>Given a newly acquired dataset, how do you:</p>
+        <ul>
+          <li>Measure completeness, consistency, validity, and accuracy?</li>
+          <li>Detect and describe missingness patterns?</li>
+          <li>Decide when to delete vs impute?</li>
+          <li>Apply baseline imputation methods correctly in Python?</li>
+          <li>Report quality risks clearly to stakeholders?</li>
+        </ul>
+      </section>
+
+      <!-- 5. Four Core Quality Dimensions -->
+      <section id="dimensions">
+        <h2>5. Four Core Quality Dimensions</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Dimension</th><th>Meaning</th><th>Quick check</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Completeness</strong></td><td>Required fields are present</td><td>% null / blank per column; expected row count</td></tr>
+              <tr><td><strong>Consistency</strong></td><td>Same entity, same values across sources or rows</td><td>Duplicate keys; conflicting totals; unit mismatches</td></tr>
+              <tr><td><strong>Validity</strong></td><td>Values obey rules (type, range, format, domain)</td><td>Age &lt; 0; email without @; invalid codes</td></tr>
+              <tr><td><strong>Accuracy</strong></td><td>Values match reality / source of truth</td><td>Sample audit vs source system; known benchmarks</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Profiling answers these four questions systematically before any transformation or model.</p>
+
+        <div class="diagram-box">
+          <svg viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg" aria-label="Four data quality dimensions">
+            <rect x="20" y="30" width="140" height="100" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="90" y="75" text-anchor="middle" font-size="14" font-weight="800" fill="#1e40af">Completeness</text>
+            <text x="90" y="95" text-anchor="middle" font-size="11" fill="#334155">Is it there?</text>
+            <rect x="180" y="30" width="140" height="100" rx="12" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+            <text x="250" y="75" text-anchor="middle" font-size="14" font-weight="800" fill="#5b21b6">Consistency</text>
+            <text x="250" y="95" text-anchor="middle" font-size="11" fill="#334155">Does it agree?</text>
+            <rect x="340" y="30" width="140" height="100" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+            <text x="410" y="75" text-anchor="middle" font-size="14" font-weight="800" fill="#9d174d">Validity</text>
+            <text x="410" y="95" text-anchor="middle" font-size="11" fill="#334155">Is it allowed?</text>
+            <rect x="500" y="30" width="120" height="100" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <text x="560" y="75" text-anchor="middle" font-size="14" font-weight="800" fill="#92400e">Accuracy</text>
+            <text x="560" y="95" text-anchor="middle" font-size="11" fill="#334155">Is it true?</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- 6. Profiling Techniques -->
+      <section id="profiling">
+        <h2>6. Profiling Techniques (Syllabus Practical)</h2>
+        <p>Use these on every new extract. The course dataset <code>sample_accidents.csv</code> is ideal for practice.</p>
+        <pre><code class="language-python">import pandas as pd
+
+df = pd.read_csv("../../datasets/sample_accidents.csv")
+
+# Structure and completeness
+df.info()                          # types, non-null counts
+df.shape                           # rows × columns
+
+# Distribution summary
+df.describe(include="all")         # numeric + categorical summary
+
+# Missingness
+df.isna().sum()                    # missing count per column
+df.isna().mean().sort_values(ascending=False)  # missing rate
+
+# Duplicates and keys
+df.duplicated().sum()              # exact duplicate rows
+df["accident_id"].is_unique        # key integrity (if column exists)
+
+# Value ranges and categories
+df["severity"].value_counts(dropna=False)
+df.select_dtypes("number").min()
+df.select_dtypes("number").max()</code></pre>
+        <div class="callout callout-info">
+          <div class="callout-title">Analyst habit</div>
+          After every load, print shape, dtypes, missing rates, and a few value_counts. Quality issues surface here — not three hours later in a chart.
+        </div>
+      </section>
+
+      <!-- 7. Cleaning Workflow Visual -->
+      <section id="cleaning-flow">
+        <h2>7. Data Cleaning Workflow (Visual)</h2>
+        <p>Typical path from raw extract to analysis-ready data (Modules 2 practicals):</p>
+        <div class="diagram-box">
+          <svg viewBox="0 0 780 140" xmlns="http://www.w3.org/2000/svg" aria-label="Data cleaning flowchart">
+            <defs>
+              <marker id="arrow5" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/></marker>
+            </defs>
+            <rect x="8" y="35" width="110" height="70" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="63" y="65" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">Raw Data</text>
+            <text x="63" y="85" text-anchor="middle" font-size="10" fill="#334155">CSV / DB / API</text>
+            <line x1="118" y1="70" x2="142" y2="70" stroke="#64748b" stroke-width="2" marker-end="url(#arrow5)"/>
+            <rect x="145" y="35" width="120" height="70" rx="12" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+            <text x="205" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#5b21b6">Profile</text>
+            <text x="205" y="78" text-anchor="middle" font-size="10" fill="#334155">info · missing</text>
+            <text x="205" y="92" text-anchor="middle" font-size="10" fill="#334155">duplicates</text>
+            <line x1="265" y1="70" x2="289" y2="70" stroke="#64748b" stroke-width="2" marker-end="url(#arrow5)"/>
+            <rect x="292" y="35" width="120" height="70" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+            <text x="352" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d">Missing</text>
+            <text x="352" y="78" text-anchor="middle" font-size="10" fill="#334155">drop / impute</text>
+            <text x="352" y="92" text-anchor="middle" font-size="10" fill="#334155">MCAR·MAR·MNAR</text>
+            <line x1="412" y1="70" x2="436" y2="70" stroke="#64748b" stroke-width="2" marker-end="url(#arrow5)"/>
+            <rect x="439" y="35" width="120" height="70" rx="12" fill="#ffedd5" stroke="#f97316" stroke-width="2"/>
+            <text x="499" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#c2410c">Outliers</text>
+            <text x="499" y="78" text-anchor="middle" font-size="10" fill="#334155">IQR / Z-score</text>
+            <text x="499" y="92" text-anchor="middle" font-size="10" fill="#334155">keep or treat</text>
+            <line x1="559" y1="70" x2="583" y2="70" stroke="#64748b" stroke-width="2" marker-end="url(#arrow5)"/>
+            <rect x="586" y="35" width="120" height="70" rx="12" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+            <text x="646" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">Transform</text>
+            <text x="646" y="78" text-anchor="middle" font-size="10" fill="#334155">encode · scale</text>
+            <text x="646" y="92" text-anchor="middle" font-size="10" fill="#334155">features</text>
+            <line x1="706" y1="70" x2="720" y2="70" stroke="#64748b" stroke-width="2" marker-end="url(#arrow5)"/>
+            <rect x="722" y="45" width="50" height="50" rx="10" fill="#3b82f6"/>
+            <text x="747" y="75" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">OK</text>
+          </svg>
+        </div>
+        <p style="font-size:0.9rem;color:var(--text-muted)">Figure: Raw → Profile → Missing → Outliers → Transform → analysis-ready. Log every step for reproducibility and the viva.</p>
+      </section>
+
+      <!-- 8. Types of Missing Data -->
+      <section id="missing">
+        <h2>8. Types of Missing Data (MCAR / MAR / MNAR)</h2>
+        <div class="diagram-box">
+          <svg viewBox="0 0 520 200" xmlns="http://www.w3.org/2000/svg" aria-label="Missing data pattern tile plot concept">
+            <text x="260" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">Missingness pattern (rows × columns) — concept like a missingness matrix</text>
+            <text x="90" y="48" text-anchor="middle" font-size="10" fill="#64748b">age</text>
+            <text x="140" y="48" text-anchor="middle" font-size="10" fill="#64748b">income</text>
+            <text x="195" y="48" text-anchor="middle" font-size="10" fill="#64748b">city</text>
+            <text x="250" y="48" text-anchor="middle" font-size="10" fill="#64748b">score</text>
+            <text x="305" y="48" text-anchor="middle" font-size="10" fill="#64748b">date</text>
+            <text x="360" y="48" text-anchor="middle" font-size="10" fill="#64748b">status</text>
+            <rect x="70" y="55" width="40" height="14" fill="#1e293b"/><rect x="120" y="55" width="40" height="14" fill="#1e293b"/><rect x="175" y="55" width="40" height="14" fill="#1e293b"/><rect x="230" y="55" width="40" height="14" fill="#1e293b"/><rect x="285" y="55" width="40" height="14" fill="#1e293b"/><rect x="340" y="55" width="40" height="14" fill="#1e293b"/>
+            <rect x="70" y="72" width="40" height="14" fill="#1e293b"/><rect x="120" y="72" width="40" height="14" fill="#fca5a5"/><rect x="175" y="72" width="40" height="14" fill="#1e293b"/><rect x="230" y="72" width="40" height="14" fill="#1e293b"/><rect x="285" y="72" width="40" height="14" fill="#1e293b"/><rect x="340" y="72" width="40" height="14" fill="#1e293b"/>
+            <rect x="70" y="89" width="40" height="14" fill="#1e293b"/><rect x="120" y="89" width="40" height="14" fill="#fca5a5"/><rect x="175" y="89" width="40" height="14" fill="#1e293b"/><rect x="230" y="89" width="40" height="14" fill="#fca5a5"/><rect x="285" y="89" width="40" height="14" fill="#1e293b"/><rect x="340" y="89" width="40" height="14" fill="#1e293b"/>
+            <rect x="70" y="106" width="40" height="14" fill="#fca5a5"/><rect x="120" y="106" width="40" height="14" fill="#fca5a5"/><rect x="175" y="106" width="40" height="14" fill="#1e293b"/><rect x="230" y="106" width="40" height="14" fill="#1e293b"/><rect x="285" y="106" width="40" height="14" fill="#1e293b"/><rect x="340" y="106" width="40" height="14" fill="#fca5a5"/>
+            <rect x="70" y="123" width="40" height="14" fill="#1e293b"/><rect x="120" y="123" width="40" height="14" fill="#1e293b"/><rect x="175" y="123" width="40" height="14" fill="#1e293b"/><rect x="230" y="123" width="40" height="14" fill="#1e293b"/><rect x="285" y="123" width="40" height="14" fill="#1e293b"/><rect x="340" y="123" width="40" height="14" fill="#1e293b"/>
+            <rect x="70" y="140" width="40" height="14" fill="#1e293b"/><rect x="120" y="140" width="40" height="14" fill="#fca5a5"/><rect x="175" y="140" width="40" height="14" fill="#1e293b"/><rect x="230" y="140" width="40" height="14" fill="#fca5a5"/><rect x="285" y="140" width="40" height="14" fill="#fca5a5"/><rect x="340" y="140" width="40" height="14" fill="#1e293b"/>
+            <rect x="70" y="157" width="40" height="14" fill="#1e293b"/><rect x="120" y="157" width="40" height="14" fill="#1e293b"/><rect x="175" y="157" width="40" height="14" fill="#1e293b"/><rect x="230" y="157" width="40" height="14" fill="#1e293b"/><rect x="285" y="157" width="40" height="14" fill="#1e293b"/><rect x="340" y="157" width="40" height="14" fill="#1e293b"/>
+            <rect x="400" y="72" width="14" height="14" fill="#1e293b"/><text x="420" y="83" font-size="11" fill="#334155">Present</text>
+            <rect x="400" y="96" width="14" height="14" fill="#fca5a5"/><text x="420" y="107" font-size="11" fill="#334155">Missing</text>
+            <text x="260" y="190" text-anchor="middle" font-size="11" fill="#64748b">High-missing columns and co-missing rows are MAR clues — inspect by group.</text>
+          </svg>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Type</th><th>Definition</th><th>Implication</th></tr></thead>
+            <tbody>
+              <tr><td><strong>MCAR</strong></td><td>Missing Completely At Random — missingness unrelated to any variable</td><td>Simple deletion less biased</td></tr>
+              <tr><td><strong>MAR</strong></td><td>Missing At Random — missingness depends on observed variables</td><td>Impute using observed predictors</td></tr>
+              <tr><td><strong>MNAR</strong></td><td>Missing Not At Random — missingness depends on the unobserved value itself</td><td>Hardest; need domain model or sensitivity analysis</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-warning">
+          <div class="callout-title">Practice tip</div>
+          You rarely prove MCAR. Treat “random” claims carefully; always inspect missingness by group (region, severity, date).
+        </div>
+
+        <h3>Easy examples</h3>
+        <ul>
+          <li><strong>MCAR:</strong> A sensor randomly drops packets — missing temperature is unrelated to the true temperature or other fields.</li>
+          <li><strong>MAR:</strong> Older patients are less likely to report income; age is observed, so missingness depends on an observed variable.</li>
+          <li><strong>MNAR:</strong> People with very high income refuse to report income — missingness depends on the missing value itself.</li>
+        </ul>
+      </section>
+
+      <!-- 9. Deletion vs Imputation -->
+      <section id="imputation">
+        <h2>9. Deletion vs Imputation</h2>
+        <ul>
+          <li><strong>Listwise deletion</strong> — drop rows with any missing field (simple; loses data; bias if not MCAR).</li>
+          <li><strong>Column drop</strong> — if a field is mostly empty and low value for the decision.</li>
+          <li><strong>Mean / median / mode</strong> — fast baseline; <strong>median</strong> preferred for skewed numerics; <strong>mode</strong> for categoricals.</li>
+          <li><strong>Forward fill / backward fill</strong> — time-ordered series (use with care at series edges).</li>
+          <li><strong>Model-based</strong> — later stage (KNN, regression); document assumptions.</li>
+        </ul>
+
+        <h3>Python — Syllabus methods</h3>
+        <pre><code class="language-python"># Mean / median / mode imputation
+df["casualties"] = df["casualties"].fillna(df["casualties"].median())
+df["weather"] = df["weather"].fillna(df["weather"].mode().iloc[0])
+
+# Time-aware fill (after sorting by date)
+df = df.sort_values("date")
+df["speed_limit"] = df["speed_limit"].ffill().bfill()
+
+# Optional: flag that a value was imputed (good practice)
+df["casualties_imputed"] = df["casualties"].isna()  # before fill
+df["casualties"] = df["casualties"].fillna(df["casualties"].median())</code></pre>
+
+        <div class="callout callout-tip">
+          <div class="callout-title">Industry tip</div>
+          Always record whether a value was imputed. Downstream models and audits need to know what was original vs filled.
+        </div>
+      </section>
+
+      <!-- 10. Industry Examples -->
+      <section id="industry">
+        <h2>10. Industry Examples</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Healthcare</h3>
+              <p>Lab results often missing for healthier patients (MAR). Blood pressure missing because it was too high to measure easily can be MNAR. Never impute clinical outcomes without clinical review.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Banking</h3>
+              <p>Income and employment fields are frequently incomplete. MNAR risk is high for high-income or unemployed applicants. Use domain rules and document every fill.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Retail / E-commerce</h3>
+              <p>Product attributes (color, size) missing more for older catalog items (MAR by launch date). Sales quantity zero vs missing means different things — validity rules matter.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Transport (course dataset)</h3>
+              <p>Accident severity, weather, and casualties may have systematic gaps by region or reporting period. Profile by group before global median fill.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11. Hands-on Lab -->
+      <section id="practical">
+        <h2>11. Hands-on Lab</h2>
+        <div class="card">
+          <ol>
+            <li>Load <code>sample_accidents.csv</code>; run <code>info</code>, <code>describe</code>, missing rates.</li>
+            <li>List the top 3 quality risks you would report to a stakeholder.</li>
+            <li>Simulate 10% random missing in a numeric column; impute with median; compare mean before/after.</li>
+            <li>Write one sentence distinguishing MAR from MNAR with an accidents example.</li>
+            <li>Apply mode fill to a categorical column and ffill/bfill on a sorted date-like field if available.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 12. Interview & Viva -->
+      <section id="interview">
+        <h2>12. Interview &amp; Viva Questions</h2>
+        <ul>
+          <li>What are the four core data quality dimensions, and how do you check each?</li>
+          <li>Explain MCAR, MAR, and MNAR with one example each.</li>
+          <li>When would you prefer median imputation over mean?</li>
+          <li>Why is listwise deletion dangerous if data are not MCAR?</li>
+          <li>How would you report a 40% missing rate on a critical KPI field to a manager?</li>
+        </ul>
+      </section>
+
+      <!-- 13. Knowledge Check -->
+      <section id="quiz">
+        <h2>13. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="c" data-success="Correct — MNAR means missingness depends on the unobserved value itself." data-fail="MCAR random; MAR depends on observed vars; MNAR on the missing value.">
+          <p><strong>Q1.</strong> People with very high income refuse to report income. This is closest to:</p>
+          <div class="quiz-option" data-value="a">A. MCAR</div>
+          <div class="quiz-option" data-value="b">B. MAR only</div>
+          <div class="quiz-option" data-value="c">C. MNAR</div>
+          <div class="quiz-option" data-value="d">D. Perfect completeness</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q2" data-answer="b" data-success="Correct — median is robust to skew and outliers." data-fail="For skewed numeric data, median is the safer central tendency for imputation.">
+          <p><strong>Q2.</strong> For a right-skewed numeric column, preferred simple imputation is usually:</p>
+          <div class="quiz-option" data-value="a">A. Mean only</div>
+          <div class="quiz-option" data-value="b">B. Median</div>
+          <div class="quiz-option" data-value="c">C. Mode only</div>
+          <div class="quiz-option" data-value="d">D. Drop the entire table</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q3" data-answer="a" data-success="Correct — completeness is about whether required values are present." data-fail="Completeness = presence; validity = allowed values; accuracy = truth.">
+          <p><strong>Q3.</strong> Checking % null per column primarily assesses:</p>
+          <div class="quiz-option" data-value="a">A. Completeness</div>
+          <div class="quiz-option" data-value="b">B. Accuracy only</div>
+          <div class="quiz-option" data-value="c">C. Visualization quality</div>
+          <div class="quiz-option" data-value="d">D. Model AUC</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q3')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q4" data-answer="c" data-success="Correct — ffill/bfill are for ordered series after sorting." data-fail="Forward/backward fill assume a meaningful order, usually time.">
+          <p><strong>Q4.</strong> Forward fill and backward fill are most appropriate when:</p>
+          <div class="quiz-option" data-value="a">A. Data are randomly shuffled categories</div>
+          <div class="quiz-option" data-value="b">B. You want to invent IDs</div>
+          <div class="quiz-option" data-value="c">C. Data are time-ordered and gaps are short</div>
+          <div class="quiz-option" data-value="d">D. Missingness is known MNAR for income</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q4')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <!-- 14. Flashcards -->
+      <section id="flashcards">
+        <h2>14. Flashcards</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Four quality dimensions?</strong></div><div class="flashcard-back">Completeness, Consistency, Validity, Accuracy</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>MCAR vs MAR vs MNAR?</strong></div><div class="flashcard-back">MCAR: random · MAR: depends on observed · MNAR: depends on missing value itself</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Preferred simple numeric impute if skewed?</strong></div><div class="flashcard-back">Median</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>First profiling commands?</strong></div><div class="flashcard-back">info(), describe(), isna().sum() / mean(), duplicated()</div></div></div></div>
+        </div>
+      </section>
+
+      <!-- 15. Cheat Sheet -->
+      <section id="cheatsheet">
+        <h2>15. Cheat Sheet</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li><strong>Profile first:</strong> shape · dtypes · missing rates · duplicates · key uniqueness · value ranges</li>
+            <li><strong>Dimensions:</strong> Completeness · Consistency · Validity · Accuracy</li>
+            <li><strong>Missingness:</strong> MCAR (random) · MAR (observed) · MNAR (value itself)</li>
+            <li><strong>Impute:</strong> median (skewed numeric) · mode (categorical) · ffill/bfill (time series)</li>
+            <li><strong>Always:</strong> document what was dropped or filled; flag imputed rows when possible</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 16. Common Mistakes & Best Practices -->
+      <section id="mistakes">
+        <h2>16. Common Mistakes &amp; Best Practices</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="callout callout-warning">
+              <div class="callout-title">Avoid</div>
+              <ul style="margin-bottom:0">
+                <li>Mean-imputing highly skewed or bounded variables without thought</li>
+                <li>Silent listwise deletion of 30%+ of rows</li>
+                <li>Global fill without checking missingness by group</li>
+                <li>Treating “0” and “missing” as the same without a rule</li>
+                <li>Skipping key uniqueness and row-count checks</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="callout callout-success">
+              <div class="callout-title">Prefer</div>
+              <ul style="margin-bottom:0">
+                <li>Profile before any transform or model</li>
+                <li>Inspect missingness by segment (region, date, severity)</li>
+                <li>Median/mode as baseline; document assumptions</li>
+                <li>Keep a raw bronze copy; log cleaning steps</li>
+                <li>Report quality risks in plain language to stakeholders</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 17. Summary -->
+      <section id="summary">
+        <h2>17. Summary</h2>
+        <ul>
+          <li>Profile first: completeness, consistency, validity, accuracy.</li>
+          <li>Missingness type (MCAR / MAR / MNAR) guides deletion vs imputation.</li>
+          <li>Median, mode, and ffill/bfill are the syllabus baseline tools in Python.</li>
+          <li>Document every quality decision — it protects you in review and in the viva.</li>
+        </ul>
+      </section>
+
+      <!-- 18. What’s Next -->
+      <section id="next">
+        <h2>18. What’s Next</h2>
+        <p><strong>Lecture 6 — Outliers &amp; Noise Handling</strong> covers detection (Z-score, IQR), impact on analysis, and treatment strategies, continuing the cleaning workflow after missing values.</p>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="../week2/lecture4.html" class="nav-btn">← Lecture 4</a>
+        <a href="lecture6.html" class="nav-btn primary" onclick="markLectureComplete(5)">Next: Lecture 6 — Outliers →</a>
+      </div>
+      <footer class="site-footer"><p>Lecture 5 of 30 · Module 2 · Data Quality &amp; Profiling</p></footer>
+    </main>
+  </div>
+
+  <script>
+    window.COURSE_SEARCH_INDEX = [{
+      title: "Lecture 5: Data Quality & Profiling",
+      url: "lecture5.html",
+      module: "Module 2",
+      keywords: "missing mcar mar mnar imputation profiling completeness consistency validity accuracy median mode ffill",
+      summary: "Data quality dimensions, missing data mechanisms, and Pandas imputation"
+    }];
+  </script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

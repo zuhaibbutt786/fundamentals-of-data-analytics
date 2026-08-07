@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 8: Feature Engineering Basics – derived columns, aggregation, datetime features, binning." />
+  <title>Lecture 8: Feature Engineering Basics | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 2 · Cleaning &amp; Prep</div>
+        <a href="../week3/lecture5.html" data-lecture-id="5"><span class="progress-ring"></span> L5 · Data Quality</a>
+        <a href="../week3/lecture6.html" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers &amp; Noise</a>
+        <a href="lecture7.html" data-lecture-id="7"><span class="progress-ring"></span> L7 · Transformation</a>
+        <a href="lecture8.html" class="active" data-lecture-id="8"><span class="progress-ring"></span> L8 · Feature Engineering</a>
+        <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Splitting &amp; Validation</a>
+        <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 2 › <span>Lecture 8</span></nav>
+      <div class="lecture-meta">
+        <span class="badge badge-intermediate">Intermediate</span>
+        <span class="badge badge-time">⏱ ~110 min</span>
+        <span class="badge">Module 2 · CLO-2</span>
+      </div>
+      <h1>Lecture 8: Feature Engineering Basics</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Derived columns, aggregation, date-time extraction, and binning — syllabus practical: revenue, profit margin, monthly trends (and the same ideas on accident severity features).</p>
+
+      <section class="card" id="objectives">
+        <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Create derived columns from existing fields (ratios, flags, interactions).</li>
+          <li><span class="obj-num">2</span> Aggregate to new grain when the question needs it.</li>
+          <li><span class="obj-num">3</span> Extract year, month, day-of-week, and similar from dates.</li>
+          <li><span class="obj-num">4</span> Bin continuous variables into meaningful bands.</li>
+          <li><span class="obj-num">5</span> Build features that answer a business question, not just inflate columns.</li>
+        </ul>
+      </section>
+
+      <section id="derived">
+        <h2>2. Derived Columns</h2>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code># Sales-style (syllabus examples)
+df["revenue"] = df["qty"] * df["unit_price"]
+df["profit_margin"] = (df["revenue"] - df["cost"]) / df["revenue"]
+
+# Accident-style
+df["high_casualty"] = (df["casualties"] >= 2).astype(int)
+df["vehicles_per_casualty"] = df["vehicles"] / df["casualties"].replace(0, np.nan)</code></pre>
+      </section>
+
+      <section id="agg">
+        <h2>3. Aggregation Features</h2>
+        <p>Roll events up to customer / region / month grain, then join back if needed:</p>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>region_stats = df.groupby("region").agg(
+    region_accidents=("accident_id", "count"),
+    region_casualties=("casualties", "sum"),
+)
+df = df.merge(region_stats, on="region", how="left")</code></pre>
+      </section>
+
+      <section id="datetime">
+        <h2>4. Date-Time Feature Extraction</h2>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>df["date"] = pd.to_datetime(df["date"])
+df["year"] = df["date"].dt.year
+df["month"] = df["date"].dt.month
+df["month_name"] = df["date"].dt.month_name()
+df["dayofweek"] = df["date"].dt.dayofweek  # 0=Mon
+df["is_weekend"] = df["dayofweek"].isin([5, 6]).astype(int)</code></pre>
+        <p>Monthly trends (syllabus) often start here, then groupby month for charts (ties to L14).</p>
+      </section>
+
+      <section id="binning">
+        <h2>5. Binning</h2>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>df["speed_band"] = pd.cut(
+    df["speed_limit"],
+    bins=[0, 30, 50, 70, 200],
+    labels=["Low", "Medium", "High", "VeryHigh"],
+)</code></pre>
+        <p>Bins make continuous risk factors readable on dashboards and support stratified analysis.</p>
+      </section>
+
+      <section id="practical">
+        <h2>6. Practical (Syllabus)</h2>
+        <div class="card">
+          <ol>
+            <li>Create <code>year</code>, <code>month</code>, <code>is_weekend</code> from <code>date</code>.</li>
+            <li>Bin <code>speed_limit</code> into bands; count accidents per band.</li>
+            <li>Create a severity flag or ratio feature; summarize by region.</li>
+            <li>(Sales track) If using a sales file: compute revenue and profit margin; monthly trend table.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="quiz">
+        <h2>7. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — datetime extraction creates analysis-ready calendar features." data-fail="Feature engineering includes datetime parts, ratios, bins, aggregates.">
+          <p><strong>Q1.</strong> Extracting month and day-of-week from a date column is:</p>
+          <div class="quiz-option" data-value="a">A. Only a visualization theme setting</div>
+          <div class="quiz-option" data-value="b">B. Date-time feature engineering</div>
+          <div class="quiz-option" data-value="c">C. Multicollinearity by definition</div>
+          <div class="quiz-option" data-value="d">D. A form of random deletion</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2>8. Summary</h2>
+        <ul>
+          <li>Good features encode domain logic: ratios, flags, calendar parts, bins.</li>
+          <li>Aggregation changes grain — be explicit.</li>
+          <li>Syllabus examples: revenue, margin, monthly trends.</li>
+        </ul>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="lecture7.html" class="nav-btn">← Lecture 7</a>
+        <a href="../week5/lecture9.html" class="nav-btn primary" onclick="markLectureComplete(8)">Next: Lecture 9 →</a>
+      </div>
+      <footer class="site-footer"><p>Lecture 8 of 30 · Module 2 · Feature Engineering Basics</p></footer>
+    </main>
+  </div>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 8: Feature Engineering Basics",url:"lecture8.html",module:"Module 2",keywords:"feature engineering binning datetime derived aggregation",summary:"Feature engineering basics"}];</script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

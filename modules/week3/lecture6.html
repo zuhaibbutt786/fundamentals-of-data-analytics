@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 6: Outliers & Noise Handling – Z-score, IQR, impact, treatment, boxplot practical." />
+  <title>Lecture 6: Outliers & Noise Handling | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 2 · Cleaning &amp; Prep</div>
+        <a href="lecture5.html" data-lecture-id="5"><span class="progress-ring"></span> L5 · Data Quality</a>
+        <a href="lecture6.html" class="active" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers &amp; Noise</a>
+        <a href="../week4/lecture7.html" data-lecture-id="7"><span class="progress-ring"></span> L7 · Transformation</a>
+        <a href="../week4/lecture8.html" data-lecture-id="8"><span class="progress-ring"></span> L8 · Feature Engineering</a>
+        <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Splitting &amp; Validation</a>
+        <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 2 › <span>Lecture 6</span></nav>
+      <div class="lecture-meta">
+        <span class="badge badge-intermediate">Intermediate</span>
+        <span class="badge badge-time">⏱ ~100 min</span>
+        <span class="badge">Module 2 · CLO-2</span>
+      </div>
+      <h1>Lecture 6: Outliers &amp; Noise Handling</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Detect outliers with Z-score and IQR, understand their impact on analytics, and choose treatment strategies — syllabus practical: boxplot detection.</p>
+
+      <section class="card" id="objectives">
+        <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Define outlier vs noise in analytical terms.</li>
+          <li><span class="obj-num">2</span> Apply Z-score and IQR rules to flag candidate outliers.</li>
+          <li><span class="obj-num">3</span> Explain how outliers distort mean, correlation, and models.</li>
+          <li><span class="obj-num">4</span> Choose treat / transform / keep strategies with business context.</li>
+          <li><span class="obj-num">5</span> Build a boxplot-based outlier report in Python.</li>
+        </ul>
+      </section>
+
+      <section id="what">
+        <h2>2. Outlier vs Noise</h2>
+        <ul>
+          <li><strong>Outlier</strong> — a point that is unusually far from the bulk of the data (may be error or rare truth).</li>
+          <li><strong>Noise</strong> — unstructured variation that obscures signal (measurement jitter, typos, sensor glitches).</li>
+        </ul>
+        <p>Never delete “unusual” rows blindly: a multi-casualty crash is an outlier <em>and</em> a critical signal for safety policy.</p>
+      </section>
+
+      <section id="detect">
+        <h2>3. Detection Methods (Syllabus)</h2>
+        <h3>Z-score</h3>
+        <p>\[
+        z_i = \frac{x_i - \bar{x}}{s}
+        \]
+        Common rule: \(|z| &gt; 3\) (or 2.5) flags candidates. Sensitive when the mean/SD are themselves distorted by extremes.</p>
+        <h3>IQR method</h3>
+        <p>\[
+        \text{Lower} = Q1 - 1.5\times IQR,\quad \text{Upper} = Q3 + 1.5\times IQR
+        \]
+        More robust for skewed data. Boxplots encode the same fences visually.</p>
+      </section>
+
+      <section id="impact">
+        <h2>4. Impact on Analytics</h2>
+        <ul>
+          <li>Pulls the <strong>mean</strong> and inflates <strong>variance</strong></li>
+          <li>Can dominate <strong>correlation</strong> and regression slopes</li>
+          <li>Breaks normality assumptions for parametric tests</li>
+          <li>Dashboard KPIs look “wrong” to domain experts if one bad row survives</li>
+        </ul>
+      </section>
+
+      <section id="treat">
+        <h2>5. Treatment Strategies</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Strategy</th><th>When</th><th>Caution</th></tr></thead>
+            <tbody>
+              <tr><td>Investigate / correct</td><td>Data entry or unit errors</td><td>Best first step</td></tr>
+              <tr><td>Winsorize / cap</td><td>Extreme but plausible</td><td>Document thresholds</td></tr>
+              <tr><td>Transform (log)</td><td>Right skew + heavy tail</td><td>Report in original units later</td></tr>
+              <tr><td>Remove</td><td>Proven error; sensitivity analysis OK</td><td>Never silent deletion</td></tr>
+              <tr><td>Keep + robust stats</td><td>True rare events</td><td>Use median, IQR, robust models</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="python">
+        <h2>6. Python — Boxplot &amp; Rules</h2>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("../../datasets/sample_accidents.csv")
+s = df["casualties"]
+
+# IQR fences
+q1, q3 = s.quantile(0.25), s.quantile(0.75)
+iqr = q3 - q1
+low, high = q1 - 1.5 * iqr, q3 + 1.5 * iqr
+flags = (s < low) | (s > high)
+print("IQR outliers:", flags.sum())
+
+# Z-score
+z = (s - s.mean()) / s.std(ddof=1)
+print("Z>3 outliers:", (z.abs() > 3).sum())
+
+df.boxplot(column="casualties", by="region")
+plt.suptitle("")
+plt.title("Casualties by region — boxplot")
+plt.show()</code></pre>
+      </section>
+
+      <section id="practical">
+        <h2>7. Practical</h2>
+        <div class="card">
+          <ol>
+            <li>Flag IQR and Z-score outliers on <code>casualties</code> and <code>vehicles</code>.</li>
+            <li>Draw a boxplot by <code>region</code> or <code>severity</code>.</li>
+            <li>For each flagged row, decide: keep (true event), fix, or remove — with a one-line reason.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="quiz">
+        <h2>8. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — IQR fences are more robust when data are skewed." data-fail="Z-score uses mean/SD; IQR is preferred under skew.">
+          <p><strong>Q1.</strong> For a heavily right-skewed variable, prefer first:</p>
+          <div class="quiz-option" data-value="a">A. Only mean ± 1 SD</div>
+          <div class="quiz-option" data-value="b">B. IQR / boxplot fences</div>
+          <div class="quiz-option" data-value="c">C. Dropping half the rows randomly</div>
+          <div class="quiz-option" data-value="d">D. Ignoring all extremes always</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2>9. Summary</h2>
+        <ul>
+          <li>Detect with Z-score and IQR; visualize with boxplots.</li>
+          <li>Impact is real — but rare true events must not be erased silently.</li>
+          <li>Treat with investigate → transform/cap → remove only with documentation.</li>
+        </ul>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="lecture5.html" class="nav-btn">← Lecture 5</a>
+        <a href="../week4/lecture7.html" class="nav-btn primary" onclick="markLectureComplete(6)">Next: Lecture 7 →</a>
+      </div>
+      <footer class="site-footer"><p>Lecture 6 of 30 · Module 2 · Outliers &amp; Noise</p></footer>
+    </main>
+  </div>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 6: Outliers & Noise",url:"lecture6.html",module:"Module 2",keywords:"outlier z-score iqr boxplot noise treatment",summary:"Outlier detection and treatment"}];</script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

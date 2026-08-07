@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 11: Descriptive Statistics Deep Dive – central tendency, dispersion, skewness, kurtosis, transformations, Python summary." />
+  <title>Lecture 11: Descriptive Statistics Deep Dive | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 3 · Advanced EDA</div>
+        <a href="lecture11.html" class="active" data-lecture-id="11"><span class="progress-ring"></span> L11 · Descriptive Stats</a>
+        <a href="lecture12.html" data-lecture-id="12"><span class="progress-ring"></span> L12 · Correlation</a>
+        <a href="../week7/lecture13.html" data-lecture-id="13"><span class="progress-ring"></span> L13 · Grouped Analysis</a>
+        <a href="../week7/lecture14.html" data-lecture-id="14"><span class="progress-ring"></span> L14 · Time Series</a>
+        <a href="../week8/lecture15.html" data-lecture-id="15"><span class="progress-ring"></span> L15 · EDA Case Study</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 3 · Advanced EDA › <span>Lecture 11</span></nav>
+      <div class="lecture-meta">
+        <span class="badge badge-intermediate">Intermediate</span>
+        <span class="badge badge-time">⏱ ~120 min</span>
+        <span class="badge">Module 3 · CLO-2</span>
+      </div>
+
+      <h1>Lecture 11: Descriptive Statistics Deep Dive</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Central tendency, dispersion, the shape of data (skewness &amp; kurtosis), transformations, and a full statistical summary workflow in Python — drawn from the course EDA and Shape of Data materials.</p>
+
+      <section class="card" id="objectives">
+        <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Compute and interpret mean, median, mode and know when each is appropriate.</li>
+          <li><span class="obj-num">2</span> Quantify dispersion with range, IQR, variance, and standard deviation.</li>
+          <li><span class="obj-num">3</span> Explain skewness (3rd moment) and kurtosis (4th moment) with real examples and decision rules.</li>
+          <li><span class="obj-num">4</span> Choose transformations (log, sqrt, Box-Cox / Yeo-Johnson) for skewed data.</li>
+          <li><span class="obj-num">5</span> Produce a complete <code>describe</code>-style summary and distribution plot in Python (Pandas).</li>
+        </ul>
+      </section>
+
+      <section id="motivation">
+        <h2>2. Motivation</h2>
+        <p>Mean and variance locate the center and spread of a variable — but two datasets can share the same mean and standard deviation and still look completely different. Higher-order shape (skewness and kurtosis) explains asymmetry and tail risk. Without shape awareness, averages mislead, models break assumptions, and dashboards hide the true story.</p>
+        <div class="callout callout-tip">
+          <div class="callout-title">From course materials (Shape of Data)</div>
+          Higher-order moments: 3rd = Skewness (asymmetry); 4th = Kurtosis (tail weight / outlier frequency). Always inspect shape before trusting a single center metric.
+        </div>
+      </section>
+
+      <section id="central">
+        <h2>3. Central Tendency</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Metric</th><th>Definition</th><th>Best when</th><th>Sensitive to outliers?</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Mean</strong></td><td>Arithmetic average \(\bar{x} = \frac{1}{n}\sum x_i\)</td><td>Symmetric data; continuous measures</td><td>Yes — pulled by extremes</td></tr>
+              <tr><td><strong>Median</strong></td><td>50th percentile (middle value)</td><td>Skewed data; robust reporting</td><td>No (resistant)</td></tr>
+              <tr><td><strong>Mode</strong></td><td>Most frequent value</td><td>Categorical / discrete peaks</td><td>Not in the same way</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Order rules (from course slides):</strong></p>
+        <ul>
+          <li><strong>Positive (right) skew:</strong> Mean &gt; Median &gt; Mode — e.g., household income, casualty counts with rare multi-fatality events.</li>
+          <li><strong>Negative (left) skew:</strong> Mean &lt; Median &lt; Mode — e.g., age at retirement, exam scores with a ceiling.</li>
+          <li><strong>Symmetric:</strong> Mean ≈ Median ≈ Mode.</li>
+        </ul>
+      </section>
+
+      <section id="dispersion">
+        <h2>4. Dispersion</h2>
+        <ul>
+          <li><strong>Range</strong> = max − min (simple, fragile).</li>
+          <li><strong>IQR</strong> = Q3 − Q1 (robust middle 50%).</li>
+          <li><strong>Variance</strong> \(s^2 = \frac{1}{n-1}\sum (x_i-\bar{x})^2\) (sample).</li>
+          <li><strong>Standard deviation</strong> \(s = \sqrt{s^2}\) (same units as data).</li>
+          <li><strong>Coefficient of variation</strong> \(CV = s/\bar{x}\) (compare spread across different scales).</li>
+        </ul>
+        <p>For accident severity analytics, report median casualties with IQR when the distribution is right-skewed; use mean only with clear context.</p>
+      </section>
+
+      <section id="skewness">
+        <h2>5. Skewness (3rd Standardized Moment)</h2>
+        <p>Skewness measures asymmetry about the mean. Course formula (Adjusted Fisher–Pearson):</p>
+        <p>\[
+        g_1 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i-\bar{x})^3}{\left(\frac{1}{n}\sum_{i=1}^{n}(x_i-\bar{x})^2\right)^{3/2}}
+        \]</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Skewness range</th><th>Classification</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>−0.5 to 0.5</td><td>Approximately symmetrical</td><td>Mean is usually fine</td></tr>
+              <tr><td>−1 to −0.5 or 0.5 to 1</td><td>Moderately skewed</td><td>Prefer median; consider transform for models</td></tr>
+              <tr><td>&lt; −1 or &gt; 1</td><td>Highly skewed</td><td>Transform or use robust methods; do not rely on mean alone</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-warning">
+          <div class="callout-title">Why skewness breaks models (course)</div>
+          Parametric models often assume symmetric errors; extreme right tails dominate squared-error losses; high-density regions get compressed. Solution: transform to stabilize shape before modeling.
+        </div>
+      </section>
+
+      <section id="kurtosis">
+        <h2>6. Kurtosis (4th Moment — Tail Weight)</h2>
+        <p>Kurtosis is primarily about <em>tail weight and outlier frequency</em>, not just “peakedness.”</p>
+        <ul>
+          <li><strong>Mesokurtic:</strong> excess kurtosis ≈ 0 (like normal) — tails behave as expected.</li>
+          <li><strong>Leptokurtic:</strong> excess kurtosis &gt; 0 — heavier tails, more extreme events (critical for risk, accidents, finance).</li>
+          <li><strong>Platykurtic:</strong> excess kurtosis &lt; 0 — thinner tails than normal.</li>
+        </ul>
+        <p>In road safety data, high kurtosis on casualties signals that rare multi-casualty crashes occur more often than a normal model would predict — operational planning must account for that tail.</p>
+      </section>
+
+      <section id="transform">
+        <h2>7. Transformation Tactics (Course)</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Transform</th><th>When</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Log \(y=\log(x)\)</td><td>Strong right skew, positive values</td><td>Compresses extreme high values</td></tr>
+              <tr><td>Square root \(y=\sqrt{x}\)</td><td>Moderate right skew, counts</td><td>Gentler than log</td></tr>
+              <tr><td>Box-Cox / Yeo-Johnson</td><td>Need optimal power</td><td>Yeo-Johnson allows zeros/negatives</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Always document the transform and invert carefully when reporting original units to stakeholders.</p>
+      </section>
+
+      <section id="python">
+        <h2>8. Python — Statistical Summary</h2>
+        <p>Dataset: <code>datasets/sample_accidents.csv</code> (course-style accident sample).</p>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>import pandas as pd
+import numpy as np
+from scipy import stats
+
+df = pd.read_csv("../../datasets/sample_accidents.csv")
+# Central tendency &amp; dispersion
+df[["casualties", "vehicles", "speed_limit"]].describe()
+
+# Explicit skew &amp; excess kurtosis
+df[["casualties", "vehicles"]].agg(["mean", "median", "std", "skew", "kurt"])
+
+# Fisher-Pearson skew for casualties
+stats.skew(df["casualties"], bias=False)
+stats.kurtosis(df["casualties"], bias=False)  # excess kurtosis
+
+# Optional: log1p for right-skewed counts
+df["casualties_log"] = np.log1p(df["casualties"])
+df[["casualties", "casualties_log"]].agg(["skew", "kurt"])</code></pre>
+        <p><strong>Expected interpretation:</strong> casualties often show positive skew and elevated kurtosis — report median and check tails before averaging for policy dashboards.</p>
+      </section>
+
+      <section id="practical">
+        <h2>9. Practical</h2>
+        <div class="card">
+          <ol>
+            <li>Load <code>sample_accidents.csv</code>.</li>
+            <li>Compute mean, median, std, skew, kurtosis for <code>casualties</code> and <code>vehicles</code>.</li>
+            <li>Classify skewness using the −0.5 / 0.5 / 1.0 bands.</li>
+            <li>Apply <code>log1p</code> to casualties and recompute skew.</li>
+            <li>Write two sentences: (a) which center metric you would put on a KPI card and why; (b) what the tail implies for safety planning.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="interview">
+        <h2>10. Interview &amp; Viva</h2>
+        <ol>
+          <li>When is median preferred over mean?</li>
+          <li>Interpret skewness = 1.4 for order values.</li>
+          <li>What does high positive excess kurtosis tell a risk manager?</li>
+          <li>Why does log transform help right-skewed positive data?</li>
+        </ol>
+      </section>
+
+      <section id="quiz">
+        <h2>11. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — right skew pulls the mean above the median." data-fail="Positive skew: long right tail → Mean > Median.">
+          <p><strong>Q1.</strong> For a positively skewed income distribution, which is true?</p>
+          <div class="quiz-option" data-value="a">A. Mean &lt; Median</div>
+          <div class="quiz-option" data-value="b">B. Mean &gt; Median</div>
+          <div class="quiz-option" data-value="c">C. Mean always equals Mode</div>
+          <div class="quiz-option" data-value="d">D. Skewness must be zero</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q2" data-answer="a" data-success="Correct — kurtosis emphasizes tail weight / extreme event frequency." data-fail="Course emphasis: kurtosis is about tails and outliers, not only the peak.">
+          <p><strong>Q2.</strong> Kurtosis primarily describes:</p>
+          <div class="quiz-option" data-value="a">A. Tail weight and frequency of extremes</div>
+          <div class="quiz-option" data-value="b">B. Only the color of a histogram</div>
+          <div class="quiz-option" data-value="c">C. The sample size exclusively</div>
+          <div class="quiz-option" data-value="d">D. Correlation between two variables</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2>12. Summary &amp; Cheat Sheet</h2>
+        <ul>
+          <li>Center: mean (symmetric), median (skewed), mode (categorical peaks).</li>
+          <li>Spread: IQR and SD; use CV to compare scales.</li>
+          <li>Shape: skewness (asymmetry), kurtosis (tails).</li>
+          <li>Bands: |skew| &lt; 0.5 mild; &gt; 1 severe — transform or go robust.</li>
+          <li>Python: <code>describe</code>, <code>skew</code>, <code>kurt</code>, <code>log1p</code> / Box-Cox.</li>
+        </ul>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="../../index.html" class="nav-btn">← Home</a>
+        <a href="lecture12.html" class="nav-btn primary" onclick="markLectureComplete(11)">Next: Lecture 12 — Correlation →</a>
+      </div>
+      <footer class="site-footer"><p>Lecture 11 of 30 · Module 3 · Advanced EDA · Content aligned to course Shape of Data &amp; EDA materials</p></footer>
+    </main>
+  </div>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 11: Descriptive Statistics Deep Dive",url:"lecture11.html",module:"Module 3",keywords:"mean median skewness kurtosis dispersion log transform describe",summary:"Central tendency, dispersion, shape of data"}];</script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

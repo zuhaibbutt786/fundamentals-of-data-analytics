@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 10: ML Basics & Insight Extraction – supervised vs unsupervised, overfitting, parameters vs hyperparameters." />
+  <title>Lecture 10: ML Basics & Insight Extraction | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 2 · Cleaning &amp; Prep</div>
+        <a href="../week3/lecture5.html" data-lecture-id="5"><span class="progress-ring"></span> L5 · Data Quality</a>
+        <a href="../week3/lecture6.html" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers &amp; Noise</a>
+        <a href="../week4/lecture7.html" data-lecture-id="7"><span class="progress-ring"></span> L7 · Transformation</a>
+        <a href="../week4/lecture8.html" data-lecture-id="8"><span class="progress-ring"></span> L8 · Feature Engineering</a>
+        <a href="lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Splitting &amp; Validation</a>
+        <a href="lecture10.html" class="active" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 2 › <span>Lecture 10</span></nav>
+      <div class="lecture-meta">
+        <span class="badge badge-intermediate">Intermediate</span>
+        <span class="badge badge-time">⏱ ~100 min</span>
+        <span class="badge">Module 2 · CLO-2</span>
+      </div>
+      <h1>Lecture 10: ML Basics &amp; Insight Extraction</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Supervised vs unsupervised learning, overfitting, parameters vs hyperparameters, and turning cleaned data into decision-ready insights — syllabus bridge from prep into later analytics.</p>
+
+      <section class="card" id="objectives">
+        <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Contrast supervised and unsupervised learning with analytics examples.</li>
+          <li><span class="obj-num">2</span> Explain overfitting and why validation (L9) matters.</li>
+          <li><span class="obj-num">3</span> Distinguish model parameters from hyperparameters.</li>
+          <li><span class="obj-num">4</span> Connect cleaning quality to trustworthy insights and “profitability” style business outcomes.</li>
+          <li><span class="obj-num">5</span> Outline a minimal insight-extraction workflow after prep.</li>
+        </ul>
+      </section>
+
+      <section id="sup-unsup">
+        <h2>2. Supervised vs Unsupervised</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th></th><th>Supervised</th><th>Unsupervised</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Label</strong></td><td>Target known (e.g., severity, churn)</td><td>No target; find structure</td></tr>
+              <tr><td><strong>Examples</strong></td><td>Classification, regression</td><td>Clustering, association, dimensionality reduction</td></tr>
+              <tr><td><strong>Analytics use</strong></td><td>Predict risk, demand, revenue</td><td>Segment customers, detect anomaly groups</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="overfit">
+        <h2>3. Overfitting</h2>
+        <p>A model that fits training noise fails on new data. Signs: excellent train metrics, weak test metrics. Remedies (conceptual): simpler models, more data, regularization, proper validation (L9).</p>
+      </section>
+
+      <section id="params">
+        <h2>4. Parameters vs Hyperparameters</h2>
+        <ul>
+          <li><strong>Parameters</strong> — learned from data during training (weights, coefficients).</li>
+          <li><strong>Hyperparameters</strong> — set before training (tree depth, k in KNN, learning rate); chosen via validation / search.</li>
+        </ul>
+        <p>Saving a fitted model stores parameters; the recipe includes hyperparameters and preprocessing steps.</p>
+      </section>
+
+      <section id="insights">
+        <h2>5. Insight Extraction After Prep</h2>
+        <ol>
+          <li>Confirm quality (L5) and sensible distributions (L6–L7).</li>
+          <li>Engineer features that match decisions (L8).</li>
+          <li>Segment and compare (groupby / EDA — Module 3).</li>
+          <li>Translate findings into actions with estimated impact (e.g., focus enforcement where high-casualty rates cluster).</li>
+        </ol>
+        <div class="callout callout-tip">
+          <div class="callout-title">Business framing</div>
+          “Profitability analysis” in the syllabus sense: link analytical findings to cost, risk, or revenue outcomes — not models for their own sake.
+        </div>
+      </section>
+
+      <section id="practical">
+        <h2>6. Practical</h2>
+        <div class="card">
+          <ol>
+            <li>Label one question as supervised vs unsupervised for the accidents data.</li>
+            <li>List two features you would engineer before a severity classifier.</li>
+            <li>Write one overfitting risk if you evaluate only on the training rows.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="quiz">
+        <h2>7. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="a" data-success="Correct — supervised learning uses labeled targets." data-fail="Supervised = labeled target; unsupervised = structure without labels.">
+          <p><strong>Q1.</strong> Predicting accident severity from weather and speed is:</p>
+          <div class="quiz-option" data-value="a">A. Supervised learning</div>
+          <div class="quiz-option" data-value="b">B. Only unsupervised clustering</div>
+          <div class="quiz-option" data-value="c">C. A form of data deletion</div>
+          <div class="quiz-option" data-value="d">D. Hyperparameter storage only</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2>8. Summary · End of Module 2</h2>
+        <ul>
+          <li>Cleaning path: quality → outliers → transform → features → validate → ML literacy.</li>
+          <li>Supervised vs unsupervised frames the next modeling choices.</li>
+          <li>Insights must survive hold-out evaluation and business scrutiny.</li>
+        </ul>
+        <div class="callout callout-success">
+          <div class="callout-title">Module 2 complete</div>
+          Next: <strong>Module 3 — Advanced EDA (L11–L15)</strong> already on the site.
+        </div>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="lecture9.html" class="nav-btn">← Lecture 9</a>
+        <a href="../../index.html" class="nav-btn primary" onclick="markLectureComplete(10)">Module 2 complete · Home →</a>
+      </div>
+      <footer class="site-footer"><p>Lecture 10 of 30 · Module 2 complete</p></footer>
+    </main>
+  </div>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 10: ML Basics & Insight Extraction",url:"lecture10.html",module:"Module 2",keywords:"supervised unsupervised overfitting hyperparameters insight",summary:"ML basics and insight extraction"}];</script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

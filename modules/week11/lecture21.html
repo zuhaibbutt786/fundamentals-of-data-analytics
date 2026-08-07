@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 21: Power BI Visualization – visuals, formatting, slicers, interactions, and publishing basics." />
+  <title>Lecture 21: Power BI Visualization | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 4 · Visualization</div>
+        <a href="../week9/lecture16.html" data-lecture-id="16"><span class="progress-ring"></span> L16 · Viz Foundations</a>
+        <a href="../week9/lecture17.html" data-lecture-id="17"><span class="progress-ring"></span> L17 · Principles</a>
+        <a href="../week10/lecture18.html" data-lecture-id="18"><span class="progress-ring"></span> L18 · Advanced Charts</a>
+        <a href="../week10/lecture19.html" data-lecture-id="19"><span class="progress-ring"></span> L19 · Dashboard Thinking</a>
+        <a href="lecture20.html" data-lecture-id="20"><span class="progress-ring"></span> L20 · Power BI Import</a>
+        <a href="lecture21.html" class="active" data-lecture-id="21"><span class="progress-ring"></span> L21 · Power BI Viz</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 4 › <span>Lecture 21</span></nav>
+      <div class="lecture-meta">
+        <span class="badge badge-intermediate">Intermediate</span>
+        <span class="badge badge-time">⏱ ~100 min</span>
+        <span class="badge">Module 4 · Power BI</span>
+      </div>
+      <h1>Lecture 21: Power BI Visualization</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Build report pages: core visuals, formatting, slicers, edit interactions, and a first publish path — applying everything from L16–L20.</p>
+
+      <section class="card" id="objectives">
+        <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Build standard visuals (bar, line, matrix, card, map) with correct fields.</li>
+          <li><span class="obj-num">2</span> Format titles, labels, legends, and tooltips for clarity.</li>
+          <li><span class="obj-num">3</span> Add slicers and sync them across pages when needed.</li>
+          <li><span class="obj-num">4</span> Control visual interactions (filter, highlight, none).</li>
+          <li><span class="obj-num">5</span> Apply dashboard-thinking layout and publish a report to Power BI Service (overview).</li>
+        </ul>
+      </section>
+
+      <section id="visuals">
+        <h2>2. Core Visuals in Practice</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Visual</th><th>Typical fields</th><th>Tip</th></tr></thead>
+            <tbody>
+              <tr><td>Card / multi-card</td><td>Single measure</td><td>Add vs target via measure or reference</td></tr>
+              <tr><td>Bar / column</td><td>Category + measure</td><td>Sort descending for rankings</td></tr>
+              <tr><td>Line</td><td>Date hierarchy + measure</td><td>Continuous axis for time</td></tr>
+              <tr><td>Matrix</td><td>Rows, columns, values</td><td>Stepped layout; expand hierarchy</td></tr>
+              <tr><td>Map</td><td>Location + measure</td><td>Clean location data; size by magnitude carefully</td></tr>
+              <tr><td>Table</td><td>Detail columns</td><td>Use for exceptions, not primary story</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="format">
+        <h2>3. Formatting That Matters</h2>
+        <ul>
+          <li>Title = insight or question, not the field name alone</li>
+          <li>Data labels only when they add value (avoid clutter)</li>
+          <li>Consistent theme colors aligned with categorical/sequential roles</li>
+          <li>Tooltip pages for definitions and extra detail</li>
+          <li>Align and distribute objects; snap to grid</li>
+        </ul>
+      </section>
+
+      <section id="slicers">
+        <h2>4. Slicers & Interactions</h2>
+        <p><strong>Slicers</strong> filter the page (or synced pages). Prefer dropdown or tile for few values; hierarchy slicers for dates/orgs.</p>
+        <p><strong>Edit interactions:</strong> Format → Edit interactions — set whether a visual filters, highlights, or ignores another. Use “None” to stop accidental cross-filter noise.</p>
+      </section>
+
+      <section id="pages">
+        <h2>5. Multi-Page Reports</h2>
+        <ul>
+          <li>Page 1: Executive summary (KPIs + one main trend)</li>
+          <li>Page 2: Drivers / breakdowns</li>
+          <li>Page 3: Detail or exception table</li>
+        </ul>
+        <p>Sync slicers across pages when the same filters should apply. Name pages for the audience, not “Page 1”.</p>
+      </section>
+
+      <section id="publish">
+        <h2>6. Publish Overview</h2>
+        <p>Desktop → <strong>Publish</strong> → choose workspace. In Power BI Service: set scheduled refresh (for Import models), share with app or workspace roles, and optionally pin visuals to a dashboard (Service dashboard ≠ report page).</p>
+        <div class="callout callout-info">
+          <div class="callout-title">Note</div>
+          Sharing and capacity depend on your tenant license. Practice layout and interactions fully in Desktop even before Service access.
+        </div>
+      </section>
+
+      <section id="practical">
+        <h2>7. Practical — Mini Sales Report</h2>
+        <div class="card">
+          <ol>
+            <li>KPI cards: Total Sales, Orders, Avg Order Value</li>
+            <li>Line: Sales by Month</li>
+            <li>Bar: Sales by Category (sorted)</li>
+            <li>Slicers: Year, Region</li>
+            <li>Edit interactions so the category bar does not filter the KPI definitions incorrectly</li>
+            <li>Title the page “Sales performance — current year”</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="quiz">
+        <h2>8. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — Edit interactions controls filter vs highlight vs none." data-fail="Look under Format → Edit interactions on the report canvas.">
+          <p><strong>Q1.</strong> How do you stop one visual from filtering another?</p>
+          <div class="quiz-option" data-value="a">A. Delete the model</div>
+          <div class="quiz-option" data-value="b">B. Edit interactions → set to None</div>
+          <div class="quiz-option" data-value="c">C. Remove all slicers permanently</div>
+          <div class="quiz-option" data-value="d">D. Convert to DirectQuery</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2>9. Summary · End of Module 4</h2>
+        <ul>
+          <li>Choose visuals from the question (L16–L18); layout for decisions (L19).</li>
+          <li>Clean import and model (L20) make visuals trustworthy.</li>
+          <li>Format, slicers, and interactions turn a canvas into a usable report (L21).</li>
+        </ul>
+        <div class="callout callout-success">
+          <div class="callout-title">Module 4 complete</div>
+          Next: <strong>Module 5 — Data Modeling & DAX</strong> (Lectures 22–26): star schema, relationships in depth, DAX measures, time intelligence, and performance.
+        </div>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="lecture20.html" class="nav-btn">← Lecture 20</a>
+        <a href="../../index.html" class="nav-btn primary" onclick="markLectureComplete(21)">Module 4 complete · Course Home →</a>
+      </div>
+      <footer class="site-footer"><p>Lecture 21 of 30 · Module 4 complete · Fundamentals of Data Analytics</p></footer>
+    </main>
+  </div>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 21: Power BI Visualization",url:"lecture21.html",module:"Module 4",keywords:"power bi visuals slicers interactions publish formatting",summary:"Build and format Power BI report pages"}];</script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

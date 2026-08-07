@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 2: Designing a Data Pipeline – ETL vs ELT, warehouses vs lakes, batch vs real-time, end-to-end architecture." />
+  <title>Lecture 2: Designing a Data Pipeline | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+    <a href="../../index.html" class="header-brand">
+      <div class="logo">DA</div>
+      <span>Data Analytics Course</span>
+    </a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search (Ctrl+K)" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search lectures, concepts…" autocomplete="off" />
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 1 · Foundations</div>
+        <a href="lecture1.html" data-lecture-id="1"><span class="progress-ring"></span> L1 · Analytics Ecosystem</a>
+        <a href="lecture2.html" class="active" data-lecture-id="2"><span class="progress-ring"></span> L2 · Data Pipeline</a>
+        <a href="lecture3.html" data-lecture-id="3"><span class="progress-ring"></span> L3 · Data Acquisition</a>
+        <a href="../week2/lecture4.html" data-lecture-id="4"><span class="progress-ring"></span> L4 · Business Framing</a>
+        <div class="module-title">Module 2 · Cleaning</div>
+        <a href="../week3/lecture5.html" data-lecture-id="5"><span class="progress-ring"></span> L5 · Data Quality</a>
+        <a href="../week3/lecture6.html" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers</a>
+        <a href="../week4/lecture7.html" data-lecture-id="7"><span class="progress-ring"></span> L7 · Transformation</a>
+        <a href="../week4/lecture8.html" data-lecture-id="8"><span class="progress-ring"></span> L8 · Feature Engineering</a>
+        <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Validation</a>
+        <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
+        <div class="module-title">Module 3 · EDA</div>
+        <a href="../week6/lecture11.html" data-lecture-id="11"><span class="progress-ring"></span> L11 · Descriptive Stats</a>
+        <a href="../week6/lecture12.html" data-lecture-id="12"><span class="progress-ring"></span> L12 · Correlation</a>
+        <a href="../week7/lecture13.html" data-lecture-id="13"><span class="progress-ring"></span> L13 · Aggregation</a>
+        <a href="../week7/lecture14.html" data-lecture-id="14"><span class="progress-ring"></span> L14 · Time Series</a>
+        <a href="../week8/lecture15.html" data-lecture-id="15"><span class="progress-ring"></span> L15 · EDA Case Study</a>
+        <div class="module-title">Module 4 · Visualization</div>
+        <a href="../week9/lecture16.html" data-lecture-id="16"><span class="progress-ring"></span> L16 · Viz Foundations</a>
+        <a href="../week9/lecture17.html" data-lecture-id="17"><span class="progress-ring"></span> L17 · Principles</a>
+        <a href="../week10/lecture18.html" data-lecture-id="18"><span class="progress-ring"></span> L18 · Advanced Charts</a>
+        <a href="../week10/lecture19.html" data-lecture-id="19"><span class="progress-ring"></span> L19 · Dashboard Thinking</a>
+        <a href="../week11/lecture20.html" data-lecture-id="20"><span class="progress-ring"></span> L20 · Power BI Import</a>
+        <a href="../week11/lecture21.html" data-lecture-id="21"><span class="progress-ring"></span> L21 · Power BI Viz</a>
+        <div class="module-title">Module 5 · Modeling & DAX</div>
+        <a href="../week12/lecture22.html" data-lecture-id="22"><span class="progress-ring"></span> L22 · Data Modeling</a>
+        <a href="../week12/lecture23.html" data-lecture-id="23"><span class="progress-ring"></span> L23 · DAX Basics</a>
+        <a href="../week13/lecture24.html" data-lecture-id="24"><span class="progress-ring"></span> L24 · Advanced DAX</a>
+        <a href="../week13/lecture25.html" data-lecture-id="25"><span class="progress-ring"></span> L25 · Performance</a>
+        <a href="../week13/lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
+        <div class="module-title">Module 6 · Capstone</div>
+        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Project Proposal</a>
+        <a href="../week14/lecture28.html" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
+        <a href="../week15/lecture29.html" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
+        <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation & Viva</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../index.html">Home</a> ›
+        <a href="../../index.html">Module 1</a> ›
+        <span>Lecture 2</span>
+      </nav>
+
+      <div class="lecture-meta">
+        <span class="badge badge-beginner">Beginner</span>
+        <span class="badge badge-time">⏱ ~100 min</span>
+        <span class="badge">Module 1 · Foundations</span>
+        <span class="badge">CLO 1</span>
+      </div>
+
+      <h1>Lecture 2: Designing a Data Pipeline</h1>
+      <p style="font-size: 1.1rem; color: var(--text-muted);">From raw sources to trusted insights — learn how modern analytics pipelines are architected, the difference between ETL and ELT, warehouses vs lakes, and batch vs real-time processing.</p>
+
+      <!-- 1. Learning Objectives -->
+      <section class="card" id="objectives">
+        <h2 style="margin-top: 0;">1. Learning Objectives</h2>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Draw and explain an end-to-end analytics pipeline (Ingestion → Storage → Processing → Visualization / Consumption).</li>
+          <li><span class="obj-num">2</span> Clearly distinguish ETL from ELT and know when each pattern is preferred.</li>
+          <li><span class="obj-num">3</span> Compare Data Warehouses, Data Lakes, and Lakehouses and map them to business needs.</li>
+          <li><span class="obj-num">4</span> Explain Batch vs Real-time (streaming) processing with concrete use-cases.</li>
+          <li><span class="obj-num">5</span> Design a simple pipeline for a real scenario (university attendance system).</li>
+        </ul>
+      </section>
+
+      <!-- 2. Motivation -->
+      <section id="motivation">
+        <h2>2. Motivation</h2>
+        <p>Raw data sitting in files, APIs, or operational databases has almost no value until it is moved, cleaned, integrated, and made available for analysis. The system that does this work is called a <strong>data pipeline</strong>.</p>
+        <p>A poorly designed pipeline leads to late reports, inconsistent numbers, broken dashboards, and loss of trust. A well-designed pipeline becomes the backbone of every analytics product in the organization.</p>
+        <div class="callout callout-tip">
+          <div class="callout-title">💡 Key Insight</div>
+          Analysts who understand pipeline architecture communicate better with data engineers, write more robust queries, and design dashboards that stay reliable as data volume grows.
+        </div>
+      </section>
+
+      <!-- 3. Real-world Story -->
+      <section id="story">
+        <h2>3. Real-World Story</h2>
+        <div class="card">
+          <h3 style="margin-top: 0;">The Dashboard That Lied for Three Weeks</h3>
+          <p>A retail company launched a new “Daily Sales Health” dashboard. For three weeks the numbers looked healthy. Then finance noticed that regional totals did not match the ERP system.</p>
+          <p>Root cause: the pipeline that fed the dashboard used an old ETL job that only refreshed product hierarchy once a month. After a major category restructure, many products were mapped to the wrong parent. The dashboard was technically “working” — it was just showing the wrong truth.</p>
+          <p>The fix required redesigning the pipeline so that reference data (product hierarchy) was treated as a first-class input with its own freshness SLA and validation checks. This lecture teaches you how to think about those design decisions from the start.</p>
+        </div>
+      </section>
+
+      <!-- 4. Problem Statement -->
+      <section id="problem">
+        <h2>4. Problem Statement</h2>
+        <div class="callout callout-warning">
+          <div class="callout-title">The Pipeline Challenge</div>
+          How do we reliably move data from many sources, transform it into a trustworthy analytical form, store it efficiently, and serve it to analysts and dashboards — while keeping cost, latency, and complexity under control?
+        </div>
+      </section>
+
+      <!-- 5. Theory: End-to-end Pipeline -->
+      <section id="theory">
+        <h2>5. Theory — End-to-End Pipeline Architecture</h2>
+        <p>A typical analytics pipeline has four major stages:</p>
+
+        <div class="diagram-box">
+          <svg viewBox="0 0 760 180" xmlns="http://www.w3.org/2000/svg" aria-label="End-to-end data pipeline">
+            <!-- Boxes -->
+            <rect x="10" y="50" width="150" height="80" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="85" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">1. Ingestion</text>
+            <text x="85" y="105" text-anchor="middle" font-size="11" fill="#1e3a8a">Sources → Landing</text>
+
+            <path d="M165 90 H195" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+            <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker></defs>
+
+            <rect x="200" y="50" width="150" height="80" rx="12" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+            <text x="275" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="#5b21b6">2. Storage</text>
+            <text x="275" y="105" text-anchor="middle" font-size="11" fill="#4c1d95">Lake / Warehouse</text>
+
+            <path d="M355 90 H385" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <rect x="390" y="50" width="150" height="80" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+            <text x="465" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="#9d174d">3. Processing</text>
+            <text x="465" y="105" text-anchor="middle" font-size="11" fill="#831843">Clean · Transform</text>
+
+            <path d="M545 90 H575" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <rect x="580" y="50" width="160" height="80" rx="12" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+            <text x="660" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">4. Consumption</text>
+            <text x="660" y="105" text-anchor="middle" font-size="11" fill="#064e3b">Dashboards · APIs</text>
+          </svg>
+        </div>
+
+        <h3>1. Ingestion</h3>
+        <p>Collect data from operational systems, files, APIs, event streams, and third-party sources. Landing zone is often a raw/bronze layer where data is kept as close to the source as possible.</p>
+
+        <h3>2. Storage</h3>
+        <p>Persist data in a form that supports both current and future analysis. Choices include data warehouses, data lakes, or modern lakehouses.</p>
+
+        <h3>3. Processing / Transformation</h3>
+        <p>Clean, validate, join, aggregate, and model the data so that analysts and BI tools can use it safely and efficiently.</p>
+
+        <h3>4. Consumption</h3>
+        <p>Serve the curated data through SQL endpoints, semantic models, dashboards, notebooks, and APIs.</p>
+      </section>
+
+      <!-- 6. Easy Explanation -->
+      <section id="easy">
+        <h2>6. Easy Explanation — Pipeline as a Kitchen</h2>
+        <p>Think of a restaurant kitchen:</p>
+        <ul>
+          <li><strong>Ingestion</strong> = trucks delivering ingredients (raw data arriving).</li>
+          <li><strong>Storage</strong> = pantry and cold room (where ingredients wait).</li>
+          <li><strong>Processing</strong> = chefs washing, chopping, cooking (transforming raw into ready-to-serve).</li>
+          <li><strong>Consumption</strong> = plates going to tables (dashboards and reports that decision-makers actually use).</li>
+        </ul>
+        <p>If the pantry is disorganized or the chefs use old recipes, the plates will be wrong even if the trucks arrived on time.</p>
+      </section>
+
+      <!-- 7. ETL vs ELT -->
+      <section id="etl-elt">
+        <h2>7. Deep Explanation — ETL vs ELT</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Aspect</th>
+                <th>ETL</th>
+                <th>ELT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Order</strong></td>
+                <td>Extract → Transform → Load</td>
+                <td>Extract → Load → Transform</td>
+              </tr>
+              <tr>
+                <td><strong>Where transform happens</strong></td>
+                <td>In a separate ETL engine / staging server</td>
+                <td>Inside the target warehouse / lakehouse</td>
+              </tr>
+              <tr>
+                <td><strong>Classic tools</strong></td>
+                <td>Informatica, SSIS, Talend, traditional scripts</td>
+                <td>dbt, Spark, warehouse SQL (BigQuery, Snowflake, Databricks)</td>
+              </tr>
+              <tr>
+                <td><strong>Strength</strong></td>
+                <td>Heavy cleansing before data enters the warehouse; good for strict compliance</td>
+                <td>Scalable compute of modern warehouses; raw data retained for re-processing</td>
+              </tr>
+              <tr>
+                <td><strong>Typical use</strong></td>
+                <td>Legacy systems, regulated environments, smaller volumes</td>
+                <td>Cloud analytics platforms, large volumes, agile analytics teams</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-title">When to prefer which?</div>
+          <ul style="margin-bottom:0">
+            <li>Choose <strong>ETL</strong> when you must enforce strict data quality and privacy rules before any data lands in the analytics store.</li>
+            <li>Choose <strong>ELT</strong> when you want to keep raw history, leverage warehouse compute, and let analysts iterate on transformations quickly (very common today).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 8. Warehouse vs Lake -->
+      <section id="storage">
+        <h2>8. Data Warehouse vs Data Lake vs Lakehouse</h2>
+
+        <div class="diagram-box">
+          <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" aria-label="Warehouse Lake Lakehouse comparison">
+            <rect x="20" y="30" width="200" height="160" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="120" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#1e40af">Data Warehouse</text>
+            <text x="120" y="90" text-anchor="middle" font-size="11" fill="#334155">Structured only</text>
+            <text x="120" y="110" text-anchor="middle" font-size="11" fill="#334155">Schema-on-write</text>
+            <text x="120" y="130" text-anchor="middle" font-size="11" fill="#334155">Highly optimized</text>
+            <text x="120" y="150" text-anchor="middle" font-size="11" fill="#334155">for BI & SQL</text>
+            <text x="120" y="170" text-anchor="middle" font-size="11" fill="#334155">Star / Snowflake</text>
+
+            <rect x="260" y="30" width="200" height="160" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <text x="360" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#92400e">Data Lake</text>
+            <text x="360" y="90" text-anchor="middle" font-size="11" fill="#334155">Any format</text>
+            <text x="360" y="110" text-anchor="middle" font-size="11" fill="#334155">Schema-on-read</text>
+            <text x="360" y="130" text-anchor="middle" font-size="11" fill="#334155">Cheap storage</text>
+            <text x="360" y="150" text-anchor="middle" font-size="11" fill="#334155">Raw + processed</text>
+            <text x="360" y="170" text-anchor="middle" font-size="11" fill="#334155">Files / objects</text>
+
+            <rect x="500" y="30" width="200" height="160" rx="12" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+            <text x="600" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#065f46">Lakehouse</text>
+            <text x="600" y="90" text-anchor="middle" font-size="11" fill="#334155">Best of both</text>
+            <text x="600" y="110" text-anchor="middle" font-size="11" fill="#334155">ACID on files</text>
+            <text x="600" y="130" text-anchor="middle" font-size="11" fill="#334155">BI + ML ready</text>
+            <text x="600" y="150" text-anchor="middle" font-size="11" fill="#334155">Open formats</text>
+            <text x="600" y="170" text-anchor="middle" font-size="11" fill="#334155">Delta / Iceberg</text>
+          </svg>
+        </div>
+
+        <h3>Data Warehouse</h3>
+        <p>Optimized for structured, cleaned, modeled data. Excellent for BI, dashboards, and consistent KPIs. Historically more expensive and less flexible for semi-structured or unstructured data.</p>
+
+        <h3>Data Lake</h3>
+        <p>Stores raw and processed data in cheap object storage (files). Flexible, but without careful governance it becomes a “data swamp”. Schema is applied when you read the data.</p>
+
+        <h3>Lakehouse</h3>
+        <p>Modern architecture that brings warehouse reliability (ACID transactions, schema enforcement, time travel) on top of lake storage. Popular platforms: Databricks, Snowflake (with stages), Microsoft Fabric, etc.</p>
+
+        <h3>Medallion layers (Bronze → Silver → Gold)</h3>
+        <p>Common lakehouse pattern for progressive quality:</p>
+        <div class="diagram-box">
+          <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" aria-label="Medallion architecture Bronze Silver Gold">
+            <defs>
+              <marker id="arrM" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/></marker>
+            </defs>
+            <rect x="30" y="40" width="180" height="120" rx="14" fill="#cd7f32" opacity="0.25" stroke="#b45309" stroke-width="2"/>
+            <text x="120" y="85" text-anchor="middle" font-size="16" font-weight="800" fill="#92400e">BRONZE</text>
+            <text x="120" y="110" text-anchor="middle" font-size="12" fill="#334155">Raw ingest</text>
+            <text x="120" y="128" text-anchor="middle" font-size="11" fill="#64748b">as-is · append</text>
+            <line x1="210" y1="100" x2="245" y2="100" stroke="#64748b" stroke-width="2" marker-end="url(#arrM)"/>
+            <rect x="250" y="40" width="180" height="120" rx="14" fill="#94a3b8" opacity="0.35" stroke="#64748b" stroke-width="2"/>
+            <text x="340" y="85" text-anchor="middle" font-size="16" font-weight="800" fill="#475569">SILVER</text>
+            <text x="340" y="110" text-anchor="middle" font-size="12" fill="#334155">Cleaned · joined</text>
+            <text x="340" y="128" text-anchor="middle" font-size="11" fill="#64748b">validated · typed</text>
+            <line x1="430" y1="100" x2="465" y2="100" stroke="#64748b" stroke-width="2" marker-end="url(#arrM)"/>
+            <rect x="470" y="40" width="180" height="120" rx="14" fill="#fbbf24" opacity="0.35" stroke="#d97706" stroke-width="2"/>
+            <text x="560" y="85" text-anchor="middle" font-size="16" font-weight="800" fill="#b45309">GOLD</text>
+            <text x="560" y="110" text-anchor="middle" font-size="12" fill="#334155">Business marts</text>
+            <text x="560" y="128" text-anchor="middle" font-size="11" fill="#64748b">KPIs · star models</text>
+          </svg>
+        </div>
+        <p style="font-size:0.9rem;color:var(--text-muted)">Figure: Medallion architecture — quality increases as data moves Bronze → Silver → Gold for analytics consumption.</p>
+      </section>
+
+      <!-- 9. Batch vs Real-time -->
+      <section id="batch-realtime">
+        <h2>9. Batch vs Real-Time Processing</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Batch</th>
+                <th>Real-time / Streaming</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Latency</strong></td>
+                <td>Minutes to hours (or daily)</td>
+                <td>Seconds to milliseconds</td>
+              </tr>
+              <tr>
+                <td><strong>Typical use</strong></td>
+                <td>Daily sales reports, monthly finance close, historical EDA</td>
+                <td>Fraud detection, live inventory, operational dashboards, alerting</td>
+              </tr>
+              <tr>
+                <td><strong>Complexity & cost</strong></td>
+                <td>Lower</td>
+                <td>Higher (always-on infrastructure)</td>
+              </tr>
+              <tr>
+                <td><strong>Tools (examples)</strong></td>
+                <td>Scheduled SQL, Airflow, dbt, Spark batch</td>
+                <td>Kafka, Flink, Spark Streaming, cloud stream services</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Most analytics work still starts with batch. Introduce real-time only when the business genuinely needs low latency and is ready to pay for the operational complexity.</p>
+      </section>
+
+      <!-- 10. Practical -->
+      <section id="practical">
+        <h2>10. Practical — University Attendance Pipeline</h2>
+        <div class="card">
+          <h3 style="margin-top: 0;">Exercise: Design a Pipeline</h3>
+          <p><strong>Scenario:</strong> A university wants a dashboard that shows daily attendance by department, course, and student, with the ability to flag students below 75% attendance.</p>
+          <p>Sketch the pipeline by answering:</p>
+          <ol>
+            <li>What are the source systems? (e.g., biometric devices, LMS, student information system)</li>
+            <li>Is this primarily batch or real-time? Why?</li>
+            <li>Would you lean ETL or ELT?</li>
+            <li>What would you store in a “raw” layer vs a “curated” layer?</li>
+            <li>Which KPIs would the final consumption layer serve?</li>
+          </ol>
+
+          <div class="collapse-header" data-collapse="sol2">
+            Sample Solution Outline <span class="collapse-icon">+</span>
+          </div>
+          <div class="collapse-body" id="sol2">
+            <div class="collapse-content">
+              <ol>
+                <li><strong>Sources:</strong> Biometric / RFID attendance logs, Student Information System (SIS) for enrollments and demographics, LMS for online session attendance, academic calendar.</li>
+                <li><strong>Batch is sufficient</strong> for most reporting (nightly or hourly). Real-time only if live “who is in class right now” is required.</li>
+                <li><strong>ELT preferred</strong> if using a modern warehouse: land raw logs, then transform with SQL/dbt into attendance facts and dimension tables.</li>
+                <li><strong>Raw:</strong> original device logs and SIS extracts. <strong>Curated:</strong> fact_attendance, dim_student, dim_course, dim_date, with quality flags.</li>
+                <li><strong>KPIs:</strong> Attendance %, students below threshold, department comparison, trend over weeks, course-level risk list.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Industry examples -->
+      <section id="industry">
+        <h2>11. Industry Examples</h2>
+        <ul>
+          <li><strong>E-commerce:</strong> Clickstream + orders + inventory → near-real-time conversion funnel and stock-out alerts.</li>
+          <li><strong>Banking:</strong> Transaction stream → fraud scoring pipeline (real-time) + nightly regulatory aggregates (batch).</li>
+          <li><strong>Healthcare:</strong> EHR extracts → nightly clinical quality dashboards; selected vitals streamed for ICU monitoring.</li>
+          <li><strong>Government:</strong> Multiple departmental systems → central warehouse for budget vs actual and service-level reporting.</li>
+        </ul>
+      </section>
+
+      <!-- Interview -->
+      <section id="interview">
+        <h2>12. Interview & Viva Questions</h2>
+        <div class="card">
+          <ol>
+            <li>Explain ETL vs ELT with an example from a company you know.</li>
+            <li>When would you choose a data lake over a data warehouse?</li>
+            <li>What is a “landing zone” or bronze layer and why do we keep raw data?</li>
+            <li>How would you decide between batch and streaming for a sales dashboard?</li>
+            <li>What can go wrong if reference data (e.g., product hierarchy) is not versioned in the pipeline?</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Quizzes -->
+      <section id="quiz">
+        <h2>13. Knowledge Check</h2>
+
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct! ELT loads first, then transforms inside the warehouse." data-fail="Remember: ETL = transform before load; ELT = load first, transform later.">
+          <p><strong>Q1.</strong> In ELT, the transformation step happens:</p>
+          <div class="quiz-option" data-value="a">A. Before data is loaded into the target system</div>
+          <div class="quiz-option" data-value="b">B. After data is loaded into the target system</div>
+          <div class="quiz-option" data-value="c">C. Only on the source system</div>
+          <div class="quiz-option" data-value="d">D. Never — ELT does not transform data</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" id="q2" data-answer="c" data-success="Correct! A lakehouse combines lake storage flexibility with warehouse reliability features." data-fail="Review the three storage patterns: Warehouse, Lake, Lakehouse.">
+          <p><strong>Q2.</strong> Which architecture aims to combine the flexibility of a data lake with the reliability and performance of a warehouse?</p>
+          <div class="quiz-option" data-value="a">A. Operational data store</div>
+          <div class="quiz-option" data-value="b">B. Data mart</div>
+          <div class="quiz-option" data-value="c">C. Lakehouse</div>
+          <div class="quiz-option" data-value="d">D. Message queue</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" id="q3" data-answer="a" data-success="Correct! Fraud detection typically requires seconds-level latency." data-fail="Think about which use-case cannot wait for a nightly batch.">
+          <p><strong>Q3.</strong> Which use-case most clearly needs real-time / streaming processing?</p>
+          <div class="quiz-option" data-value="a">A. Credit-card fraud detection while a transaction is being authorized</div>
+          <div class="quiz-option" data-value="b">B. Monthly financial close report</div>
+          <div class="quiz-option" data-value="c">C. Annual employee performance summary</div>
+          <div class="quiz-option" data-value="d">D. Historical customer segmentation study</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q3')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <!-- Flashcards -->
+      <section id="flashcards">
+        <h2>14. Flashcards</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="flashcard">
+              <div class="flashcard-inner">
+                <div class="flashcard-front"><strong>ETL stands for…</strong></div>
+                <div class="flashcard-back">Extract → Transform → Load</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="flashcard">
+              <div class="flashcard-inner">
+                <div class="flashcard-front"><strong>ELT stands for…</strong></div>
+                <div class="flashcard-back">Extract → Load → Transform</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="flashcard">
+              <div class="flashcard-inner">
+                <div class="flashcard-front"><strong>Schema-on-write vs schema-on-read?</strong></div>
+                <div class="flashcard-back">Warehouse enforces schema when writing (schema-on-write). Lake applies schema when reading (schema-on-read).</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="flashcard">
+              <div class="flashcard-inner">
+                <div class="flashcard-front"><strong>Four pipeline stages?</strong></div>
+                <div class="flashcard-back">Ingestion → Storage → Processing → Consumption</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Summary -->
+      <section id="summary">
+        <h2>15. Summary & Cheat Sheet</h2>
+        <ul>
+          <li>A data pipeline moves data from sources to trusted analytical assets.</li>
+          <li>Four stages: Ingestion, Storage, Processing, Consumption.</li>
+          <li>ETL transforms before load; ELT loads first then transforms (modern default).</li>
+          <li>Warehouses excel at structured BI; lakes at flexible storage; lakehouses combine both.</li>
+          <li>Use batch by default; introduce streaming only when latency truly matters.</li>
+        </ul>
+        <div class="card" style="margin-top:1.5rem">
+          <h3 style="margin-top:0">Cheat Sheet</h3>
+          <div class="table-wrap">
+            <table>
+              <tr><th>Term</th><th>One-liner</th></tr>
+              <tr><td>Ingestion</td><td>Getting data from sources into the platform</td></tr>
+              <tr><td>ETL</td><td>Transform before loading into target</td></tr>
+              <tr><td>ELT</td><td>Load first, transform inside the target</td></tr>
+              <tr><td>Warehouse</td><td>Structured, optimized store for BI</td></tr>
+              <tr><td>Lake</td><td>Flexible file/object store for any data</td></tr>
+              <tr><td>Lakehouse</td><td>Lake storage + warehouse reliability</td></tr>
+              <tr><td>Batch</td><td>Process data in scheduled chunks</td></tr>
+              <tr><td>Streaming</td><td>Process data continuously with low latency</td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="mistakes">
+        <h2>16. Common Mistakes & Best Practices</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="callout callout-warning">
+              <div class="callout-title">Common Mistakes</div>
+              <ul style="margin-bottom:0">
+                <li>Skipping a raw/landing layer and overwriting source history</li>
+                <li>Treating every pipeline as real-time when batch would suffice</li>
+                <li>No data quality checks between stages</li>
+                <li>Hard-coding business logic in fragile scripts with no version control</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="callout callout-success">
+              <div class="callout-title">Best Practices</div>
+              <ul style="margin-bottom:0">
+                <li>Keep raw data immutable; build curated layers on top</li>
+                <li>Define freshness and quality SLAs for each critical table</li>
+                <li>Prefer ELT + modular transformations (e.g., dbt-style) when using cloud warehouses</li>
+                <li>Document lineage so every KPI can be traced back to sources</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="next">
+        <h2>17. What’s Next</h2>
+        <p><strong>Lecture 3</strong> focuses on the first stage in more detail: how we acquire data — structured, semi-structured, unstructured sources, files, databases, and web scraping concepts.</p>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="lecture1.html" class="nav-btn">← Lecture 1</a>
+        <a href="lecture3.html" class="nav-btn primary" onclick="markLectureComplete(2)">Next: Lecture 3 — Data Acquisition →</a>
+      </div>
+
+      <footer class="site-footer">
+        <p>Lecture 2 of 30 · Fundamentals of Data Analytics · Progress saved locally</p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    window.COURSE_SEARCH_INDEX = [
+      { title: "Lecture 2: Designing a Data Pipeline", url: "lecture2.html", module: "Module 1", keywords: "etl elt pipeline warehouse lake lakehouse batch realtime ingestion", summary: "Pipeline architecture, ETL vs ELT, storage patterns" }
+    ];
+  </script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 3: Data Acquisition Types & Storage – Structured, semi-structured, unstructured data, files, databases, APIs, scraping ethics, and storage choices." />
+  <title>Lecture 3: Data Acquisition Types & Storage | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+    <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 1 · Foundations</div>
+        <a href="lecture1.html" data-lecture-id="1"><span class="progress-ring"></span> L1 · Analytics Ecosystem</a>
+        <a href="lecture2.html" data-lecture-id="2"><span class="progress-ring"></span> L2 · Data Pipeline</a>
+        <a href="lecture3.html" class="active" data-lecture-id="3"><span class="progress-ring"></span> L3 · Data Acquisition</a>
+        <a href="../week2/lecture4.html" data-lecture-id="4"><span class="progress-ring"></span> L4 · Business Framing</a>
+        <div class="module-title">Module 2 · Cleaning</div>
+        <a href="../week3/lecture5.html" data-lecture-id="5"><span class="progress-ring"></span> L5 · Data Quality</a>
+        <a href="../week3/lecture6.html" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers</a>
+        <a href="../week4/lecture7.html" data-lecture-id="7"><span class="progress-ring"></span> L7 · Transformation</a>
+        <a href="../week4/lecture8.html" data-lecture-id="8"><span class="progress-ring"></span> L8 · Feature Engineering</a>
+        <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Validation</a>
+        <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
+        <div class="module-title">Module 3 · EDA</div>
+        <a href="../week6/lecture11.html" data-lecture-id="11"><span class="progress-ring"></span> L11 · Descriptive Stats</a>
+        <a href="../week6/lecture12.html" data-lecture-id="12"><span class="progress-ring"></span> L12 · Correlation</a>
+        <a href="../week7/lecture13.html" data-lecture-id="13"><span class="progress-ring"></span> L13 · Aggregation</a>
+        <a href="../week7/lecture14.html" data-lecture-id="14"><span class="progress-ring"></span> L14 · Time Series</a>
+        <a href="../week8/lecture15.html" data-lecture-id="15"><span class="progress-ring"></span> L15 · EDA Case Study</a>
+        <div class="module-title">Module 4 · Visualization</div>
+        <a href="../week9/lecture16.html" data-lecture-id="16"><span class="progress-ring"></span> L16 · Viz Foundations</a>
+        <a href="../week9/lecture17.html" data-lecture-id="17"><span class="progress-ring"></span> L17 · Principles</a>
+        <a href="../week10/lecture18.html" data-lecture-id="18"><span class="progress-ring"></span> L18 · Advanced Charts</a>
+        <a href="../week10/lecture19.html" data-lecture-id="19"><span class="progress-ring"></span> L19 · Dashboard Thinking</a>
+        <a href="../week11/lecture20.html" data-lecture-id="20"><span class="progress-ring"></span> L20 · Power BI Import</a>
+        <a href="../week11/lecture21.html" data-lecture-id="21"><span class="progress-ring"></span> L21 · Power BI Viz</a>
+        <div class="module-title">Module 5 · Modeling &amp; DAX</div>
+        <a href="../week12/lecture22.html" data-lecture-id="22"><span class="progress-ring"></span> L22 · Data Modeling</a>
+        <a href="../week12/lecture23.html" data-lecture-id="23"><span class="progress-ring"></span> L23 · DAX Basics</a>
+        <a href="../week13/lecture24.html" data-lecture-id="24"><span class="progress-ring"></span> L24 · Advanced DAX</a>
+        <a href="../week13/lecture25.html" data-lecture-id="25"><span class="progress-ring"></span> L25 · Performance</a>
+        <a href="../week13/lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
+        <div class="module-title">Module 6 · Capstone</div>
+        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Project Proposal</a>
+        <a href="../week14/lecture28.html" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
+        <a href="../week15/lecture29.html" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
+        <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation &amp; Viva</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 1</span> › <span>Lecture 3</span></nav>
+      <div class="lecture-meta">
+        <span class="badge badge-beginner">Beginner</span>
+        <span class="badge badge-time">⏱ ~100 min</span>
+        <span class="badge">Module 1 · Foundations</span>
+        <span class="badge">CLO 1</span>
+      </div>
+
+      <h1>Lecture 3: Data Acquisition Types &amp; Storage</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Understand the shapes data comes in, the common file and database formats, how analysts actually acquire data, and how to choose storage that matches the problem.</p>
+
+      <!-- 1. Learning Objectives -->
+      <section class="card" id="objectives">
+        <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <p>By the end of this lecture you will be able to:</p>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Classify data as structured, semi-structured, or unstructured and give concrete examples of each.</li>
+          <li><span class="obj-num">2</span> Work confidently with common acquisition formats: CSV, Excel, JSON, Parquet, and relational databases.</li>
+          <li><span class="obj-num">3</span> Explain the relational model at a conceptual level (tables, primary keys, foreign keys, relationships).</li>
+          <li><span class="obj-num">4</span> Describe ethical and technical considerations around web scraping and API usage.</li>
+          <li><span class="obj-num">5</span> Choose an appropriate storage approach (file, database, lake, warehouse) for a given analytics problem.</li>
+        </ul>
+      </section>
+
+      <!-- 2. Motivation -->
+      <section id="motivation">
+        <h2>2. Motivation — Why Acquisition Comes First</h2>
+        <p>Before any cleaning, transformation, or dashboard work, data must be acquired. The form it arrives in determines how much work the rest of the pipeline will need. Treating a nested JSON API response the same way as a clean CSV will produce frustration, silent errors, and delayed projects.</p>
+        <p>Professionals spend a surprising amount of time negotiating cleaner extracts, documenting lineage, and choosing the right landing zone. This lecture builds the vocabulary and decision-making skill you need at the start of every project.</p>
+        <div class="callout callout-tip">
+          <div class="callout-title">💡 Key Insight</div>
+          Acquisition is not “just download the file.” It is the first design decision of the pipeline: source reliability, schema stability, volume, velocity, and legal constraints all influence what you store and how you transform it later.
+        </div>
+      </section>
+
+      <!-- 3. Real-World Story -->
+      <section id="story">
+        <h2>3. Real-World Story</h2>
+        <div class="card">
+          <h3 style="margin-top:0">The “Simple” Excel Export That Wasn’t</h3>
+          <p>An analyst was asked to build a sales dashboard from “one Excel file from finance.” The file contained three sheets, merged cells in the header, a title row that changed every month, numbers stored as text with currency symbols, and a hidden sheet of adjustments. What looked like a 30-minute task became a multi-day cleaning exercise and delayed the dashboard by a week.</p>
+          <p>Recognizing data shape and quality early — and negotiating cleaner extracts or an automated feed — is a core acquisition skill. The same story appears in healthcare (messy EHR exports), banking (legacy mainframe flat files), and e-commerce (inconsistent product catalog dumps).</p>
+        </div>
+      </section>
+
+      <!-- 4. Problem Statement -->
+      <section id="problem">
+        <h2>4. Problem Statement</h2>
+        <p>Given a business question, how do you decide:</p>
+        <ul>
+          <li>Where the data currently lives?</li>
+          <li>What shape it is in (structured / semi-structured / unstructured)?</li>
+          <li>Which format and protocol to request (CSV, API, database query, file share)?</li>
+          <li>Where to land it first (local file, object storage, staging database, lake)?</li>
+          <li>What ethical and legal constraints apply?</li>
+        </ul>
+        <p>Wrong answers here create downstream rework that no amount of clever Pandas or DAX can fully erase.</p>
+      </section>
+
+      <!-- 5. Theory — Data Shape Taxonomy -->
+      <section id="types">
+        <h2>5. Theory — Structured vs Semi-structured vs Unstructured</h2>
+        <p>Almost every textbook and industry guide organizes data into three broad shapes. Understanding them is the foundation of acquisition design.</p>
+
+        <div class="diagram-box">
+          <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" aria-label="Data shape taxonomy">
+            <rect x="20" y="30" width="210" height="160" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="125" y="58" text-anchor="middle" font-size="15" font-weight="800" fill="#1e40af">Structured</text>
+            <text x="125" y="85" text-anchor="middle" font-size="12" fill="#334155">Fixed schema</text>
+            <text x="125" y="105" text-anchor="middle" font-size="12" fill="#334155">Rows &amp; columns</text>
+            <text x="125" y="125" text-anchor="middle" font-size="12" fill="#334155">SQL tables · CSV</text>
+            <text x="125" y="145" text-anchor="middle" font-size="12" fill="#334155">Clean Excel ranges</text>
+            <text x="125" y="165" text-anchor="middle" font-size="12" fill="#334155">Parquet / ORC</text>
+
+            <rect x="255" y="30" width="210" height="160" rx="12" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+            <text x="360" y="58" text-anchor="middle" font-size="15" font-weight="800" fill="#5b21b6">Semi-structured</text>
+            <text x="360" y="85" text-anchor="middle" font-size="12" fill="#334155">Flexible / nested</text>
+            <text x="360" y="105" text-anchor="middle" font-size="12" fill="#334155">Self-describing</text>
+            <text x="360" y="125" text-anchor="middle" font-size="12" fill="#334155">JSON · XML · logs</text>
+            <text x="360" y="145" text-anchor="middle" font-size="12" fill="#334155">NoSQL documents</text>
+            <text x="360" y="165" text-anchor="middle" font-size="12" fill="#334155">Avro (with schema)</text>
+
+            <rect x="490" y="30" width="210" height="160" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <text x="595" y="58" text-anchor="middle" font-size="15" font-weight="800" fill="#92400e">Unstructured</text>
+            <text x="595" y="85" text-anchor="middle" font-size="12" fill="#334155">No fixed schema</text>
+            <text x="595" y="105" text-anchor="middle" font-size="12" fill="#334155">Free form</text>
+            <text x="595" y="125" text-anchor="middle" font-size="12" fill="#334155">Text · images</text>
+            <text x="595" y="145" text-anchor="middle" font-size="12" fill="#334155">Audio · video</text>
+            <text x="595" y="165" text-anchor="middle" font-size="12" fill="#334155">PDFs · emails</text>
+          </svg>
+        </div>
+
+        <h3>Easy Explanation</h3>
+        <p><strong>Structured</strong> data fits neatly into tables with fixed columns. Think of a spreadsheet of student grades or a POS transaction table. <strong>Semi-structured</strong> data has labels (keys or tags) but the structure can nest and vary from record to record — JSON from an API is the classic example. <strong>Unstructured</strong> data has no predefined model; extracting value usually requires NLP, computer vision, or human labeling.</p>
+
+        <h3>Deep Explanation</h3>
+        <p>In practice the boundaries blur. A “structured” Excel file may contain free-text comments and merged cells. A JSON document may follow a strict schema enforced by an API contract. Modern lakes often store everything as files first (bronze) and impose structure later (silver/gold). The taxonomy still helps you ask the right questions: Do I already have a stable schema? How nested is it? Will I need specialized extraction?</p>
+      </section>
+
+      <!-- 6. Common Acquisition Formats -->
+      <section id="formats">
+        <h2>6. Common Acquisition Formats</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Format</th><th>Type</th><th>Typical use</th><th>Watch-outs</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>CSV / TSV</strong></td><td>Structured</td><td>Exports, open data, simple shares</td><td>Encoding (UTF-8 vs Latin-1), separators, embedded commas/quotes, no native types</td></tr>
+              <tr><td><strong>Excel (.xlsx)</strong></td><td>Structured / mixed</td><td>Business reports, ad-hoc extracts</td><td>Multiple sheets, merged cells, formulas, formatting treated as data, password protection</td></tr>
+              <tr><td><strong>JSON</strong></td><td>Semi-structured</td><td>APIs, web, document stores</td><td>Nested objects/arrays, inconsistent keys across records, large files hard to stream</td></tr>
+              <tr><td><strong>SQL databases</strong></td><td>Structured</td><td>Operational &amp; analytical systems</td><td>Permissions, query cost, schema drift, connection limits</td></tr>
+              <tr><td><strong>Parquet / ORC</strong></td><td>Structured (columnar)</td><td>Modern data lakes &amp; warehouses</td><td>Need compatible readers; excellent compression and predicate pushdown</td></tr>
+              <tr><td><strong>XML</strong></td><td>Semi-structured</td><td>Legacy enterprise, some APIs</td><td>Verbose, namespace complexity, less common than JSON today</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-title">Analyst tip</div>
+          When someone says “I’ll send you the data,” always ask: format, approximate size, encoding, update frequency, and whether a data dictionary or sample exists. Ten minutes of questions save hours of reverse-engineering.
+        </div>
+      </section>
+
+      <!-- 7. Acquisition Decision Tree (Visual) -->
+      <section id="decision">
+        <h2>7. Visual Explanation — Acquisition Decision Flow</h2>
+        <p>Use this mental flowchart when a new source appears:</p>
+        <div class="diagram-box">
+          <svg viewBox="0 0 680 380" xmlns="http://www.w3.org/2000/svg" aria-label="Acquisition decision flow">
+            <rect x="220" y="10" width="240" height="40" rx="8" fill="#3b82f6"/>
+            <text x="340" y="35" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">New data source needed</text>
+            <line x1="340" y1="50" x2="340" y2="70" stroke="#94a3b8" stroke-width="2"/>
+            <rect x="180" y="70" width="320" height="40" rx="8" fill="#8b5cf6"/>
+            <text x="340" y="95" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Is there an official API or database?</text>
+            <line x1="220" y1="110" x2="120" y2="140" stroke="#94a3b8" stroke-width="2"/>
+            <line x1="460" y1="110" x2="560" y2="140" stroke="#94a3b8" stroke-width="2"/>
+            <text x="150" y="135" font-size="11" fill="#64748b">Yes</text>
+            <text x="530" y="135" font-size="11" fill="#64748b">No</text>
+            <rect x="20" y="145" width="200" height="50" rx="8" fill="#10b981"/>
+            <text x="120" y="168" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Prefer API / SQL</text>
+            <text x="120" y="185" text-anchor="middle" font-size="11" fill="#d1fae5">Auth · rate limits · schema</text>
+            <rect x="460" y="145" width="200" height="50" rx="8" fill="#f59e0b"/>
+            <text x="560" y="168" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">File export or scrape?</text>
+            <text x="560" y="185" text-anchor="middle" font-size="11" fill="#fffbeb">Check legality first</text>
+            <line x1="120" y1="195" x2="120" y2="230" stroke="#94a3b8" stroke-width="2"/>
+            <line x1="560" y1="195" x2="560" y2="230" stroke="#94a3b8" stroke-width="2"/>
+            <rect x="20" y="230" width="200" height="50" rx="8" fill="#0f172a"/>
+            <text x="120" y="252" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Land in staging</text>
+            <text x="120" y="269" text-anchor="middle" font-size="11" fill="#cbd5e1">Lake / warehouse / file</text>
+            <rect x="460" y="230" width="200" height="50" rx="8" fill="#ef4444"/>
+            <text x="560" y="252" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Ethics gate</text>
+            <text x="560" y="269" text-anchor="middle" font-size="11" fill="#fee2e2">robots · ToS · privacy</text>
+            <line x1="560" y1="280" x2="560" y2="310" stroke="#94a3b8" stroke-width="2"/>
+            <rect x="460" y="310" width="200" height="50" rx="8" fill="#0f172a"/>
+            <text x="560" y="332" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Only if allowed</text>
+            <text x="560" y="349" text-anchor="middle" font-size="11" fill="#cbd5e1">Then land + lineage</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- 8. Relational Model -->
+      <section id="relational">
+        <h2>8. Relational Model Essentials</h2>
+        <p>Most business data still lives in relational databases. Even when you receive a flat CSV, it often came from a relational source. Core ideas:</p>
+        <ul>
+          <li><strong>Table (relation)</strong> — a set of rows with a fixed set of columns.</li>
+          <li><strong>Primary key</strong> — uniquely identifies each row (never null, never duplicate).</li>
+          <li><strong>Foreign key</strong> — a column that references a primary key in another table; this is how relationships are expressed.</li>
+          <li><strong>Normalization</strong> — reducing redundancy by splitting data into related tables (you will deepen this in Module 5 modeling lectures).</li>
+        </ul>
+
+        <div class="diagram-box">
+          <svg viewBox="0 0 640 220" xmlns="http://www.w3.org/2000/svg" aria-label="Simple relational model">
+            <rect x="40" y="30" width="180" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="130" y="55" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">Customers</text>
+            <text x="130" y="78" text-anchor="middle" font-size="11" fill="#334155">customer_id (PK)</text>
+            <text x="130" y="96" text-anchor="middle" font-size="11" fill="#334155">name · email · city</text>
+            <text x="130" y="114" text-anchor="middle" font-size="11" fill="#334155">created_at</text>
+
+            <rect x="420" y="30" width="180" height="100" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+            <text x="510" y="55" text-anchor="middle" font-size="13" font-weight="700" fill="#5b21b6">Orders</text>
+            <text x="510" y="78" text-anchor="middle" font-size="11" fill="#334155">order_id (PK)</text>
+            <text x="510" y="96" text-anchor="middle" font-size="11" fill="#334155">customer_id (FK)</text>
+            <text x="510" y="114" text-anchor="middle" font-size="11" fill="#334155">amount · order_date</text>
+
+            <line x1="220" y1="80" x2="420" y2="80" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+            <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker></defs>
+            <text x="320" y="70" text-anchor="middle" font-size="11" fill="#64748b">1 : N</text>
+
+            <text x="320" y="180" text-anchor="middle" font-size="12" fill="#334155">One customer can have many orders. The foreign key lives on the “many” side.</text>
+          </svg>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-title">Analyst tip</div>
+          When you receive data from a database, always ask for the data dictionary or ER diagram. Knowing which columns are keys and which tables join together saves hours of trial-and-error joins.
+        </div>
+      </section>
+
+      <!-- 9. Web Scraping & Ethics -->
+      <section id="scraping">
+        <h2>9. Web Scraping — Concepts &amp; Ethics</h2>
+        <p>Web scraping means programmatically extracting information from websites. It is powerful and also easy to misuse. Treat it as a last resort after APIs and official exports.</p>
+        <ul>
+          <li>Prefer official APIs when they exist — they are more stable and usually come with documentation and rate limits.</li>
+          <li>Respect <code>robots.txt</code> and the site’s terms of service.</li>
+          <li>Do not overload servers; add delays, caching, and backoff.</li>
+          <li>Never scrape personal data without a lawful basis and clear purpose.</li>
+          <li>Store the acquisition date and source URL for every record (lineage and auditability).</li>
+        </ul>
+        <p>In later practicals you will see how libraries such as BeautifulSoup are used for HTML parsing; the principles above always come first. Ethics and legality are not optional extras — they are part of professional practice (CLO-5).</p>
+
+        <div class="callout callout-warning">
+          <div class="callout-title">Common Mistakes</div>
+          <ul style="margin-bottom:0">
+            <li>Scraping because “the data is visible in the browser” without checking terms</li>
+            <li>Ignoring rate limits and getting blocked or banned</li>
+            <li>Storing personal identifiers without a retention and access policy</li>
+            <li>Failing to record source and timestamp, making results unreproducible</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 10. Industry Examples -->
+      <section id="industry">
+        <h2>10. Industry Examples — How Acquisition Looks in Practice</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Retail / E-commerce</h3>
+              <p>POS transactions arrive as nightly CSV or direct database replication. Product catalogs may come from a PIM system via JSON API. Web clickstream is often semi-structured event logs landed in a lake.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Healthcare</h3>
+              <p>EHR extracts are frequently messy Excel or HL7/FHIR messages (semi-structured). Imaging is unstructured. Strict privacy rules govern what can be acquired and where it may be stored.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Banking / Fintech</h3>
+              <p>Core banking systems expose relational tables or secure file drops. Fraud and transaction streams are high-velocity and often landed in real-time or micro-batch pipelines. Regulatory lineage is mandatory.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Sports / Government</h3>
+              <p>Sports analytics may combine structured match stats with unstructured video and text commentary. Government open-data portals often publish CSV and JSON; always check license and update cadence.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11. Storage Choices -->
+      <section id="storage">
+        <h2>11. Choosing Storage for Analytics</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Need</th><th>Good default</th><th>Why</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Quick local analysis, small file</td><td>CSV / Parquet on disk</td><td>Simple, portable, works with Pandas</td></tr>
+              <tr><td>Repeated queries, shared team access</td><td>Relational warehouse or SQL DB</td><td>SQL, concurrency, governance</td></tr>
+              <tr><td>Mixed raw + processed, large volume</td><td>Data lake (object storage)</td><td>Cheap, schema-on-read, scalable</td></tr>
+              <tr><td>BI dashboards, curated metrics</td><td>Warehouse or lakehouse gold layer</td><td>Performance, dimensional models</td></tr>
+              <tr><td>Unstructured documents / media</td><td>Object storage + metadata catalog</td><td>Cost-effective, link to structured facts</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>You already met the medallion idea (bronze → silver → gold) in Lecture 2. Acquisition almost always lands in bronze first: keep the original files or raw extracts unchanged so you can always reprocess.</p>
+      </section>
+
+      <!-- 12. Python / Pandas Implementation -->
+      <section id="python">
+        <h2>12. Python &amp; Pandas — Reading Common Formats</h2>
+        <p>These patterns appear in almost every analytics project. Run them in any environment that has Pandas installed.</p>
+        <pre><code class="language-python">import pandas as pd
+
+# CSV (watch encoding and separator)
+df_csv = pd.read_csv("sales.csv", encoding="utf-8", sep=",")
+
+# Excel — specify sheet and skip title rows if needed
+df_xlsx = pd.read_excel("finance_export.xlsx", sheet_name="Transactions", skiprows=2)
+
+# JSON — flatten nested records when useful
+df_json = pd.read_json("api_response.json")
+# or for line-delimited JSON:
+df_ndjson = pd.read_json("events.jsonl", lines=True)
+
+# Quick shape check after every load
+print(df_csv.shape)
+print(df_csv.dtypes)
+print(df_csv.head())</code></pre>
+        <div class="callout callout-tip">
+          <div class="callout-title">Expected habit</div>
+          After every read, print shape, dtypes, and a few rows. Acquisition bugs (wrong sheet, wrong encoding, truncated file) surface here — not three hours later in a dashboard.
+        </div>
+      </section>
+
+      <!-- 13. SQL Implementation -->
+      <section id="sql">
+        <h2>13. SQL — Acquiring from a Relational Source</h2>
+        <pre><code class="language-sql">-- Prefer explicit column lists and filters at the source
+SELECT
+  order_id,
+  customer_id,
+  order_date,
+  amount,
+  status
+FROM sales.orders
+WHERE order_date >= '2025-01-01'
+  AND status &lt;&gt; 'cancelled';
+
+-- Always know the grain (one row = one order? one line item?)
+-- Ask for the primary key and any foreign keys you will join on later.</code></pre>
+      </section>
+
+      <!-- 14. Excel / Power Query note -->
+      <section id="excel">
+        <h2>14. Excel &amp; Power Query</h2>
+        <p>Many business users still live in Excel. Power Query (Get &amp; Transform) is the professional way to acquire and lightly shape data before it reaches the grid:</p>
+        <ul>
+          <li>Connect to folder, web, database, or file.</li>
+          <li>Remove header rows, promote headers, set types.</li>
+          <li>Append or merge queries instead of copy-paste.</li>
+          <li>Load to Data Model when the destination is Power BI or a robust workbook.</li>
+        </ul>
+        <p>You will deepen Power Query skills in the Power BI lectures (L20–L21).</p>
+      </section>
+
+      <!-- 15. Hands-on Lab -->
+      <section id="practical">
+        <h2>15. Hands-on Lab — Classify &amp; Plan Acquisition</h2>
+        <div class="card">
+          <h3 style="margin-top:0">Exercise A — Classify These Sources</h3>
+          <p>For each source, state whether it is structured, semi-structured, or unstructured, and name a suitable storage target:</p>
+          <ol>
+            <li>Daily CSV export of POS transactions</li>
+            <li>JSON response from a weather API</li>
+            <li>Collection of PDF invoices</li>
+            <li>Customer support chat transcripts</li>
+            <li>Product catalog table in PostgreSQL</li>
+          </ol>
+          <div class="collapse-header" data-collapse="sol3a">Sample Answers <span class="collapse-icon">+</span></div>
+          <div class="collapse-body" id="sol3a">
+            <div class="collapse-content">
+              <ol>
+                <li>Structured → warehouse or lake (bronze then curated fact table)</li>
+                <li>Semi-structured → lake or warehouse with JSON support</li>
+                <li>Unstructured → object storage / lake; extract fields later with OCR/NLP</li>
+                <li>Unstructured (text) → lake + NLP pipeline or document store</li>
+                <li>Structured → already in a database; replicate or query for analytics</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:1rem">
+          <h3 style="margin-top:0">Exercise B — Decision Memo</h3>
+          <p>Write a short acquisition plan (5–8 sentences) for this scenario:</p>
+          <p><em>“Marketing wants weekly website engagement metrics joined to CRM campaign flags. The web team can give a daily JSON export of page views; CRM is a SQL Server database. Volume is ~2 million events/week.”</em></p>
+          <p>Cover: preferred sources, format, landing zone, ethics/permissions, and one risk you will monitor.</p>
+        </div>
+      </section>
+
+      <!-- 16. Interview & Viva -->
+      <section id="interview">
+        <h2>16. Interview &amp; Viva Questions</h2>
+        <ul>
+          <li>How do you decide between requesting a CSV export and querying a database directly?</li>
+          <li>What is the difference between structured and semi-structured data? Give one example of each from a business you know.</li>
+          <li>Why should an analyst care about primary keys and foreign keys even when working only with flat files?</li>
+          <li>List three things you check before scraping a website.</li>
+          <li>What does “lineage” mean in the context of data acquisition, and why does it matter?</li>
+        </ul>
+      </section>
+
+      <!-- 17. Knowledge Check -->
+      <section id="quiz">
+        <h2>17. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct! JSON is the classic semi-structured format." data-fail="Structured = tables/CSV; Semi = JSON/XML; Unstructured = free text/images.">
+          <p><strong>Q1.</strong> JSON data is best classified as:</p>
+          <div class="quiz-option" data-value="a">A. Structured</div>
+          <div class="quiz-option" data-value="b">B. Semi-structured</div>
+          <div class="quiz-option" data-value="c">C. Unstructured</div>
+          <div class="quiz-option" data-value="d">D. Binary only</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q2" data-answer="c" data-success="Correct! Prefer official APIs and respect terms and robots.txt." data-fail="Ethics and legality come before convenience.">
+          <p><strong>Q2.</strong> Before scraping a website you should:</p>
+          <div class="quiz-option" data-value="a">A. Scrape as fast as possible to finish quickly</div>
+          <div class="quiz-option" data-value="b">B. Ignore robots.txt if the data looks public</div>
+          <div class="quiz-option" data-value="c">C. Check for an official API and respect the site’s terms</div>
+          <div class="quiz-option" data-value="d">D. Only scrape personal email addresses</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q3" data-answer="a" data-success="Correct — the foreign key sits on the many side and points to the primary key of the one side." data-fail="Remember: 1:N — FK lives with the many.">
+          <p><strong>Q3.</strong> In a one-to-many relationship (Customer → Orders), where does the foreign key usually live?</p>
+          <div class="quiz-option" data-value="a">A. On the Orders table</div>
+          <div class="quiz-option" data-value="b">B. On the Customers table only</div>
+          <div class="quiz-option" data-value="c">C. In a separate “relationship” file only</div>
+          <div class="quiz-option" data-value="d">D. Nowhere — joins are automatic</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q3')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q4" data-answer="b" data-success="Correct — Parquet is columnar, compressed, and ideal for analytical workloads." data-fail="CSV is row-oriented and larger; Parquet is the modern lake default for structured analytics.">
+          <p><strong>Q4.</strong> For large analytical tables in a data lake, which format is generally preferred?</p>
+          <div class="quiz-option" data-value="a">A. Uncompressed CSV</div>
+          <div class="quiz-option" data-value="b">B. Parquet (or similar columnar format)</div>
+          <div class="quiz-option" data-value="c">C. Nested JSON only</div>
+          <div class="quiz-option" data-value="d">D. Scanned PDF images</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q4')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <!-- 18. Flashcards -->
+      <section id="flashcards">
+        <h2>18. Flashcards</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Structured data example?</strong></div><div class="flashcard-back">SQL tables, clean CSV, Excel ranges with fixed columns, Parquet</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Primary key?</strong></div><div class="flashcard-back">A column (or set of columns) that uniquely identifies each row in a table</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Semi-structured example?</strong></div><div class="flashcard-back">JSON from APIs, XML, many application logs, NoSQL documents</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Why record lineage?</strong></div><div class="flashcard-back">So results are reproducible and auditable — source, timestamp, and transformation history</div></div></div></div>
+        </div>
+      </section>
+
+      <!-- 19. Cheat Sheet -->
+      <section id="cheatsheet">
+        <h2>19. Cheat Sheet</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li><strong>Structured</strong> → tables, CSV, Parquet · <strong>Semi</strong> → JSON, XML · <strong>Unstructured</strong> → text, images, video, PDFs</li>
+            <li>Prefer API / database over scrape; always check ethics and terms</li>
+            <li>Ask for data dictionary, keys, grain, and update frequency</li>
+            <li>Land raw data in bronze first; keep originals</li>
+            <li>After every load: check shape, dtypes, head, and nulls</li>
+            <li>Foreign key lives on the “many” side of a 1:N relationship</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 20. Common Mistakes & Best Practices -->
+      <section id="mistakes">
+        <h2>20. Common Mistakes &amp; Best Practices</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="callout callout-warning">
+              <div class="callout-title">Avoid</div>
+              <ul style="margin-bottom:0">
+                <li>Assuming “Excel = clean structured data”</li>
+                <li>Scraping without checking terms or robots.txt</li>
+                <li>Loading huge CSVs into memory without sampling first</li>
+                <li>Forgetting to record source and acquisition time</li>
+                <li>Joining tables without knowing keys and grain</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="callout callout-success">
+              <div class="callout-title">Prefer</div>
+              <ul style="margin-bottom:0">
+                <li>Ask for schema + sample before the full extract</li>
+                <li>Use official APIs and documented exports</li>
+                <li>Land raw → then clean (medallion mindset)</li>
+                <li>Document lineage for every critical table</li>
+                <li>Validate row counts and key uniqueness early</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 21. Summary -->
+      <section id="summary">
+        <h2>21. Summary</h2>
+        <ul>
+          <li>Data arrives as structured, semi-structured, or unstructured — know the difference and design acquisition accordingly.</li>
+          <li>CSV, Excel, JSON, Parquet, and SQL databases are the everyday workhorses of acquisition.</li>
+          <li>Relational concepts (primary key, foreign key, grain) are essential even when you work with flat files.</li>
+          <li>Scraping is a last resort; ethics, legality, and lineage come first.</li>
+          <li>Choose storage that matches volume, sharing needs, and downstream tools — and always keep a raw bronze copy.</li>
+        </ul>
+      </section>
+
+      <!-- 22. What’s Next -->
+      <section id="next">
+        <h2>22. What’s Next</h2>
+        <p><strong>Lecture 4</strong> moves from “how do we get the data?” to “what question are we actually answering?” You will learn business framing, KPI thinking, and how to turn vague stakeholder requests into clear analytical problems.</p>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="lecture2.html" class="nav-btn">← Lecture 2</a>
+        <a href="../week2/lecture4.html" class="nav-btn primary" onclick="markLectureComplete(3)">Next: Lecture 4 — Business Framing →</a>
+      </div>
+      <footer class="site-footer"><p>Lecture 3 of 30 · Module 1 · Fundamentals of Data Analytics</p></footer>
+    </main>
+  </div>
+
+  <script>
+    window.COURSE_SEARCH_INDEX = [{
+      title: "Lecture 3: Data Acquisition Types & Storage",
+      url: "lecture3.html",
+      module: "Module 1",
+      keywords: "structured semi-structured unstructured csv json excel parquet sql scraping relational primary key foreign key acquisition storage lineage ethics",
+      summary: "Data shapes, acquisition formats, relational basics, scraping ethics, and storage choices"
+    }];
+  </script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>
