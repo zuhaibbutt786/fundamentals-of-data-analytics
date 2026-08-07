@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 25: Performance – model size, star design, measure efficiency, and practical tuning habits." />
-  <title>Lecture 25: Performance | Data Analytics Course</title>
+  <meta name="description" content="Lecture 25: Performance Optimization – circular dependency, model optimization, removing redundant columns, DAX efficiency." />
+  <title>Lecture 25: Performance Optimization | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -22,11 +22,12 @@
   </header>
   <div class="reading-progress" id="readingProgress"></div>
   <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-section">Course Navigation</div>
       <nav class="sidebar-nav">
-        <div class="module-title">Module 5 · Modeling & DAX</div>
+        <div class="module-title">Module 5 · Modeling &amp; DAX</div>
         <a href="../week12/lecture22.html" data-lecture-id="22"><span class="progress-ring"></span> L22 · Data Modeling</a>
         <a href="../week12/lecture23.html" data-lecture-id="23"><span class="progress-ring"></span> L23 · DAX Basics</a>
         <a href="lecture24.html" data-lecture-id="24"><span class="progress-ring"></span> L24 · Advanced DAX</a>
@@ -34,104 +35,193 @@
         <a href="lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
       </nav>
     </aside>
+
     <main class="main-content">
-      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 5 › <span>Lecture 25</span></nav>
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 5</span> › <span>Lecture 25</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-advanced">Advanced</span>
         <span class="badge badge-time">⏱ ~90 min</span>
-        <span class="badge">Module 5</span>
+        <span class="badge">Module 5 · Performance</span>
       </div>
-      <h1>Lecture 25: Performance</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Keep models lean and measures efficient so reports stay responsive as data grows.</p>
+
+      <h1>Lecture 25: Performance Optimization</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Avoid circular dependencies, optimize the model, remove redundant columns, and write DAX that stays fast as data grows — syllabus focus for production-ready models.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
         <ul class="objectives-list">
-          <li><span class="obj-num">1</span> Reduce model size by removing unused columns and choosing correct types.</li>
-          <li><span class="obj-num">2</span> Prefer star schema and single-direction filters for predictable queries.</li>
-          <li><span class="obj-num">3</span> Write measures that avoid unnecessary iterators and repeated calculations.</li>
-          <li><span class="obj-num">4</span> Use Performance Analyzer habits to find slow visuals.</li>
-          <li><span class="obj-num">5</span> Apply a practical performance checklist before publishing.</li>
+          <li><span class="obj-num">1</span> Recognize and resolve circular dependency errors in calculated columns/measures.</li>
+          <li><span class="obj-num">2</span> Reduce model size by removing unused and high-cardinality columns.</li>
+          <li><span class="obj-num">3</span> Prefer measures over calculated columns when appropriate for memory.</li>
+          <li><span class="obj-num">4</span> Apply a practical optimization checklist before publishing a dashboard.</li>
+          <li><span class="obj-num">5</span> Explain why star schema and single-direction filters help performance.</li>
         </ul>
       </section>
 
-      <section id="model-size">
-        <h2>2. Model Size</h2>
+      <section id="motivation">
+        <h2>2. Motivation</h2>
+        <p>A model that works on 10,000 rows can freeze on 10 million if it is full of redundant columns, bidirectional filters, and heavy calculated columns. Optimization is not optional for real deployments — it is part of professional modeling.</p>
+      </section>
+
+      <section id="circular">
+        <h2>3. Avoiding Circular Dependency</h2>
+        <p>A circular dependency occurs when calculation A depends on B and B depends on A (directly or through a chain). Power BI cannot determine an evaluation order.</p>
+        <div class="callout callout-warning">
+          <div class="callout-title">Typical causes</div>
+          <ul style="margin-bottom:0">
+            <li>Calculated column A references column B, and B references A</li>
+            <li>Measures and columns intertwined through tables incorrectly</li>
+            <li>Relationships plus calculated columns creating evaluation loops</li>
+          </ul>
+        </div>
+        <p><strong>Fix:</strong> break the cycle — compute base columns first, or move logic into measures that do not write back into the same dependency chain.</p>
+      </section>
+
+      <section id="optimize-model">
+        <h2>4. Optimizing the Model</h2>
         <ul>
-          <li>Remove columns you never use in visuals or relationships</li>
-          <li>Prefer integers/keys over long text where possible</li>
-          <li>Split date/time if time-of-day is unused</li>
-          <li>Avoid high-cardinality text in fact tables</li>
-          <li>Disable “Auto date/time” when you own a date table</li>
+          <li><strong>Remove unused tables and columns</strong> — less memory, faster refresh</li>
+          <li><strong>Reduce cardinality</strong> — avoid unique text IDs in fact tables when a surrogate key exists</li>
+          <li><strong>Prefer integers for keys</strong> — smaller and faster than long strings</li>
+          <li><strong>Star schema + single filter direction</strong> — simpler query plans</li>
+          <li><strong>Disable Auto Date/Time</strong> if you already have a proper DimDate</li>
+          <li><strong>Aggregate facts</strong> when the report never needs transaction grain</li>
+        </ul>
+        <div class="diagram-box">
+          <svg viewBox="0 0 640 120" xmlns="http://www.w3.org/2000/svg" aria-label="Model optimization steps">
+            <rect x="10" y="30" width="120" height="60" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="70" y="65" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">Remove unused</text>
+            <rect x="145" y="30" width="120" height="60" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+            <text x="205" y="65" text-anchor="middle" font-size="12" font-weight="700" fill="#5b21b6">Fix keys</text>
+            <rect x="280" y="30" width="120" height="60" rx="10" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+            <text x="340" y="65" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d">Star + 1:*</text>
+            <rect x="415" y="30" width="100" height="60" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <text x="465" y="65" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">Measures</text>
+            <rect x="530" y="30" width="100" height="60" rx="10" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+            <text x="580" y="65" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">Test</text>
+          </svg>
+        </div>
+      </section>
+
+      <section id="redundant">
+        <h2>5. Removing Redundant Columns</h2>
+        <p>Columns that are never used in visuals, filters, or relationships still consume memory (especially high-cardinality text). After building the report, audit fields and drop what is unused — or hide technical keys that users should not see.</p>
+        <div class="callout callout-tip">
+          <div class="callout-title">Practical tip</div>
+          Start with a simple “used in report?” checklist. On larger models, tools such as VertiPaq Analyzer help find the heaviest columns.
+        </div>
+      </section>
+
+      <section id="dax-perf">
+        <h2>6. DAX Efficiency Habits</h2>
+        <ul>
+          <li>Prefer measures over calculated columns for aggregations</li>
+          <li>Use VAR to avoid recomputing the same expression</li>
+          <li>Avoid iterators over huge tables when a simple aggregation works</li>
+          <li>Filter early; do not scan the entire fact when a dimension filter would do</li>
+          <li>Test measures with Performance Analyzer on slow visuals</li>
         </ul>
       </section>
 
-      <section id="design">
-        <h2>3. Design for Speed</h2>
-        <ul>
-          <li>Star schema over complex many-to-many webs</li>
-          <li>Single-direction filters unless bidirectional is proven necessary</li>
-          <li>Pre-aggregate only when grain requires it — don’t over-summarize away needed detail</li>
-          <li>Fewer visuals per page; avoid tables with tens of thousands of rows on open</li>
-        </ul>
+      <section id="practical">
+        <h2>7. Hands-on Lab</h2>
+        <div class="card">
+          <ol>
+            <li>List every column in your practice model; mark used vs unused.</li>
+            <li>Remove or hide at least three unused columns; note any refresh change.</li>
+            <li>Confirm no bidirectional filters remain without justification.</li>
+            <li>Rewrite one calculated column as a measure if it was only used for aggregation.</li>
+            <li>Document one circular dependency scenario and how you would break it.</li>
+          </ol>
+        </div>
       </section>
 
-      <section id="measures">
-        <h2>4. Measure Efficiency</h2>
+      <section id="interview">
+        <h2>8. Interview &amp; Viva Questions</h2>
         <ul>
-          <li>Use VAR so expensive expressions run once</li>
-          <li>Prefer SUM of a column over SUMX when the line value already exists</li>
-          <li>Avoid CALCULATE inside tight row iterators without need</li>
-          <li>Replace repeated logic with base measures referenced by others</li>
-        </ul>
-      </section>
-
-      <section id="analyzer">
-        <h2>5. Performance Analyzer (Habit)</h2>
-        <p>In Power BI Desktop: View → Performance Analyzer → Start recording → refresh visuals → inspect DAX duration vs visual display time. Fix the slowest measure or the densest visual first.</p>
-      </section>
-
-      <section id="checklist">
-        <h2>6. Publish Checklist</h2>
-        <ul>
-          <li>☐ Unused columns removed</li>
-          <li>☐ Date table marked; auto date/time off if appropriate</li>
-          <li>☐ Relationships reviewed</li>
-          <li>☐ Heavy pages tested with Performance Analyzer</li>
-          <li>☐ Aggregations and filters sensible for the audience</li>
+          <li>What causes a circular dependency in Power BI?</li>
+          <li>How do you reduce model memory size?</li>
+          <li>Why can calculated columns be more expensive than measures?</li>
+          <li>What is the benefit of a star schema for performance?</li>
         </ul>
       </section>
 
       <section id="quiz">
-        <h2>7. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="c" data-success="Correct — unused high-cardinality columns inflate memory without benefit." data-fail="Model size is driven heavily by columns stored, especially high-cardinality ones.">
-          <p><strong>Q1.</strong> A practical first step to shrink a slow Import model:</p>
-          <div class="quiz-option" data-value="a">A. Add more bidirectional relationships</div>
-          <div class="quiz-option" data-value="b">B. Convert every measure to a calculated column</div>
-          <div class="quiz-option" data-value="c">C. Remove unused columns</div>
-          <div class="quiz-option" data-value="d">D. Turn on every auto time intelligence option</div>
+        <h2>9. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="a" data-success="Correct — circular dependency is a mutual evaluation loop." data-fail="Circular dependency = A depends on B and B on A.">
+          <p><strong>Q1.</strong> A circular dependency means:</p>
+          <div class="quiz-option" data-value="a">A. Calculations depend on each other in a loop</div>
+          <div class="quiz-option" data-value="b">B. The date table is missing</div>
+          <div class="quiz-option" data-value="c">C. Charts use the wrong color</div>
+          <div class="quiz-option" data-value="d">D. CSV import failed</div>
           <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q2" data-answer="b" data-success="Correct — unused high-cardinality columns waste memory." data-fail="Removing unused columns is a primary model optimization.">
+          <p><strong>Q2.</strong> A primary way to shrink a model is:</p>
+          <div class="quiz-option" data-value="a">A. Add more calculated columns</div>
+          <div class="quiz-option" data-value="b">B. Remove unused / high-cardinality columns</div>
+          <div class="quiz-option" data-value="c">C. Always use bidirectional filters</div>
+          <div class="quiz-option" data-value="d">D. Duplicate fact tables</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q3" data-answer="c" data-success="Correct — measures are not stored row-by-row like calculated columns." data-fail="Measures compute at query time and are usually cheaper for aggregations.">
+          <p><strong>Q3.</strong> For aggregations, prefer:</p>
+          <div class="quiz-option" data-value="a">A. Many calculated columns only</div>
+          <div class="quiz-option" data-value="b">B. No measures ever</div>
+          <div class="quiz-option" data-value="c">C. Measures over calculated columns when possible</div>
+          <div class="quiz-option" data-value="d">D. Only Excel formulas</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q3')">Check Answer</button>
           <div class="quiz-feedback"></div>
         </div>
       </section>
 
+      <section id="flashcards">
+        <h2>10. Flashcards</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Circular dependency?</strong></div><div class="flashcard-back">A depends on B and B on A — break the cycle</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Model slim-down?</strong></div><div class="flashcard-back">Drop unused columns · lower cardinality · integer keys</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Measures vs columns (perf)?</strong></div><div class="flashcard-back">Measures usually cheaper for aggregations; columns stored</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Schema for speed?</strong></div><div class="flashcard-back">Star + single-direction filters + clean relationships</div></div></div></div>
+        </div>
+      </section>
+
+      <section id="cheatsheet">
+        <h2>11. Cheat Sheet</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li>Break circular deps; do not force mutual calculated columns</li>
+            <li>Remove unused columns; hide technical keys</li>
+            <li>Prefer measures; use VAR; avoid needless iterators</li>
+            <li>Star schema · 1:* · single filter direction</li>
+            <li>Disable Auto Date/Time if DimDate exists</li>
+          </ul>
+        </div>
+      </section>
+
       <section id="summary">
-        <h2>8. Summary</h2>
+        <h2>12. Summary</h2>
         <ul>
-          <li>Lean models and simple stars outperform clever complexity.</li>
-          <li>Measure design and visual density matter as much as hardware.</li>
-          <li>Measure → analyze → fix the bottleneck.</li>
+          <li>Circular dependencies must be broken, not ignored.</li>
+          <li>Model size is dominated by columns you keep — audit and remove.</li>
+          <li>Good schema and measure design are performance features.</li>
         </ul>
+      </section>
+
+      <section id="next">
+        <h2>13. What’s Next</h2>
+        <p><strong>Lecture 26 — Dashboard Design Project</strong> applies modeling and DAX to an end-to-end interactive dashboard build.</p>
       </section>
 
       <div class="lecture-nav">
         <a href="lecture24.html" class="nav-btn">← Lecture 24</a>
-        <a href="lecture26.html" class="nav-btn primary" onclick="markLectureComplete(25)">Next: Lecture 26 →</a>
+        <a href="lecture26.html" class="nav-btn primary" onclick="markLectureComplete(25)">Next: Lecture 26 — Dashboard Project →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 25 of 30 · Module 5</p></footer>
+      <footer class="site-footer"><p>Lecture 25 of 30 · Module 5 · Performance Optimization</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 25: Performance",url:"lecture25.html",module:"Module 5",keywords:"performance model size dax analyzer star schema",summary:"Optimize Power BI models and measures"}];</script>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 25: Performance Optimization",url:"lecture25.html",module:"Module 5",keywords:"performance circular dependency optimize model redundant columns dax",summary:"Model and DAX performance optimization"}];</script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

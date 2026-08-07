@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 6: Outliers & Noise Handling – Z-score, IQR, impact, treatment, boxplot practical." />
+  <meta name="description" content="Lecture 6: Outliers & Noise Handling – Z-score, IQR, boxplots, impact on analytics, treatment strategies, Python practical." />
   <title>Lecture 6: Outliers & Noise Handling | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,10 +22,16 @@
   </header>
   <div class="reading-progress" id="readingProgress"></div>
   <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-section">Course Navigation</div>
       <nav class="sidebar-nav">
+        <div class="module-title">Module 1 · Foundations</div>
+        <a href="../week1/lecture1.html" data-lecture-id="1"><span class="progress-ring"></span> L1 · Analytics Ecosystem</a>
+        <a href="../week1/lecture2.html" data-lecture-id="2"><span class="progress-ring"></span> L2 · Data Pipeline</a>
+        <a href="../week1/lecture3.html" data-lecture-id="3"><span class="progress-ring"></span> L3 · Data Acquisition</a>
+        <a href="../week2/lecture4.html" data-lecture-id="4"><span class="progress-ring"></span> L4 · Business Framing</a>
         <div class="module-title">Module 2 · Cleaning &amp; Prep</div>
         <a href="lecture5.html" data-lecture-id="5"><span class="progress-ring"></span> L5 · Data Quality</a>
         <a href="lecture6.html" class="active" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers &amp; Noise</a>
@@ -33,20 +39,48 @@
         <a href="../week4/lecture8.html" data-lecture-id="8"><span class="progress-ring"></span> L8 · Feature Engineering</a>
         <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Splitting &amp; Validation</a>
         <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
+        <div class="module-title">Module 3 · EDA</div>
+        <a href="../week6/lecture11.html" data-lecture-id="11"><span class="progress-ring"></span> L11 · Descriptive Stats</a>
+        <a href="../week6/lecture12.html" data-lecture-id="12"><span class="progress-ring"></span> L12 · Correlation</a>
+        <a href="../week7/lecture13.html" data-lecture-id="13"><span class="progress-ring"></span> L13 · Aggregation</a>
+        <a href="../week7/lecture14.html" data-lecture-id="14"><span class="progress-ring"></span> L14 · Time Series</a>
+        <a href="../week8/lecture15.html" data-lecture-id="15"><span class="progress-ring"></span> L15 · EDA Case Study</a>
+        <div class="module-title">Module 4 · Visualization</div>
+        <a href="../week9/lecture16.html" data-lecture-id="16"><span class="progress-ring"></span> L16 · Viz Foundations</a>
+        <a href="../week9/lecture17.html" data-lecture-id="17"><span class="progress-ring"></span> L17 · Principles</a>
+        <a href="../week10/lecture18.html" data-lecture-id="18"><span class="progress-ring"></span> L18 · Advanced Charts</a>
+        <a href="../week10/lecture19.html" data-lecture-id="19"><span class="progress-ring"></span> L19 · Dashboard Thinking</a>
+        <a href="../week11/lecture20.html" data-lecture-id="20"><span class="progress-ring"></span> L20 · Power BI Import</a>
+        <a href="../week11/lecture21.html" data-lecture-id="21"><span class="progress-ring"></span> L21 · Power BI Viz</a>
+        <div class="module-title">Module 5 · Modeling &amp; DAX</div>
+        <a href="../week12/lecture22.html" data-lecture-id="22"><span class="progress-ring"></span> L22 · Data Modeling</a>
+        <a href="../week12/lecture23.html" data-lecture-id="23"><span class="progress-ring"></span> L23 · DAX Basics</a>
+        <a href="../week13/lecture24.html" data-lecture-id="24"><span class="progress-ring"></span> L24 · Advanced DAX</a>
+        <a href="../week13/lecture25.html" data-lecture-id="25"><span class="progress-ring"></span> L25 · Performance</a>
+        <a href="../week13/lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
+        <div class="module-title">Module 6 · Capstone</div>
+        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Project Proposal</a>
+        <a href="../week14/lecture28.html" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
+        <a href="../week15/lecture29.html" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
+        <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation &amp; Viva</a>
       </nav>
     </aside>
+
     <main class="main-content">
-      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 2 › <span>Lecture 6</span></nav>
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 2</span> › <span>Lecture 6</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
         <span class="badge badge-time">⏱ ~100 min</span>
         <span class="badge">Module 2 · CLO-2</span>
       </div>
-      <h1>Lecture 6: Outliers &amp; Noise Handling</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Detect outliers with Z-score and IQR, understand their impact on analytics, and choose treatment strategies — syllabus practical: boxplot detection.</p>
 
+      <h1>Lecture 6: Outliers &amp; Noise Handling</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Detect outliers with Z-score and IQR, understand their impact on analytics, choose treatment strategies, and practice boxplot-based detection in Python — as specified in the syllabus.</p>
+
+      <!-- 1. Learning Objectives -->
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <p>By the end of this lecture you will be able to:</p>
         <ul class="objectives-list">
           <li><span class="obj-num">1</span> Define outlier vs noise in analytical terms.</li>
           <li><span class="obj-num">2</span> Apply Z-score and IQR rules to flag candidate outliers.</li>
@@ -56,94 +90,246 @@
         </ul>
       </section>
 
+      <!-- 2. Motivation -->
+      <section id="motivation">
+        <h2>2. Motivation — Why Outliers Matter</h2>
+        <p>One extreme value can move the mean, inflate variance, flip a correlation sign, or make a KPI look absurd on a dashboard. At the same time, deleting every unusual row can erase the very events policy makers care about — rare fraud, catastrophic failures, multi-casualty crashes.</p>
+        <p>This lecture teaches you to <strong>detect</strong>, <strong>investigate</strong>, and <strong>treat</strong> outliers deliberately, not automatically.</p>
+        <div class="callout callout-tip">
+          <div class="callout-title">💡 Key Insight</div>
+          An outlier is a hypothesis, not a sentence. Ask: error, rare truth, or different population? Then choose a strategy you can defend in the viva.
+        </div>
+      </section>
+
+      <!-- 3. Real-World Story -->
+      <section id="story">
+        <h2>3. Real-World Story</h2>
+        <div class="card">
+          <h3 style="margin-top:0">The “Average” Claim That Hid a Crisis</h3>
+          <p>A hospital reported that average wait time was “stable at 22 minutes.” A single clinic with a coding error had logged several waits as 0. After fixing the zeros and examining the upper tail, P90 wait was over 90 minutes on Mondays. Leadership had been looking at a mean pulled downward by bad zeros and had missed the real operational problem in the right tail.</p>
+          <p>Outliers and data-entry noise both matter — and boxplots + IQR would have made the right tail visible immediately.</p>
+        </div>
+      </section>
+
+      <!-- 4. Problem Statement -->
+      <section id="problem">
+        <h2>4. Problem Statement</h2>
+        <p>Given a numeric column in an analysis-ready table, how do you:</p>
+        <ul>
+          <li>Flag candidates with Z-score and IQR?</li>
+          <li>Visualize them with boxplots?</li>
+          <li>Judge impact on mean, correlation, and KPIs?</li>
+          <li>Decide keep / cap / transform / remove with documentation?</li>
+        </ul>
+      </section>
+
+      <!-- 5. Outlier vs Noise -->
       <section id="what">
-        <h2>2. Outlier vs Noise</h2>
+        <h2>5. Outlier vs Noise</h2>
         <ul>
           <li><strong>Outlier</strong> — a point that is unusually far from the bulk of the data (may be error or rare truth).</li>
           <li><strong>Noise</strong> — unstructured variation that obscures signal (measurement jitter, typos, sensor glitches).</li>
         </ul>
-        <p>Never delete “unusual” rows blindly: a multi-casualty crash is an outlier <em>and</em> a critical signal for safety policy.</p>
+        <p>Never delete “unusual” rows blindly: a multi-casualty crash is an outlier <em>and</em> a critical signal for safety policy. A typo that turns 12 into 1200 is noise that should be fixed.</p>
+
+        <div class="diagram-box">
+          <svg viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg" aria-label="Outlier vs noise concept">
+            <rect x="40" y="30" width="250" height="100" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="165" y="65" text-anchor="middle" font-size="15" font-weight="800" fill="#1e40af">Outlier</text>
+            <text x="165" y="90" text-anchor="middle" font-size="12" fill="#334155">Far from the bulk</text>
+            <text x="165" y="110" text-anchor="middle" font-size="11" fill="#64748b">Error or rare true event</text>
+            <rect x="350" y="30" width="250" height="100" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <text x="475" y="65" text-anchor="middle" font-size="15" font-weight="800" fill="#92400e">Noise</text>
+            <text x="475" y="90" text-anchor="middle" font-size="12" fill="#334155">Unstructured variation</text>
+            <text x="475" y="110" text-anchor="middle" font-size="11" fill="#64748b">Jitter, typos, glitches</text>
+          </svg>
+        </div>
       </section>
 
+      <!-- 6. Detection Methods -->
       <section id="detect">
-        <h2>3. Detection Methods (Syllabus)</h2>
+        <h2>6. Detection Methods (Syllabus)</h2>
+
         <h3>Z-score</h3>
+        <p>Measures how many standard deviations a point is from the mean:</p>
         <p>\[
         z_i = \frac{x_i - \bar{x}}{s}
-        \]
-        Common rule: \(|z| &gt; 3\) (or 2.5) flags candidates. Sensitive when the mean/SD are themselves distorted by extremes.</p>
+        \]</p>
+        <p>Common rule: \(|z| &gt; 3\) (sometimes 2.5) flags candidates. Sensitive when the mean and SD are themselves distorted by extremes — circular for heavy-tailed data.</p>
+
         <h3>IQR method</h3>
+        <p>Uses quartiles and is more robust to skew:</p>
         <p>\[
-        \text{Lower} = Q1 - 1.5\times IQR,\quad \text{Upper} = Q3 + 1.5\times IQR
-        \]
-        More robust for skewed data. Boxplots encode the same fences visually.</p>
+        \text{IQR} = Q3 - Q1
+        \]</p>
+        <p>\[
+        \text{Lower fence} = Q1 - 1.5 \times \text{IQR}, \quad
+        \text{Upper fence} = Q3 + 1.5 \times \text{IQR}
+        \]</p>
+        <p>Points outside the fences are candidates. Boxplots encode the same fences visually. For extreme tails, some teams use \(3 \times \text{IQR}\) (“far out” points).</p>
+
+        <div class="diagram-box">
+          <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" aria-label="Boxplot and IQR fences">
+            <text x="340" y="24" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">Boxplot anatomy (IQR fences)</text>
+            <!-- whisker left -->
+            <line x1="80" y1="100" x2="180" y2="100" stroke="#64748b" stroke-width="2"/>
+            <line x1="80" y1="85" x2="80" y2="115" stroke="#64748b" stroke-width="2"/>
+            <!-- box -->
+            <rect x="180" y="70" width="200" height="60" rx="4" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <line x1="280" y1="70" x2="280" y2="130" stroke="#1e40af" stroke-width="3"/>
+            <!-- whisker right -->
+            <line x1="380" y1="100" x2="500" y2="100" stroke="#64748b" stroke-width="2"/>
+            <line x1="500" y1="85" x2="500" y2="115" stroke="#64748b" stroke-width="2"/>
+            <!-- outliers -->
+            <circle cx="560" cy="100" r="8" fill="#ef4444"/>
+            <circle cx="600" cy="90" r="8" fill="#ef4444"/>
+            <circle cx="40" cy="110" r="8" fill="#ef4444"/>
+            <!-- labels -->
+            <text x="180" y="160" text-anchor="middle" font-size="11" fill="#334155">Q1</text>
+            <text x="280" y="160" text-anchor="middle" font-size="11" fill="#334155">Median</text>
+            <text x="380" y="160" text-anchor="middle" font-size="11" fill="#334155">Q3</text>
+            <text x="80" y="160" text-anchor="middle" font-size="10" fill="#64748b">Lower whisker</text>
+            <text x="500" y="160" text-anchor="middle" font-size="10" fill="#64748b">Upper whisker</text>
+            <text x="580" y="160" text-anchor="middle" font-size="10" fill="#ef4444">Outliers</text>
+            <text x="340" y="190" text-anchor="middle" font-size="11" fill="#64748b">Box = IQR; whiskers typically to last point within 1.5×IQR fences</text>
+          </svg>
+        </div>
       </section>
 
+      <!-- 7. Impact on Analytics -->
       <section id="impact">
-        <h2>4. Impact on Analytics</h2>
+        <h2>7. Impact on Analytics</h2>
         <ul>
-          <li>Pulls the <strong>mean</strong> and inflates <strong>variance</strong></li>
+          <li>Pulls the <strong>mean</strong> and inflates <strong>variance / SD</strong></li>
           <li>Can dominate <strong>correlation</strong> and regression slopes</li>
           <li>Breaks normality assumptions for parametric tests</li>
           <li>Dashboard KPIs look “wrong” to domain experts if one bad row survives</li>
+          <li>Clustering and distance-based methods treat extremes as separate “groups”</li>
         </ul>
+        <div class="callout callout-info">
+          <div class="callout-title">Quick check</div>
+          Compare mean vs median and SD vs IQR. A large gap is a red flag that extremes are influencing summary statistics.
+        </div>
       </section>
 
+      <!-- 8. Treatment Strategies -->
       <section id="treat">
-        <h2>5. Treatment Strategies</h2>
+        <h2>8. Treatment Strategies</h2>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Strategy</th><th>When</th><th>Caution</th></tr></thead>
             <tbody>
-              <tr><td>Investigate / correct</td><td>Data entry or unit errors</td><td>Best first step</td></tr>
-              <tr><td>Winsorize / cap</td><td>Extreme but plausible</td><td>Document thresholds</td></tr>
-              <tr><td>Transform (log)</td><td>Right skew + heavy tail</td><td>Report in original units later</td></tr>
-              <tr><td>Remove</td><td>Proven error; sensitivity analysis OK</td><td>Never silent deletion</td></tr>
-              <tr><td>Keep + robust stats</td><td>True rare events</td><td>Use median, IQR, robust models</td></tr>
+              <tr><td><strong>Investigate / correct</strong></td><td>Data entry or unit errors</td><td>Best first step always</td></tr>
+              <tr><td><strong>Winsorize / cap</strong></td><td>Extreme but plausible</td><td>Document thresholds</td></tr>
+              <tr><td><strong>Transform (log)</strong></td><td>Right skew + heavy tail</td><td>Report results in original units later</td></tr>
+              <tr><td><strong>Remove</strong></td><td>Proven error; sensitivity analysis OK</td><td>Never silent deletion</td></tr>
+              <tr><td><strong>Keep + robust stats</strong></td><td>True rare events</td><td>Use median, IQR, robust models</td></tr>
             </tbody>
           </table>
         </div>
+        <p>Order of preference in most projects: <strong>investigate → correct → transform/cap → remove only with a written reason</strong>.</p>
       </section>
 
+      <!-- 9. Industry Examples -->
+      <section id="industry">
+        <h2>9. Industry Examples</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Healthcare</h3>
+              <p>Lab values of 0 or 999 often mean “missing” or “not done,” not a true measurement. Length-of-stay outliers may be true long-stay patients — keep and report separately.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Banking / Fraud</h3>
+              <p>Extreme transaction amounts are exactly what fraud models need. Cap only for descriptive KPIs; keep raw values for detection models.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Retail / E-commerce</h3>
+              <p>Order value of 1,000,000 may be a bulk B2B order (true) or a decimal error (noise). Segment before treating.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Transport (course data)</h3>
+              <p>High casualty counts are rare and critical. Flag with IQR/Z, investigate, but do not delete multi-casualty events as “outliers” for safety analysis.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. Python Implementation -->
       <section id="python">
-        <h2>6. Python — Boxplot &amp; Rules</h2>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>import pandas as pd
+        <h2>10. Python — Boxplot &amp; Rules</h2>
+        <pre><code class="language-python">import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
 df = pd.read_csv("../../datasets/sample_accidents.csv")
 s = df["casualties"]
 
-# IQR fences
+# --- IQR fences ---
 q1, q3 = s.quantile(0.25), s.quantile(0.75)
 iqr = q3 - q1
 low, high = q1 - 1.5 * iqr, q3 + 1.5 * iqr
-flags = (s < low) | (s > high)
-print("IQR outliers:", flags.sum())
+flags_iqr = (s &lt; low) | (s &gt; high)
+print("IQR outliers:", flags_iqr.sum())
+print("Fences:", low, high)
 
-# Z-score
+# --- Z-score ---
 z = (s - s.mean()) / s.std(ddof=1)
-print("Z>3 outliers:", (z.abs() > 3).sum())
+flags_z = z.abs() &gt; 3
+print("Z&gt;3 outliers:", flags_z.sum())
 
+# --- Compare mean vs median (impact check) ---
+print("Mean:", s.mean(), "Median:", s.median())
+
+# --- Boxplot (syllabus practical) ---
 df.boxplot(column="casualties", by="region")
 plt.suptitle("")
 plt.title("Casualties by region — boxplot")
-plt.show()</code></pre>
+plt.show()
+
+# Optional: mark rows
+df["casualty_outlier_iqr"] = flags_iqr</code></pre>
+        <div class="callout callout-tip">
+          <div class="callout-title">Expected habit</div>
+          Always print counts of flagged rows and inspect a sample before deleting or capping. Screenshot or save the boxplot for your lab report and viva.
+        </div>
       </section>
 
+      <!-- 11. Hands-on Lab -->
       <section id="practical">
-        <h2>7. Practical</h2>
+        <h2>11. Hands-on Lab</h2>
         <div class="card">
           <ol>
-            <li>Flag IQR and Z-score outliers on <code>casualties</code> and <code>vehicles</code>.</li>
+            <li>Flag IQR and Z-score outliers on <code>casualties</code> (and another numeric column if present).</li>
             <li>Draw a boxplot by <code>region</code> or <code>severity</code>.</li>
-            <li>For each flagged row, decide: keep (true event), fix, or remove — with a one-line reason.</li>
+            <li>For each of 5 flagged rows, decide: keep (true event), fix, or remove — with a one-line reason.</li>
+            <li>Recompute mean and median before vs after a temporary removal; note the change.</li>
+            <li>Write two sentences on why a safety analyst might <em>keep</em> extreme casualty counts.</li>
           </ol>
         </div>
       </section>
 
+      <!-- 12. Interview & Viva -->
+      <section id="interview">
+        <h2>12. Interview &amp; Viva Questions</h2>
+        <ul>
+          <li>How do Z-score and IQR differ? When is IQR preferred?</li>
+          <li>Why can deleting outliers be harmful in fraud or safety analysis?</li>
+          <li>How do outliers affect the mean versus the median?</li>
+          <li>Describe winsorization and when you would use it.</li>
+          <li>Walk through how you would present an outlier analysis to a non-technical manager.</li>
+        </ul>
+      </section>
+
+      <!-- 13. Knowledge Check -->
       <section id="quiz">
-        <h2>8. Knowledge Check</h2>
+        <h2>13. Knowledge Check</h2>
         <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — IQR fences are more robust when data are skewed." data-fail="Z-score uses mean/SD; IQR is preferred under skew.">
           <p><strong>Q1.</strong> For a heavily right-skewed variable, prefer first:</p>
           <div class="quiz-option" data-value="a">A. Only mean ± 1 SD</div>
@@ -153,25 +339,123 @@ plt.show()</code></pre>
           <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
           <div class="quiz-feedback"></div>
         </div>
+        <div class="quiz-card" id="q2" data-answer="a" data-success="Correct — investigate before automatic deletion." data-fail="Detection is not the same as deletion; context first.">
+          <p><strong>Q2.</strong> First response after flagging an outlier should usually be:</p>
+          <div class="quiz-option" data-value="a">A. Investigate (error vs true rare event)</div>
+          <div class="quiz-option" data-value="b">B. Delete silently</div>
+          <div class="quiz-option" data-value="c">C. Replace with zero</div>
+          <div class="quiz-option" data-value="d">D. Ignore forever</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q3" data-answer="c" data-success="Correct — mean is sensitive; median is robust." data-fail="Extremes pull the mean more than the median.">
+          <p><strong>Q3.</strong> Which summary is more robust to a single extreme value?</p>
+          <div class="quiz-option" data-value="a">A. Mean</div>
+          <div class="quiz-option" data-value="b">B. Sum only</div>
+          <div class="quiz-option" data-value="c">C. Median</div>
+          <div class="quiz-option" data-value="d">D. Maximum only</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q3')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q4" data-answer="b" data-success="Correct — classic IQR rule uses 1.5×IQR beyond Q1/Q3." data-fail="Standard boxplot fences are Q1−1.5×IQR and Q3+1.5×IQR.">
+          <p><strong>Q4.</strong> Standard IQR fences are typically:</p>
+          <div class="quiz-option" data-value="a">A. Mean ± 1.5 SD</div>
+          <div class="quiz-option" data-value="b">B. Q1 − 1.5×IQR and Q3 + 1.5×IQR</div>
+          <div class="quiz-option" data-value="c">C. Min and max only</div>
+          <div class="quiz-option" data-value="d">D. Mode ± 3</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q4')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
       </section>
 
+      <!-- 14. Flashcards -->
+      <section id="flashcards">
+        <h2>14. Flashcards</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Z-score formula?</strong></div><div class="flashcard-back">z = (x − mean) / SD · often flag |z| &gt; 3</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>IQR fences?</strong></div><div class="flashcard-back">Q1 − 1.5×IQR and Q3 + 1.5×IQR</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Outlier vs noise?</strong></div><div class="flashcard-back">Outlier = far from bulk (error or rare truth); noise = unstructured variation</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Treatment order?</strong></div><div class="flashcard-back">Investigate → correct → transform/cap → remove only with documentation</div></div></div></div>
+        </div>
+      </section>
+
+      <!-- 15. Cheat Sheet -->
+      <section id="cheatsheet">
+        <h2>15. Cheat Sheet</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li><strong>Detect:</strong> Z-score (|z|&gt;3) and IQR (1.5× fences); visualize with boxplots</li>
+            <li><strong>Prefer IQR</strong> when data are skewed or mean/SD are unstable</li>
+            <li><strong>Impact:</strong> mean, variance, correlation, KPIs, distance-based methods</li>
+            <li><strong>Treat:</strong> investigate → winsorize/cap → log transform → remove only if justified</li>
+            <li><strong>Keep</strong> true rare events (fraud, disasters, multi-casualty) for domain analysis</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 16. Common Mistakes & Best Practices -->
+      <section id="mistakes">
+        <h2>16. Common Mistakes &amp; Best Practices</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="callout callout-warning">
+              <div class="callout-title">Avoid</div>
+              <ul style="margin-bottom:0">
+                <li>Silent deletion of every point beyond 1.5×IQR</li>
+                <li>Using only Z-score on heavily skewed data</li>
+                <li>Treating domain-critical extremes as “errors”</li>
+                <li>Skipping visual checks (boxplot / histogram)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="callout callout-success">
+              <div class="callout-title">Prefer</div>
+              <ul style="margin-bottom:0">
+                <li>Always investigate a sample of flagged rows</li>
+                <li>Report mean and median side by side</li>
+                <li>Document thresholds and reasons for any removal</li>
+                <li>Use robust summaries when extremes are real</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 17. Summary -->
       <section id="summary">
-        <h2>9. Summary</h2>
+        <h2>17. Summary</h2>
         <ul>
           <li>Detect with Z-score and IQR; visualize with boxplots.</li>
           <li>Impact is real — but rare true events must not be erased silently.</li>
           <li>Treat with investigate → transform/cap → remove only with documentation.</li>
+          <li>Mean vs median gaps are a simple diagnostic of outlier influence.</li>
         </ul>
+      </section>
+
+      <!-- 18. What’s Next -->
+      <section id="next">
+        <h2>18. What’s Next</h2>
+        <p><strong>Lecture 7 — Data Transformation</strong> covers normalization (Min-Max), standardization (Z-score), log transforms, and encoding categorical variables — the next stage after quality and outlier handling.</p>
       </section>
 
       <div class="lecture-nav">
         <a href="lecture5.html" class="nav-btn">← Lecture 5</a>
-        <a href="../week4/lecture7.html" class="nav-btn primary" onclick="markLectureComplete(6)">Next: Lecture 7 →</a>
+        <a href="../week4/lecture7.html" class="nav-btn primary" onclick="markLectureComplete(6)">Next: Lecture 7 — Transformation →</a>
       </div>
       <footer class="site-footer"><p>Lecture 6 of 30 · Module 2 · Outliers &amp; Noise</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 6: Outliers & Noise",url:"lecture6.html",module:"Module 2",keywords:"outlier z-score iqr boxplot noise treatment",summary:"Outlier detection and treatment"}];</script>
+
+  <script>
+    window.COURSE_SEARCH_INDEX = [{
+      title: "Lecture 6: Outliers & Noise Handling",
+      url: "lecture6.html",
+      module: "Module 2",
+      keywords: "outlier z-score iqr boxplot noise treatment winsorize skew mean median",
+      summary: "Outlier detection (Z-score, IQR), impact, and treatment strategies"
+    }];
+  </script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

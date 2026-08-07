@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 24: Advanced DAX – CALCULATE deep dive, time intelligence, variables, iterators." />
+  <meta name="description" content="Lecture 24: Advanced DAX – CALCULATE, FILTER, time intelligence, running totals, VAR, iterators." />
   <title>Lecture 24: Advanced DAX | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,11 +22,12 @@
   </header>
   <div class="reading-progress" id="readingProgress"></div>
   <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-section">Course Navigation</div>
       <nav class="sidebar-nav">
-        <div class="module-title">Module 5 · Modeling & DAX</div>
+        <div class="module-title">Module 5 · Modeling &amp; DAX</div>
         <a href="../week12/lecture22.html" data-lecture-id="22"><span class="progress-ring"></span> L22 · Data Modeling</a>
         <a href="../week12/lecture23.html" data-lecture-id="23"><span class="progress-ring"></span> L23 · DAX Basics</a>
         <a href="lecture24.html" class="active" data-lecture-id="24"><span class="progress-ring"></span> L24 · Advanced DAX</a>
@@ -34,104 +35,199 @@
         <a href="lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
       </nav>
     </aside>
+
     <main class="main-content">
-      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 5 › <span>Lecture 24</span></nav>
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 5</span> › <span>Lecture 24</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-advanced">Advanced</span>
         <span class="badge badge-time">⏱ ~120 min</span>
         <span class="badge">Module 5 · DAX</span>
       </div>
+
       <h1>Lecture 24: Advanced DAX</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">CALCULATE filter arguments, time intelligence, variables, and iterators for real business measures.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">CALCULATE filter arguments, FILTER, time intelligence, running totals, variables, and iterators — the syllabus advanced layer for real business measures.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
         <ul class="objectives-list">
           <li><span class="obj-num">1</span> Use ALL, REMOVEFILTERS, and values filters inside CALCULATE.</li>
           <li><span class="obj-num">2</span> Build YTD, prior period, and YoY measures with a proper date table.</li>
-          <li><span class="obj-num">3</span> Structure measures with VAR for readability and performance.</li>
-          <li><span class="obj-num">4</span> Apply basic iterators (SUMX) when row-by-row logic is required.</li>
-          <li><span class="obj-num">5</span> Test measures with simple visual scenarios.</li>
+          <li><span class="obj-num">3</span> Create running totals with cumulative patterns.</li>
+          <li><span class="obj-num">4</span> Structure measures with VAR for readability and performance.</li>
+          <li><span class="obj-num">5</span> Apply basic iterators (SUMX) when row-by-row logic is required.</li>
         </ul>
       </section>
 
       <section id="calculate-deep">
         <h2>2. CALCULATE Filter Arguments</h2>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>// Ignore region slicer for a benchmark
+        <pre><code class="language-dax">// Ignore region slicer for a benchmark
 Sales All Regions :=
 CALCULATE ( [Total Sales], REMOVEFILTERS ( DimGeography[Region] ) )
 
 // Keep only a specific product category
 Sales Bikes :=
-CALCULATE ( [Total Sales], DimProduct[Category] = "Bikes" )</code></pre>
+CALCULATE ( [Total Sales], DimProduct[Category] = "Bikes" )
+
+// Percentage of total
+Sales % of All :=
+DIVIDE ( [Total Sales], [Sales All Regions] )</code></pre>
         <p>Filter arguments replace or extend the existing filter context. Order and interactions matter as models grow.</p>
       </section>
 
+      <section id="filter">
+        <h2>3. FILTER</h2>
+        <p><code>FILTER</code> returns a table of rows that satisfy a condition. Often used inside CALCULATE when the condition cannot be expressed as a simple column filter.</p>
+        <pre><code class="language-dax">High Value Sales :=
+CALCULATE (
+    [Total Sales],
+    FILTER ( Sales, Sales[Amount] &gt; 1000 )
+)</code></pre>
+      </section>
+
       <section id="time">
-        <h2>3. Time Intelligence</h2>
-        <p>Requires a marked date table with continuous dates.</p>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Sales YTD :=
+        <h2>4. Time Intelligence (Syllabus)</h2>
+        <p>Requires a marked date table with continuous dates and a relationship to the fact.</p>
+        <pre><code class="language-dax">Sales YTD :=
 TOTALYTD ( [Total Sales], DimDate[Date] )
 
 Sales PY :=
 CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( DimDate[Date] ) )
 
 Sales YoY % :=
-DIVIDE ( [Total Sales] - [Sales PY], [Sales PY] )</code></pre>
+DIVIDE ( [Total Sales] - [Sales PY], [Sales PY] )
+
+Sales MTD :=
+TOTALMTD ( [Total Sales], DimDate[Date] )</code></pre>
         <div class="callout callout-warning">
-          <div class="callout-title">Prerequisite</div>
-          Relationship from fact to DimDate must be active on the correct date key. Mark DimDate as a date table.
+          <div class="callout-title">Requirement</div>
+          Time intelligence fails silently or incorrectly without a proper date dimension marked as a date table. Build DimDate first (L22).
         </div>
       </section>
 
-      <section id="variables">
-        <h2>4. Variables</h2>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Margin % :=
-VAR Revenue = [Total Sales]
-VAR Cost = [Total Cost]
-RETURN
-    DIVIDE ( Revenue - Cost, Revenue )</code></pre>
-        <p>Variables improve readability, avoid double evaluation, and help debugging.</p>
+      <section id="running">
+        <h2>5. Running Totals</h2>
+        <pre><code class="language-dax">Sales Running Total :=
+CALCULATE (
+    [Total Sales],
+    FILTER (
+        ALL ( DimDate[Date] ),
+        DimDate[Date] &lt;= MAX ( DimDate[Date] )
+    )
+)</code></pre>
+        <p>This cumulative pattern is common for cash flow, enrollment, and inventory movement narratives.</p>
       </section>
 
-      <section id="iterators">
-        <h2>5. Iterators (Intro)</h2>
-        <p>When you need an expression per row before aggregating:</p>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Line Sales :=
-SUMX ( Sales, Sales[Qty] * Sales[UnitPrice] )</code></pre>
-        <p>Prefer simple SUM when a column already holds the line amount.</p>
+      <section id="var-sumx">
+        <h2>6. VAR and Iterators</h2>
+        <pre><code class="language-dax">// Readable structure with variables
+AOV :=
+VAR Total = [Total Sales]
+VAR Orders = [Order Count]
+RETURN DIVIDE ( Total, Orders )
+
+// Iterator: row-by-row then sum
+Line Margin :=
+SUMX ( Sales, Sales[Amount] - Sales[Cost] )</code></pre>
+      </section>
+
+      <section id="practical">
+        <h2>7. Hands-on Lab</h2>
+        <div class="card">
+          <ol>
+            <li>Build Sales YTD, Sales PY, and Sales YoY % with a marked date table.</li>
+            <li>Create a % of total measure using REMOVEFILTERS or ALL.</li>
+            <li>Add a running total on a line chart by date.</li>
+            <li>Rewrite one measure using VAR for clarity.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="interview">
+        <h2>8. Interview &amp; Viva Questions</h2>
+        <ul>
+          <li>What does CALCULATE do to filter context?</li>
+          <li>Why do time intelligence functions need a date table?</li>
+          <li>When would you use SUMX instead of SUM?</li>
+          <li>How do you compute year-over-year growth in DAX?</li>
+        </ul>
       </section>
 
       <section id="quiz">
-        <h2>6. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="a" data-success="Correct — TOTALYTD needs a proper date column from a date table." data-fail="Time intelligence functions require a marked continuous date table.">
-          <p><strong>Q1.</strong> TOTALYTD typically requires:</p>
-          <div class="quiz-option" data-value="a">A. A marked date table and date column</div>
-          <div class="quiz-option" data-value="b">B. Only a text month name</div>
-          <div class="quiz-option" data-value="c">C. No relationships</div>
-          <div class="quiz-option" data-value="d">D. DirectQuery exclusively</div>
+        <h2>9. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — continuous marked date table is required." data-fail="Time intelligence depends on a proper date dimension.">
+          <p><strong>Q1.</strong> Time intelligence functions typically require:</p>
+          <div class="quiz-option" data-value="a">A. No date table</div>
+          <div class="quiz-option" data-value="b">B. A continuous date table marked as date table</div>
+          <div class="quiz-option" data-value="c">C. Only text columns</div>
+          <div class="quiz-option" data-value="d">D. Bidirectional filters on every table</div>
           <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q2" data-answer="a" data-success="Correct — TOTALYTD is the standard YTD pattern." data-fail="TOTALYTD accumulates from the start of the year in context.">
+          <p><strong>Q2.</strong> Year-to-date sales is commonly written with:</p>
+          <div class="quiz-option" data-value="a">A. TOTALYTD ( [Total Sales], DimDate[Date] )</div>
+          <div class="quiz-option" data-value="b">B. SUM only</div>
+          <div class="quiz-option" data-value="c">C. AVERAGE of dates</div>
+          <div class="quiz-option" data-value="d">D. COUNTROWS of products</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q3" data-answer="c" data-success="Correct — SUMX iterates rows then aggregates." data-fail="Iterators like SUMX evaluate an expression per row then aggregate.">
+          <p><strong>Q3.</strong> SUMX is used when you need to:</p>
+          <div class="quiz-option" data-value="a">A. Create relationships</div>
+          <div class="quiz-option" data-value="b">B. Import data</div>
+          <div class="quiz-option" data-value="c">C. Evaluate an expression row-by-row then sum</div>
+          <div class="quiz-option" data-value="d">D. Format colors</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q3')">Check Answer</button>
           <div class="quiz-feedback"></div>
         </div>
       </section>
 
+      <section id="flashcards">
+        <h2>10. Flashcards</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>CALCULATE role?</strong></div><div class="flashcard-back">Modify filter context then evaluate expression</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>YTD pattern?</strong></div><div class="flashcard-back">TOTALYTD ( [Measure], DimDate[Date] )</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Running total idea?</strong></div><div class="flashcard-back">CALCULATE measure with FILTER on dates ≤ current date</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>VAR benefit?</strong></div><div class="flashcard-back">Readability, single evaluation, easier debugging</div></div></div></div>
+        </div>
+      </section>
+
+      <section id="cheatsheet">
+        <h2>11. Cheat Sheet</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li><code>CALCULATE ( expr, filters )</code> · <code>REMOVEFILTERS</code> · <code>ALL</code></li>
+            <li>Time: <code>TOTALYTD</code> · <code>SAMEPERIODLASTYEAR</code> · marked date table</li>
+            <li>Running total: filter dates ≤ MAX(date) over ALL(dates)</li>
+            <li><code>VAR ... RETURN</code> · <code>SUMX</code> for row-wise logic</li>
+          </ul>
+        </div>
+      </section>
+
       <section id="summary">
-        <h2>7. Summary</h2>
+        <h2>12. Summary</h2>
         <ul>
-          <li>CALCULATE is the core of filter manipulation.</li>
-          <li>Time intelligence depends on a real date dimension.</li>
-          <li>VAR keeps complex measures clear and efficient.</li>
+          <li>CALCULATE + filter arguments unlock % of total and selective filters.</li>
+          <li>Time intelligence needs a proper date table.</li>
+          <li>Running totals and YoY are standard business patterns.</li>
+          <li>VAR and iterators keep advanced measures readable.</li>
         </ul>
+      </section>
+
+      <section id="next">
+        <h2>13. What’s Next</h2>
+        <p><strong>Lecture 25 — Performance Optimization</strong> covers circular dependencies, model optimization, and removing redundant columns.</p>
       </section>
 
       <div class="lecture-nav">
         <a href="../week12/lecture23.html" class="nav-btn">← Lecture 23</a>
-        <a href="lecture25.html" class="nav-btn primary" onclick="markLectureComplete(24)">Next: Lecture 25 →</a>
+        <a href="lecture25.html" class="nav-btn primary" onclick="markLectureComplete(24)">Next: Lecture 25 — Performance →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 24 of 30 · Module 5</p></footer>
+      <footer class="site-footer"><p>Lecture 24 of 30 · Module 5 · Advanced DAX</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 24: Advanced DAX",url:"lecture24.html",module:"Module 5",keywords:"calculate time intelligence ytd yoy variables sumx",summary:"Advanced DAX patterns"}];</script>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 24: Advanced DAX",url:"lecture24.html",module:"Module 5",keywords:"calculate filter time intelligence ytd running total var sumx",summary:"Advanced DAX: CALCULATE, time intelligence, running totals"}];</script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

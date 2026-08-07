@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 23: DAX Basics – calculated columns vs measures, aggregation, filter context, CALCULATE intro." />
+  <meta name="description" content="Lecture 23: DAX Basics – calculated columns vs measures, SUM, COUNT, AVERAGE, filter context, first CALCULATE patterns." />
   <title>Lecture 23: DAX Basics | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,11 +22,12 @@
   </header>
   <div class="reading-progress" id="readingProgress"></div>
   <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-section">Course Navigation</div>
       <nav class="sidebar-nav">
-        <div class="module-title">Module 5 · Modeling & DAX</div>
+        <div class="module-title">Module 5 · Modeling &amp; DAX</div>
         <a href="lecture22.html" data-lecture-id="22"><span class="progress-ring"></span> L22 · Data Modeling</a>
         <a href="lecture23.html" class="active" data-lecture-id="23"><span class="progress-ring"></span> L23 · DAX Basics</a>
         <a href="../week13/lecture24.html" data-lecture-id="24"><span class="progress-ring"></span> L24 · Advanced DAX</a>
@@ -34,15 +35,17 @@
         <a href="../week13/lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
       </nav>
     </aside>
+
     <main class="main-content">
-      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 5 › <span>Lecture 23</span></nav>
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 5</span> › <span>Lecture 23</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
         <span class="badge badge-time">⏱ ~110 min</span>
         <span class="badge">Module 5 · DAX</span>
       </div>
+
       <h1>Lecture 23: DAX Basics</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Measures vs columns, core aggregation functions, row vs filter context, and your first CALCULATE patterns.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Measures vs calculated columns, core aggregation functions (SUM, COUNT, AVERAGE), filter context, and your first CALCULATE patterns — syllabus core for Module 5.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
@@ -55,8 +58,13 @@
         </ul>
       </section>
 
+      <section id="motivation">
+        <h2>2. Motivation</h2>
+        <p>Excel-style thinking (“put a formula in every cell”) does not scale in Power BI. DAX separates <strong>row-level attributes</strong> (columns) from <strong>aggregations that respond to slicers</strong> (measures). Mastering that split is the foundation of every dashboard KPI.</p>
+      </section>
+
       <section id="column-vs-measure">
-        <h2>2. Calculated Column vs Measure</h2>
+        <h2>3. Calculated Column vs Measure</h2>
         <div class="table-wrap">
           <table>
             <thead><tr><th></th><th>Calculated column</th><th>Measure</th></tr></thead>
@@ -64,7 +72,7 @@
               <tr><td><strong>Evaluated</strong></td><td>At refresh, row by row</td><td>At query time, in filter context</td></tr>
               <tr><td><strong>Stored</strong></td><td>In the model (uses memory)</td><td>Not stored as values</td></tr>
               <tr><td><strong>Use when</strong></td><td>Row-level attributes, slicing by new categories</td><td>Aggregations, ratios, time intelligence</td></tr>
-              <tr><td><strong>Example</strong></td><td>FullName = First &amp; &quot; &quot; &amp; Last</td><td>Total Sales = SUM(Sales[Amount])</td></tr>
+              <tr><td><strong>Example</strong></td><td>FullName = First &amp; " " &amp; Last</td><td>Total Sales = SUM(Sales[Amount])</td></tr>
             </tbody>
           </table>
         </div>
@@ -75,80 +83,148 @@
       </section>
 
       <section id="core">
-        <h2>3. Core Aggregation Patterns</h2>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.9rem"><code>Total Sales := SUM ( Sales[Amount] )
+        <h2>4. Core Aggregation Patterns (Syllabus)</h2>
+        <pre><code class="language-dax">Total Sales := SUM ( Sales[Amount] )
 
 Order Count := COUNTROWS ( Sales )
 
 Customer Count := DISTINCTCOUNT ( Sales[CustomerKey] )
 
-Avg Order := DIVIDE ( [Total Sales], [Order Count] )</code></pre>
-        <p>Use <code>DIVIDE</code> instead of <code>/</code> to handle divide-by-zero safely.</p>
+Avg Order Value := DIVIDE ( [Total Sales], [Order Count] )
+
+Average Amount := AVERAGE ( Sales[Amount] )</code></pre>
+        <p>Use <code>DIVIDE</code> instead of <code>/</code> to handle divide-by-zero safely. Prefer <code>COUNTROWS</code> on a table over counting a column when you mean “number of rows in context.”</p>
       </section>
 
       <section id="context">
-        <h2>4. Filter Context (Simple View)</h2>
-        <p>When a visual shows Total Sales by Region, each cell has a filter: Region = that region. Measures respect those filters automatically. That is filter context.</p>
-        <p>Row context appears inside iterators (and calculated columns): the formula “sees” one row at a time.</p>
+        <h2>5. Filter Context (Easy Explanation)</h2>
+        <p>When a measure evaluates, Power BI applies filters from slicers, rows, columns, and visuals. That set of filters is the <strong>filter context</strong>. The same measure formula returns different numbers in different cells of a matrix because the context changes.</p>
+        <div class="diagram-box">
+          <svg viewBox="0 0 620 140" xmlns="http://www.w3.org/2000/svg" aria-label="Filter context concept">
+            <rect x="20" y="30" width="140" height="80" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="90" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">Slicers</text>
+            <text x="90" y="85" text-anchor="middle" font-size="11" fill="#334155">Region, Year</text>
+            <rect x="180" y="30" width="140" height="80" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+            <text x="250" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#5b21b6">Visual axes</text>
+            <text x="250" y="85" text-anchor="middle" font-size="11" fill="#334155">Row / column</text>
+            <rect x="340" y="30" width="120" height="80" rx="10" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+            <text x="400" y="70" text-anchor="middle" font-size="13" font-weight="700" fill="#9d174d">→ Context</text>
+            <rect x="480" y="30" width="120" height="80" rx="10" fill="#3b82f6"/>
+            <text x="540" y="70" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Measure</text>
+          </svg>
+        </div>
       </section>
 
-      <section id="calculate">
-        <h2>5. CALCULATE — First Steps</h2>
-        <p><code>CALCULATE</code> evaluates a measure under modified filters.</p>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.9rem"><code>Sales Online :=
-CALCULATE (
-    [Total Sales],
-    Sales[Channel] = "Online"
-)
+      <section id="calculate-intro">
+        <h2>6. First CALCULATE Patterns</h2>
+        <p><code>CALCULATE</code> evaluates an expression under a modified filter context — the gateway to almost all advanced DAX.</p>
+        <pre><code class="language-dax">// Sales for a specific category
+Sales Bikes :=
+CALCULATE ( [Total Sales], DimProduct[Category] = "Bikes" )
 
-Sales All Channels :=
-CALCULATE (
-    [Total Sales],
-    REMOVEFILTERS ( Sales[Channel] )
-)</code></pre>
-        <p>You will deepen CALCULATE in Lecture 24 (filter arguments, ALL, time intelligence).</p>
+// Sales ignoring the region slicer (benchmark)
+Sales All Regions :=
+CALCULATE ( [Total Sales], REMOVEFILTERS ( DimGeography[Region] ) )</code></pre>
       </section>
 
-      <section id="mistakes">
-        <h2>6. Common Mistakes</h2>
+      <section id="practical">
+        <h2>7. Hands-on Lab</h2>
+        <div class="card">
+          <ol>
+            <li>Create measures: Total Sales, Order Count, Average Order Value (using DIVIDE).</li>
+            <li>Put them in a matrix with a date or product hierarchy; change slicers and observe context.</li>
+            <li>Add one CALCULATE measure that filters to a single category.</li>
+            <li>Write one sentence explaining why Total Sales changes when you select a year.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="interview">
+        <h2>8. Interview &amp; Viva Questions</h2>
         <ul>
-          <li>Creating a calculated column for a total that should be a measure</li>
-          <li>Summing a dimension key or a year number</li>
-          <li>Using implicit measures only (hard to reuse and test)</li>
-          <li>Ignoring blank handling in ratios</li>
+          <li>When do you use a calculated column instead of a measure?</li>
+          <li>What is filter context? Give an example from a matrix visual.</li>
+          <li>Why prefer DIVIDE over the / operator?</li>
+          <li>What does CALCULATE do in one sentence?</li>
         </ul>
       </section>
 
       <section id="quiz">
-        <h2>7. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — totals and ratios that respond to slicers should be measures." data-fail="Columns are row-level at refresh; measures aggregate in filter context.">
-          <p><strong>Q1.</strong> Total revenue that changes with slicers should be a:</p>
+        <h2>9. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — measures aggregate in filter context; columns are row-level at refresh." data-fail="Aggregations that respond to slicers should be measures.">
+          <p><strong>Q1.</strong> Total revenue that should change with year and region slicers should be a:</p>
           <div class="quiz-option" data-value="a">A. Calculated column only</div>
           <div class="quiz-option" data-value="b">B. Measure</div>
-          <div class="quiz-option" data-value="c">C. Report theme color</div>
-          <div class="quiz-option" data-value="d">D. Folder name</div>
+          <div class="quiz-option" data-value="c">C. Relationship</div>
+          <div class="quiz-option" data-value="d">D. Hierarchy only</div>
           <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q2" data-answer="a" data-success="Correct — CALCULATE evaluates an expression under modified filters." data-fail="CALCULATE is the primary way to change filter context for an expression.">
+          <p><strong>Q2.</strong> CALCULATE is primarily used to:</p>
+          <div class="quiz-option" data-value="a">A. Evaluate an expression in a modified filter context</div>
+          <div class="quiz-option" data-value="b">B. Create relationships</div>
+          <div class="quiz-option" data-value="c">C. Import CSV files</div>
+          <div class="quiz-option" data-value="d">D. Format chart colors</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q3" data-answer="c" data-success="Correct — DIVIDE handles divide-by-zero safely." data-fail="DIVIDE is the safe pattern for ratios.">
+          <p><strong>Q3.</strong> Safer pattern for a ratio measure is:</p>
+          <div class="quiz-option" data-value="a">A. [A] / [B] only</div>
+          <div class="quiz-option" data-value="b">B. Never compute ratios</div>
+          <div class="quiz-option" data-value="c">C. DIVIDE ( [A], [B] )</div>
+          <div class="quiz-option" data-value="d">D. SUM of both columns only</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q3')">Check Answer</button>
           <div class="quiz-feedback"></div>
         </div>
       </section>
 
+      <section id="flashcards">
+        <h2>10. Flashcards</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Column vs Measure?</strong></div><div class="flashcard-back">Column = row-level at refresh; Measure = aggregation at query time</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Core aggregates?</strong></div><div class="flashcard-back">SUM, COUNTROWS, DISTINCTCOUNT, AVERAGE, DIVIDE</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Filter context?</strong></div><div class="flashcard-back">Filters from slicers + visual axes that shape measure results</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>CALCULATE role?</strong></div><div class="flashcard-back">Evaluate expression under modified filter context</div></div></div></div>
+        </div>
+      </section>
+
+      <section id="cheatsheet">
+        <h2>11. Cheat Sheet</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li><strong>Measures</strong> for aggregations; <strong>columns</strong> for row labels</li>
+            <li><code>SUM</code> · <code>COUNTROWS</code> · <code>DISTINCTCOUNT</code> · <code>AVERAGE</code> · <code>DIVIDE</code></li>
+            <li>Filter context = slicers + coordinates of the visual cell</li>
+            <li><code>CALCULATE ( expr, filters... )</code> modifies context</li>
+          </ul>
+        </div>
+      </section>
+
       <section id="summary">
-        <h2>8. Summary</h2>
+        <h2>12. Summary</h2>
         <ul>
-          <li>Measures aggregate in filter context; columns materialize per row.</li>
-          <li>Start with SUM, COUNTROWS, DISTINCTCOUNT, DIVIDE.</li>
-          <li>CALCULATE changes the filter context of a measure.</li>
+          <li>Choose column vs measure deliberately.</li>
+          <li>Master SUM, COUNT, AVERAGE patterns and DIVIDE for ratios.</li>
+          <li>Understand filter context before advanced time intelligence.</li>
+          <li>Use simple CALCULATE filters as the bridge to Lecture 24.</li>
         </ul>
+      </section>
+
+      <section id="next">
+        <h2>13. What’s Next</h2>
+        <p><strong>Lecture 24 — Advanced DAX</strong> covers CALCULATE deeply, FILTER, time intelligence, and running totals.</p>
       </section>
 
       <div class="lecture-nav">
         <a href="lecture22.html" class="nav-btn">← Lecture 22</a>
-        <a href="../week13/lecture24.html" class="nav-btn primary" onclick="markLectureComplete(23)">Next: Lecture 24 →</a>
+        <a href="../week13/lecture24.html" class="nav-btn primary" onclick="markLectureComplete(23)">Next: Lecture 24 — Advanced DAX →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 23 of 30 · Module 5</p></footer>
+      <footer class="site-footer"><p>Lecture 23 of 30 · Module 5 · DAX Basics</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 23: DAX Basics",url:"lecture23.html",module:"Module 5",keywords:"dax measure column calculate filter context sum",summary:"DAX fundamentals"}];</script>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 23: DAX Basics",url:"lecture23.html",module:"Module 5",keywords:"dax measure column sum count average calculate filter context divide",summary:"DAX measures vs columns, core aggregations, filter context"}];</script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

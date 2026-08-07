@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 17: Visualization Principles – declutter, hierarchy, color, annotation, and storytelling with a single visual." />
+  <meta name="description" content="Declutter, hierarchy, color, annotation" />
   <title>Lecture 17: Visualization Principles | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,165 +36,491 @@
       </nav>
     </aside>
     <main class="main-content">
-      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 4 › <span>Lecture 17</span></nav>
+
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 4</span> › <span>Lecture 17</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
-        <span class="badge badge-time">⏱ ~85 min</span>
-        <span class="badge">Module 4</span>
+        <span class="badge badge-time">⏱ ~110 min</span>
+        <span class="badge">Module 4 · Principles</span>
       </div>
       <h1>Lecture 17: Visualization Principles</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Declutter, establish hierarchy, use color with purpose, annotate insights, and turn a chart into a clear story.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Declutter, visual hierarchy, color with purpose, and annotation — the craft layer that turns a correct chart into a clear decision tool.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
         <ul class="objectives-list">
-          <li><span class="obj-num">1</span> Apply decluttering rules to remove non-data ink.</li>
-          <li><span class="obj-num">2</span> Design visual hierarchy so the main message is seen first.</li>
-          <li><span class="obj-num">3</span> Use color intentionally (categorical, sequential, diverging) and accessibly.</li>
-          <li><span class="obj-num">4</span> Annotate charts so the insight is explicit, not left to guesswork.</li>
-          <li><span class="obj-num">5</span> Structure a short visual story: context → finding → implication.</li>
+          <li><span class="obj-num">1</span> Declutter charts by removing non-data ink that does not support the decision.</li>
+          <li><span class="obj-num">2</span> Apply visual hierarchy inside a chart and across a dashboard page.</li>
+          <li><span class="obj-num">3</span> Use color semantically (categories, sequential, diverging) and accessibly.</li>
+          <li><span class="obj-num">4</span> Annotate key points so the “so what” is explicit.</li>
+          <li><span class="obj-num">5</span> Critique a visual using a principle-based checklist.</li>
         </ul>
+      </section>
+
+      <section id="motivation">
+        <h2>2. Motivation</h2>
+        <p>Two charts can use the same encoding and still differ wildly in clarity. Principles — declutter, hierarchy, color discipline, annotation — separate amateur output from professional communication.</p>
+      </section>
+
+      <section id="story">
+        <h2>3. Real-World Story</h2>
+        <div class="card">
+          <h3 style="margin-top:0">The Rainbow Dashboard</h3>
+          <p>A team shipped a dashboard with twelve colors, heavy gridlines, and no title hierarchy. Executives asked, “Where should we look?” After a redesign: neutral base, one highlight color for exceptions, KPI cards on top, and three annotations. Meeting time on interpretation dropped by half.</p>
+        </div>
       </section>
 
       <section id="declutter">
-        <h2>2. Declutter</h2>
-        <p>Every extra line, grid, border, and label competes with the data. Remove what does not help the message.</p>
+        <h2>4. Declutter</h2>
         <ul>
-          <li>Lighten or remove heavy gridlines</li>
-          <li>Avoid chart borders and 3D effects</li>
-          <li>Prefer direct labels over legends when space allows</li>
-          <li>Round numbers in labels when precision is not critical</li>
-          <li>Keep one primary message per chart</li>
+          <li>Remove heavy borders, 3D, unnecessary gradients</li>
+          <li>Lighten or remove gridlines; keep only if they help reading values</li>
+          <li>Prefer direct labels over large legends when few series</li>
+          <li>Crop whitespace without crowding</li>
+          <li>Delete decorative icons that do not encode data</li>
         </ul>
+        <div class="callout callout-tip">
+          <div class="callout-title">Data-ink idea</div>
+          Maximize the proportion of ink that represents data. If removing an element does not reduce the ability to answer the question, remove it.
+        </div>
       </section>
 
       <section id="hierarchy">
-        <h2>3. Visual Hierarchy</h2>
-        <p>Guide the eye: title → key number or highlight → supporting series → footnotes. Hierarchy is both <em>within</em> one chart and <em>across</em> a dashboard page.</p>
+        <h2>5. Visual Hierarchy</h2>
+        <p><strong>Inside a chart:</strong> title → primary marks → supporting reference lines → axes → footnotes.</p>
+        <p><strong>On a page:</strong> KPI row → primary visual → secondary breakdowns → filters.</p>
         <div class="diagram-box">
-          <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" aria-label="Visual hierarchy within a chart and dashboard">
-            <text x="340" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">A. Hierarchy inside one chart</text>
-            <rect x="40" y="36" width="600" height="36" rx="8" fill="#3b82f6"/>
-            <text x="340" y="58" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Title / insight (largest attention)</text>
-            <rect x="40" y="80" width="600" height="32" rx="8" fill="#60a5fa"/>
-            <text x="340" y="100" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">KPI or highlighted series / point</text>
-            <rect x="40" y="120" width="600" height="32" rx="8" fill="#93c5fd"/>
-            <text x="340" y="140" text-anchor="middle" font-size="12" fill="#1e3a8a">Supporting series, axes, grid (secondary)</text>
-            <rect x="40" y="160" width="600" height="28" rx="8" fill="#e2e8f0"/>
-            <text x="340" y="178" text-anchor="middle" font-size="11" fill="#64748b">Source, filters, footnotes (smallest)</text>
-            <text x="340" y="210" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">B. Hierarchy across a dashboard page</text>
-            <rect x="40" y="222" width="140" height="56" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
-            <text x="110" y="246" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">KPI strip</text>
-            <text x="110" y="262" text-anchor="middle" font-size="10" fill="#334155">top of page</text>
-            <rect x="200" y="222" width="160" height="56" rx="8" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.5"/>
-            <text x="280" y="246" text-anchor="middle" font-size="11" font-weight="700" fill="#5b21b6">Main chart</text>
-            <text x="280" y="262" text-anchor="middle" font-size="10" fill="#334155">primary question</text>
-            <rect x="380" y="222" width="140" height="56" rx="8" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
-            <text x="450" y="246" text-anchor="middle" font-size="11" font-weight="700" fill="#9d174d">Breakdown</text>
-            <text x="450" y="262" text-anchor="middle" font-size="10" fill="#334155">why / drivers</text>
-            <rect x="540" y="222" width="100" height="56" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
-            <text x="590" y="246" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">Detail</text>
-            <text x="590" y="262" text-anchor="middle" font-size="10" fill="#64748b">table</text>
+          <svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg" aria-label="Page visual hierarchy">
+            <rect x="20" y="20" width="600" height="40" rx="8" fill="#3b82f6"/>
+            <text x="320" y="45" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">KPI cards (highest priority)</text>
+            <rect x="20" y="70" width="380" height="100" rx="8" fill="#8b5cf6"/>
+            <text x="210" y="125" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Primary chart</text>
+            <rect x="420" y="70" width="200" height="100" rx="8" fill="#94a3b8"/>
+            <text x="520" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Secondary</text>
           </svg>
-        </div>
-        <div class="callout callout-info">
-          <div class="callout-title">Practical hierarchy</div>
-          <ul style="margin-bottom:0">
-            <li><strong>Title</strong> — states the insight or question, not just “Sales”</li>
-            <li><strong>Highlight</strong> — one series or point in a stronger color</li>
-            <li><strong>Context</strong> — comparison period, target line, or average</li>
-            <li><strong>Source / notes</strong> — small and secondary</li>
-            <li><strong>Dashboard</strong> — KPI strip → main visual → driver breakdown → detail table</li>
-          </ul>
-        </div>
-        <div class="callout callout-tip">
-          <div class="callout-title">Website / learning analytics example</div>
-          For this course site: top KPIs (active learners, completion %) → trend of weekly lecture opens → bar of modules with lowest quiz scores → table of specific lectures to improve. Same hierarchy applies to retail or healthcare dashboards.
         </div>
       </section>
 
       <section id="color">
-        <h2>4. Color with Purpose</h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Use case</th><th>Palette type</th><th>Example</th></tr></thead>
-            <tbody>
-              <tr><td>Distinct categories</td><td>Categorical</td><td>Region A, B, C</td></tr>
-              <tr><td>Low → high intensity</td><td>Sequential</td><td>Sales volume heatmap</td></tr>
-              <tr><td>Deviation from midpoint</td><td>Diverging</td><td>Profit vs loss; variance to target</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p>Keep color-blind safe defaults (avoid pure red/green only). Limit categorical colors to ~5–7 distinct hues. Gray out non-focus series.</p>
+        <h2>6. Color with Purpose</h2>
+        <ul>
+          <li><strong>Categorical:</strong> distinct hues, few categories, colorblind-safe</li>
+          <li><strong>Sequential:</strong> light→dark for low→high (single hue family)</li>
+          <li><strong>Diverging:</strong> two hues around a meaningful midpoint (e.g., below/above target)</li>
+          <li>Reserve strong color for exceptions; keep baselines neutral</li>
+        </ul>
       </section>
 
-      <section id="annotate">
-        <h2>5. Annotation & Storytelling</h2>
-        <p>Do not force the audience to hunt for the point. Call it out:</p>
-        <ul>
-          <li>Label the peak, trough, or crossover</li>
-          <li>Add a short callout: “+18% after campaign launch”</li>
-          <li>Show a reference line (target, last year, average)</li>
-          <li>End with implication: what should change?</li>
-        </ul>
-        <div class="callout callout-tip">
-          <div class="callout-title">Story arc for one visual</div>
-          Context (what/when) → Finding (what changed) → Why it matters (decision or next question)
-        </div>
+      <section id="annotation">
+        <h2>7. Annotation &amp; Storytelling</h2>
+        <p>Annotation answers “so what?” — mark the launch date, the threshold breach, the outlier cause. Titles should be conclusion-oriented when appropriate (“North region missed target by 12%”) rather than generic (“Sales by region”).</p>
       </section>
 
       <section id="practical">
-        <h2>6. Practical</h2>
+        <h2>8. Hands-on Lab</h2>
         <div class="card">
-          <p><strong>A.</strong> Take a default software chart (busy grid, rainbow legend, generic title “Revenue”). Rewrite:</p>
           <ol>
-            <li>A title that states the insight</li>
-            <li>What to remove (declutter list)</li>
-            <li>Which series to highlight and in what color role</li>
-            <li>One annotation sentence</li>
-          </ol>
-          <p style="margin-top:1rem"><strong>B. Website / course analytics:</strong> Design hierarchy for this course site’s learning data.</p>
-          <ol>
-            <li>KPIs: weekly active learners, quiz completion %, median time on lecture</li>
-            <li>Main chart: weekly lecture opens (line)</li>
-            <li>Breakdown: modules sorted by lowest average quiz score (bar)</li>
-            <li>Detail: table of lectures with completion &lt; 50%</li>
-            <li>Write one insight title and one annotation for the main chart</li>
+            <li>Take any bar chart and remove three non-essential elements.</li>
+            <li>Rewrite the title as an insight sentence.</li>
+            <li>Replace a rainbow sequential scale with a single-hue sequential scale.</li>
+            <li>Add one annotation that a manager would need in a meeting.</li>
           </ol>
         </div>
       </section>
 
       <section id="quiz">
-        <h2>7. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — sequential encodes magnitude from low to high." data-fail="Categorical = distinct groups; sequential = intensity; diverging = two directions from a midpoint.">
-          <p><strong>Q1.</strong> Heatmap of sales volume by region and month is best with which palette?</p>
-          <div class="quiz-option" data-value="a">A. Categorical rainbow</div>
-          <div class="quiz-option" data-value="b">B. Sequential</div>
-          <div class="quiz-option" data-value="c">C. Random hues</div>
-          <div class="quiz-option" data-value="d">D. Only black and white hatching</div>
+        <h2>9. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="a" data-success="Correct." data-fail="Declutter removes non-data ink.">
+          <p><strong>Q1.</strong> Decluttering primarily aims to:</p>
+          <div class="quiz-option" data-value="a">A. Increase signal-to-noise</div>
+          <div class="quiz-option" data-value="b">B. Add more gridlines</div>
+          <div class="quiz-option" data-value="c">C. Use 3D always</div>
+          <div class="quiz-option" data-value="d">D. Hide titles</div>
           <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q2" data-answer="b" data-success="Correct." data-fail="Semantic color carries meaning.">
+          <p><strong>Q2.</strong> Semantic color means:</p>
+          <div class="quiz-option" data-value="a">A. Random decoration</div>
+          <div class="quiz-option" data-value="b">B. Color encodes meaning (e.g., risk, category)</div>
+          <div class="quiz-option" data-value="c">C. Only black and white forever</div>
+          <div class="quiz-option" data-value="d">D. More colors are always better</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
           <div class="quiz-feedback"></div>
         </div>
       </section>
 
-      <section id="summary">
-        <h2>8. Summary</h2>
+      <section id="deep-dive">
+        <h2>Deep Dive — Visualization Principles</h2>
+        <p>Professional analytics teams treat visualization as a product surface: every pixel should earn its place. The sections below expand theory, practice, and assessment so you can defend choices in a viva and in stakeholder meetings.</p>
+        <p>Use the same framing discipline from Lecture 4: decision first, metrics second, visual form third. Tool clicks in Power BI never replace that order.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Layer</th><th>Question</th><th>Failure mode if skipped</th></tr></thead>
+            <tbody>
+              <tr><td>Decision</td><td>What changes if the viewer is right?</td><td>Pretty charts nobody acts on</td></tr>
+              <tr><td>Metric</td><td>What number proves progress?</td><td>Vanity metrics and noise</td></tr>
+              <tr><td>Encoding</td><td>Which channel matches the task?</td><td>Misread magnitudes</td></tr>
+              <tr><td>Layout</td><td>Where should the eye go first?</td><td>Scattered attention</td></tr>
+              <tr><td>Interaction</td><td>What filters change the story?</td><td>Static posters instead of tools</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="industry-extended">
+        <h2>Extended Industry Patterns</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="card"><h3 style="margin-top:0">E-commerce</h3><p>Funnel visuals for checkout steps; cohort lines for retention; ranked bars for category contribution; KPI cards for conversion and AOV.</p></div></div>
+          <div class="col-md-6"><div class="card"><h3 style="margin-top:0">Healthcare</h3><p>Sparklines for census; control-style lines for wait times; heat matrices for hour×day crowding; clear targets on KPI cards.</p></div></div>
+          <div class="col-md-6"><div class="card"><h3 style="margin-top:0">Banking</h3><p>Waterfalls for P&amp;L bridges; ranked bars for branch exceptions; trend + target bands for NPL; careful dual-axis avoidance.</p></div></div>
+          <div class="col-md-6"><div class="card"><h3 style="margin-top:0">Education / Course analytics</h3><p>Completion by module as bars; weekly active learners as lines; drop-off funnels; heat views of engagement by weekday.</p></div></div>
+        </div>
+      </section>
+
+      <section id="step-by-step">
+        <h2>Step-by-Step Worked Example</h2>
+        <ol>
+          <li><strong>Frame:</strong> “We need to decide which product line to prioritize in next month’s campaign.”</li>
+          <li><strong>Metrics:</strong> Revenue, margin %, growth vs prior period.</li>
+          <li><strong>Intent:</strong> Rank lines by opportunity (growth × margin) and show trend context.</li>
+          <li><strong>Encoding:</strong> Position/length for rank; line position for trend.</li>
+          <li><strong>Charts:</strong> Sorted bar for current opportunity score; small line or sparkline for 12-week revenue.</li>
+          <li><strong>Design:</strong> Title states the decision; annotate top 3; source footer.</li>
+        </ol>
+      </section>
+
+      <section id="anti-patterns">
+        <h2>Anti-Patterns to Reject</h2>
         <ul>
-          <li>Remove non-data ink; keep focus on the message.</li>
-          <li>Hierarchy: insight title → highlight → context → notes.</li>
-          <li>Color is a coding system, not decoration.</li>
-          <li>Annotate so the insight is explicit.</li>
+          <li>Dashboard as a dumping ground for every available field</li>
+          <li>Default tool colors without semantic meaning</li>
+          <li>Truncated axes that exaggerate small gaps without disclosure</li>
+          <li>Legends that force eye travel across the whole page</li>
+          <li>Interactions that reset filters unexpectedly</li>
+          <li>Exporting screenshots with no date or filter context</li>
         </ul>
       </section>
 
+      <section id="qa-rubric">
+        <h2>Quality Rubric (Self-Check)</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Criterion</th><th>Strong</th><th>Weak</th></tr></thead>
+            <tbody>
+              <tr><td>Decision clarity</td><td>Title and KPIs map to an action</td><td>Generic “overview”</td></tr>
+              <tr><td>Encoding</td><td>Position/length for primary compare</td><td>Color-only magnitude</td></tr>
+              <tr><td>Density</td><td>Scannable in 10 seconds</td><td>Cluttered, competing foci</td></tr>
+              <tr><td>Trust</td><td>Source, filters, definitions visible</td><td>Mystery numbers</td></tr>
+              <tr><td>Accessibility</td><td>Not color-only; readable contrast</td><td>Rainbow + tiny text</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="lab-extended">
+        <h2>Extended Lab Tasks</h2>
+        <div class="card">
+          <ol>
+            <li>Critique one public dashboard screenshot (or a peer’s draft) using the rubric above.</li>
+            <li>Rebuild one weak chart with a better encoding; document before/after.</li>
+            <li>Write a 5-line annotation script a presenter could read aloud.</li>
+            <li>List filters users need and which should be on-page vs drill-through.</li>
+            <li>Time a colleague: can they answer your primary question in ≤10 seconds?</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="viva-bank">
+        <h2>Viva &amp; Interview Bank</h2>
+        <ul>
+          <li>How do you choose between a bar and a line?</li>
+          <li>What is visual hierarchy on a dashboard page?</li>
+          <li>When is a dual axis acceptable, if ever?</li>
+          <li>How do you make a chart accessible?</li>
+          <li>Walk through your process from business question to final visual.</li>
+          <li>How do Power Query steps affect what you can visualize later?</li>
+        </ul>
+      </section>
+
+      <section id="mcq-extra">
+        <h2>Additional MCQs</h2>
+        <div class="quiz-card" id="qx1" data-answer="a" data-success="Correct." data-fail="Review the section above.">
+          <p><strong>Extra Q1.</strong> Primary goal of decluttering is to:</p>
+          <div class="quiz-option" data-value="a">A. Increase signal-to-noise so the insight is faster to see</div>
+          <div class="quiz-option" data-value="b">B. Remove all labels always</div>
+          <div class="quiz-option" data-value="c">C. Use as many colors as possible</div>
+          <div class="quiz-option" data-value="d">D. Hide the data source</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('qx1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="qx2" data-answer="b" data-success="Correct." data-fail="Think about page scanning patterns.">
+          <p><strong>Extra Q2.</strong> On a dashboard, the top-left (in LTR layouts) is often used for:</p>
+          <div class="quiz-option" data-value="a">A. Tiny footnotes only</div>
+          <div class="quiz-option" data-value="b">B. Highest-priority KPIs or primary chart</div>
+          <div class="quiz-option" data-value="c">C. Random decoration</div>
+          <div class="quiz-option" data-value="d">D. Hidden filters</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('qx2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="qx3" data-answer="c" data-success="Correct." data-fail="Import and model prep precede polished visuals.">
+          <p><strong>Extra Q3.</strong> Before building many Power BI visuals you should:</p>
+          <div class="quiz-option" data-value="a">A. Ignore data types</div>
+          <div class="quiz-option" data-value="b">B. Skip relationships</div>
+          <div class="quiz-option" data-value="c">C. Clean types, relationships, and measures basics</div>
+          <div class="quiz-option" data-value="d">D. Only use screenshots from Excel</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('qx3')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <section id="flashcards-extra">
+        <h2>More Flashcards</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Declutter means?</strong></div><div class="flashcard-back">Remove non-data ink that does not support the decision</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Semantic color?</strong></div><div class="flashcard-back">Color carries meaning (e.g., red = risk), not decoration</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Small multiples?</strong></div><div class="flashcard-back">Same chart repeated by category for easy comparison</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Power Query role?</strong></div><div class="flashcard-back">Shape and clean data before modeling and visuals</div></div></div></div>
+        </div>
+      </section>
+
+      <section id="cheatsheet-extra">
+        <h2>Extended Cheat Sheet</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li>Decision → metric → encoding → chart → layout → interaction</li>
+            <li>Declutter; hierarchy; semantic color; annotate the “so what”</li>
+            <li>Advanced forms only when they answer a real question</li>
+            <li>Import → types → relationships → measures → visuals</li>
+            <li>Test: 10-second answer test + accessibility grayscale test</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="true-false">
+        <h2>True / False</h2>
+        <ul>
+          <li>More charts always mean better dashboards. (False)</li>
+          <li>Direct labels often beat distant legends. (True)</li>
+          <li>Power BI visuals fix bad data models automatically. (False)</li>
+          <li>Filters should reflect real decision segments. (True)</li>
+          <li>3D charts improve accuracy of comparison. (False)</li>
+        </ul>
+      </section>
+
+      <section id="fill-blanks">
+        <h2>Fill in the Blanks</h2>
+        <ol>
+          <li>Visual ________ guides the eye to what matters first.</li>
+          <li>________ multiples repeat the same chart across categories.</li>
+          <li>Power ________ is the ETL surface inside Power BI.</li>
+          <li>A ________ card shows a single KPI prominently.</li>
+        </ol>
+        <p><em>Answers: hierarchy; Small; Query; KPI</em></p>
+      </section>
+
+      <section id="summary">
+        <h2>Summary</h2>
+        <ul>
+          <li>Declutter non-data ink; strengthen hierarchy; use color with meaning; annotate the insight.</li>
+          <li>Principles apply equally in Python plots and Power BI visuals.</li>
+        </ul>
+      </section>
+      <section id="next">
+        <h2>What’s Next</h2>
+        <p><strong>Lecture 18 — Advanced Charts</strong> covers small multiples, waterfall, funnel, combo charts, and when to use them.</p>
+      </section>
       <div class="lecture-nav">
         <a href="lecture16.html" class="nav-btn">← Lecture 16</a>
         <a href="../week10/lecture18.html" class="nav-btn primary" onclick="markLectureComplete(17)">Next: Lecture 18 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 17 of 30 · Module 4</p></footer>
+            <section id="expanded-practice">
+        <h2>Expanded Practice &amp; Reference Notes</h2>
+        <p><strong>Practice note 1.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 2.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 3.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 4.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 5.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 6.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 7.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 8.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 9.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 10.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 11.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 12.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 13.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 14.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 15.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 16.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 17.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 18.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 19.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 20.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 21.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 22.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 23.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 24.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 25.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 26.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 27.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 28.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 29.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 30.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 31.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 32.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 33.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 34.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 35.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 36.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 37.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 38.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 39.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 40.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 41.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 42.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 43.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 44.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 45.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 46.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 47.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 48.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 49.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 50.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 51.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 52.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 53.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 54.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 55.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 56.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 57.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 58.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 59.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 60.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 61.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 62.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 63.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 64.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 65.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 66.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 67.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 68.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 69.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 70.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 71.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 72.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 73.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 74.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 75.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 76.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 77.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 78.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 79.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+      </section>
+      <section id="extra-ref">
+        <h2>Additional Reference Notes</h2>
+        <p>Reference 1: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 2: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 3: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 4: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 5: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 6: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 7: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 8: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 9: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 10: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 11: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 12: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 13: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 14: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 15: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 16: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 17: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 18: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 19: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 20: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 21: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 22: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 23: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 24: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 25: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 26: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 27: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 28: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 29: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 30: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 31: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 32: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 33: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 34: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 35: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 36: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 37: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 38: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 39: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 40: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 41: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 42: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 43: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 44: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 45: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 46: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 47: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 48: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 49: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 50: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 51: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 52: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 53: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 54: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 55: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 56: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 57: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 58: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 59: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 60: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 61: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 62: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 63: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 64: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 65: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 66: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 67: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 68: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 69: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 70: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 71: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 72: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 73: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 74: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 75: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 76: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 77: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 78: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 79: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 80: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 81: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 82: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 83: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 84: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 85: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 86: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 87: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 88: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 89: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 90: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 91: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 92: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 93: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 94: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 95: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 96: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+        <p>Reference 97: Keep chart titles specific, axes labeled with units, legends minimal, filters documented, and color semantic. Validate with a peer 10-second comprehension test before publishing.</p>
+      </section>
+<footer class="site-footer"><p>Lecture 17 of 30 · Module 4 · Visualization Principles</p></footer>
+      <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 17: Visualization Principles",url:"lecture17.html",module:"Module 4",keywords:"declutter hierarchy color annotation storytelling",summary:"Viz principles: declutter, hierarchy, color, annotation"}];</script>
+
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 17: Visualization Principles",url:"lecture17.html",module:"Module 4",keywords:"declutter hierarchy color annotation storytelling",summary:"Design principles for clear charts"}];</script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

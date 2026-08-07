@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 26: Dashboard Project – end-to-end mini project integrating modeling, DAX, and visualization." />
-  <title>Lecture 26: Dashboard Project | Data Analytics Course</title>
+  <meta name="description" content="Lecture 26: Dashboard Design Project – build an interactive Power BI dashboard using modeling and DAX from Module 5." />
+  <title>Lecture 26: Dashboard Design Project | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -22,11 +22,12 @@
   </header>
   <div class="reading-progress" id="readingProgress"></div>
   <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-section">Course Navigation</div>
       <nav class="sidebar-nav">
-        <div class="module-title">Module 5 · Modeling & DAX</div>
+        <div class="module-title">Module 5 · Modeling &amp; DAX</div>
         <a href="../week12/lecture22.html" data-lecture-id="22"><span class="progress-ring"></span> L22 · Data Modeling</a>
         <a href="../week12/lecture23.html" data-lecture-id="23"><span class="progress-ring"></span> L23 · DAX Basics</a>
         <a href="lecture24.html" data-lecture-id="24"><span class="progress-ring"></span> L24 · Advanced DAX</a>
@@ -34,114 +35,192 @@
         <a href="lecture26.html" class="active" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
       </nav>
     </aside>
+
     <main class="main-content">
-      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 5 › <span>Lecture 26</span></nav>
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 5</span> › <span>Lecture 26</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-advanced">Advanced</span>
         <span class="badge badge-time">⏱ ~150 min</span>
         <span class="badge">Module 5 · Project</span>
       </div>
-      <h1>Lecture 26: Dashboard Project</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Integrate modeling, DAX, and visualization into one end-to-end mini dashboard project with clear acceptance criteria.</p>
+
+      <h1>Lecture 26: Dashboard Design Project</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Apply Module 5 end-to-end: build an interactive dashboard with a clean star model, core and advanced DAX measures, and performance-aware design — as specified in the syllabus.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
         <ul class="objectives-list">
-          <li><span class="obj-num">1</span> Scope a business question and KPIs for a sales (or similar) dashboard.</li>
-          <li><span class="obj-num">2</span> Build a star schema from provided tables (fact + dimensions).</li>
-          <li><span class="obj-num">3</span> Implement core measures including a time-intelligence comparison.</li>
-          <li><span class="obj-num">4</span> Design a 1–2 page report following dashboard-thinking principles.</li>
-          <li><span class="obj-num">5</span> Self-assess against a rubric before sharing.</li>
+          <li><span class="obj-num">1</span> Scope a dashboard from a business decision and KPIs (link to L4 framing).</li>
+          <li><span class="obj-num">2</span> Implement a star schema with correct relationships in Power BI.</li>
+          <li><span class="obj-num">3</span> Create measures (SUM, ratios, YTD/YoY, % of total) that respond to slicers.</li>
+          <li><span class="obj-num">4</span> Design a clear visual hierarchy and navigation for one page (or two).</li>
+          <li><span class="obj-num">5</span> Apply a performance checklist before submission.</li>
         </ul>
       </section>
 
       <section id="brief">
         <h2>2. Project Brief</h2>
         <div class="card">
-          <p><strong>Audience:</strong> Regional sales manager, weekly review.</p>
-          <p><strong>Primary questions:</strong></p>
-          <ol>
-            <li>How are we tracking vs last year (revenue)?</li>
-            <li>Which categories and regions drive the result?</li>
-            <li>Where should we focus next week?</li>
-          </ol>
-          <p><strong>Required KPIs:</strong> Total Sales, YoY %, Order Count, Avg Order Value.</p>
-          <p><strong>Deliverable:</strong> Power BI report (Desktop) with model diagram screenshot + measures list + 1–2 report pages.</p>
+          <p><strong>Scenario:</strong> A retail (or accidents / education) operations lead needs a weekly view of performance: what is the trend, where are the gaps, and which segments need attention?</p>
+          <p><strong>You will deliver:</strong></p>
+          <ul style="margin-bottom:0">
+            <li>A Power BI model (star schema) with at least one fact and three dimensions (including Date)</li>
+            <li>Measures: Total, Count, Average or ratio, YTD or prior period, % of total</li>
+            <li>One interactive report page with slicers, KPI cards, trend, and breakdown</li>
+            <li>A short write-up: decision, KPIs, grain, and one performance choice you made</li>
+          </ul>
         </div>
       </section>
 
-      <section id="steps">
-        <h2>3. Build Steps</h2>
-        <div class="timeline">
-          <div class="timeline-item">
-            <h4>1. Frame</h4>
-            <p>Write the decision and success criteria (from L4 / L19).</p>
-          </div>
-          <div class="timeline-item">
-            <h4>2. Model</h4>
-            <p>Import fact + dimensions; set types; create 1:* relationships; mark date table (L20, L22).</p>
-          </div>
-          <div class="timeline-item">
-            <h4>3. Measures</h4>
-            <p>Base measures + YoY / YTD as appropriate (L23, L24). Use VAR where helpful.</p>
-          </div>
-          <div class="timeline-item">
-            <h4>4. Pages</h4>
-            <p>Page 1: KPIs + trend + region/category breakdown. Page 2 (optional): exceptions table (L16–L21).</p>
-          </div>
-          <div class="timeline-item">
-            <h4>5. Polish & test</h4>
-            <p>Titles as insights, slicers, interactions, Performance Analyzer spot-check (L25).</p>
-          </div>
+      <section id="workflow">
+        <h2>3. Build Workflow</h2>
+        <div class="diagram-box">
+          <svg viewBox="0 0 700 100" xmlns="http://www.w3.org/2000/svg" aria-label="Dashboard project workflow">
+            <rect x="10" y="25" width="110" height="50" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="65" y="55" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">1. Frame</text>
+            <rect x="140" y="25" width="110" height="50" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+            <text x="195" y="55" text-anchor="middle" font-size="12" font-weight="700" fill="#5b21b6">2. Model</text>
+            <rect x="270" y="25" width="110" height="50" rx="10" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+            <text x="325" y="55" text-anchor="middle" font-size="12" font-weight="700" fill="#9d174d">3. Measures</text>
+            <rect x="400" y="25" width="110" height="50" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <text x="455" y="55" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">4. Visuals</text>
+            <rect x="530" y="25" width="150" height="50" rx="10" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+            <text x="605" y="55" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">5. Optimize &amp; test</text>
+          </svg>
+        </div>
+        <ol>
+          <li><strong>Frame</strong> — decision, analytical questions, KPIs (L4)</li>
+          <li><strong>Model</strong> — fact grain, dimensions, 1:* relationships (L22)</li>
+          <li><strong>Measures</strong> — base aggregates, CALCULATE, time intelligence (L23–L24)</li>
+          <li><strong>Visuals</strong> — KPI cards, trend, breakdown, slicers (Module 4)</li>
+          <li><strong>Optimize</strong> — remove unused fields, check filters (L25)</li>
+        </ol>
+      </section>
+
+      <section id="requirements">
+        <h2>4. Required Measures (Minimum)</h2>
+        <pre><code class="language-dax">Total Amount := SUM ( Fact[Amount] )
+Row Count := COUNTROWS ( Fact )
+Avg Amount := DIVIDE ( [Total Amount], [Row Count] )
+YTD Amount := TOTALYTD ( [Total Amount], DimDate[Date] )
+Amount % of All :=
+DIVIDE (
+    [Total Amount],
+    CALCULATE ( [Total Amount], REMOVEFILTERS ( DimGeography[Region] ) )
+)</code></pre>
+        <p>Adapt table/column names to your dataset. Document any substitute measures.</p>
+      </section>
+
+      <section id="layout">
+        <h2>5. Page Layout Guidance</h2>
+        <ul>
+          <li><strong>Top:</strong> title + 3–4 KPI cards (current value + optional comparison)</li>
+          <li><strong>Filters:</strong> date range, region/category slicers (left or top)</li>
+          <li><strong>Main:</strong> trend over time + one breakdown (bar or matrix)</li>
+          <li><strong>Detail:</strong> optional table for drill; keep density readable</li>
+        </ul>
+        <div class="callout callout-tip">
+          <div class="callout-title">Design reminder</div>
+          One decision per page. Avoid “chart junk.” Align to the KPIs you defined in framing.
         </div>
       </section>
 
       <section id="rubric">
-        <h2>4. Rubric (Self-Check)</h2>
+        <h2>6. Rubric (Suggested Marking)</h2>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Criterion</th><th>Good looks like</th></tr></thead>
+            <thead><tr><th>Criterion</th><th>Weight</th><th>Looks like</th></tr></thead>
             <tbody>
-              <tr><td>Model</td><td>Star shape, correct cardinality, date table marked</td></tr>
-              <tr><td>Measures</td><td>Named measures; YoY or YTD works with date slicer</td></tr>
-              <tr><td>Layout</td><td>KPIs first; clear hierarchy; not overcrowded</td></tr>
-              <tr><td>Clarity</td><td>Insight titles; consistent colors; defined filters</td></tr>
-              <tr><td>Correctness</td><td>Totals match a known Excel/SQL check for a sample filter</td></tr>
+              <tr><td>Model quality</td><td>25%</td><td>Clear grain, star, correct relationships</td></tr>
+              <tr><td>DAX measures</td><td>25%</td><td>Required measures work with slicers</td></tr>
+              <tr><td>Visual design</td><td>20%</td><td>Hierarchy, labels, readable layout</td></tr>
+              <tr><td>Interactivity</td><td>15%</td><td>Slicers, cross-filter, meaningful defaults</td></tr>
+              <tr><td>Write-up &amp; performance</td><td>15%</td><td>Decision/KPIs documented; optimization note</td></tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <section id="stretch">
-        <h2>5. Stretch Goals</h2>
+      <section id="practical">
+        <h2>7. Hands-on Lab / Submission Checklist</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li>☐ Decision and KPIs written (5–8 lines)</li>
+            <li>☐ Star model with Date + ≥2 other dimensions</li>
+            <li>☐ Measures: total, count, ratio, YTD or prior, % of total</li>
+            <li>☐ One report page with cards + trend + breakdown + slicers</li>
+            <li>☐ Unused columns removed or hidden; filter direction checked</li>
+            <li>☐ Short reflection: one modeling choice and one performance choice</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="interview">
+        <h2>8. Viva Defense Prompts</h2>
         <ul>
-          <li>Inactive relationship for ship date vs order date + USERELATIONSHIP measure</li>
-          <li>Tooltip page with definitions</li>
-          <li>Bookmark for “This year vs last year” view</li>
+          <li>What is the grain of your fact table?</li>
+          <li>Walk through how one CALCULATE measure changes with a slicer.</li>
+          <li>Why did you choose these visuals for this decision?</li>
+          <li>What would break if the date table were incomplete?</li>
         </ul>
       </section>
 
-      <section id="summary">
-        <h2>6. Summary · End of Module 5</h2>
-        <ul>
-          <li>Model → measures → visuals is the reliable build order.</li>
-          <li>Acceptance criteria prevent “pretty but wrong” dashboards.</li>
-          <li>You now have the core stack for Module 6 capstone work.</li>
-        </ul>
-        <div class="callout callout-success">
-          <div class="callout-title">Module 5 complete</div>
-          Next: <strong>Module 6 — Capstone</strong> (Lectures 27–30): proposal, lab, final dashboard, presentation & viva.
+      <section id="quiz">
+        <h2>9. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — frame the decision and KPIs before building." data-fail="Project starts with framing, not with random charts.">
+          <p><strong>Q1.</strong> First step of the dashboard project should be:</p>
+          <div class="quiz-option" data-value="a">A. Add every visual type available</div>
+          <div class="quiz-option" data-value="b">B. Frame the decision and KPIs</div>
+          <div class="quiz-option" data-value="c">C. Skip the model and use one flat table always</div>
+          <div class="quiz-option" data-value="d">D. Ignore performance</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
         </div>
+        <div class="quiz-card" id="q2" data-answer="a" data-success="Correct — star schema + measures + interactive page is the Module 5 outcome." data-fail="The project integrates modeling, DAX, and dashboard design.">
+          <p><strong>Q2.</strong> A complete Module 5 deliverable includes:</p>
+          <div class="quiz-option" data-value="a">A. Star model, key measures, interactive page, short write-up</div>
+          <div class="quiz-option" data-value="b">B. Only screenshots with no model</div>
+          <div class="quiz-option" data-value="c">C. Only Python code</div>
+          <div class="quiz-option" data-value="d">D. Only a CSV export</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <section id="cheatsheet">
+        <h2>10. Cheat Sheet</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li>Frame → Model → Measures → Visuals → Optimize</li>
+            <li>Minimum measures: total · count · ratio · YTD/prior · % of total</li>
+            <li>Layout: KPIs top · slicers · trend · breakdown</li>
+            <li>Defend grain, one CALCULATE, and one performance choice in viva</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2>11. Summary</h2>
+        <ul>
+          <li>Module 5 ends with a working interactive dashboard, not only theory.</li>
+          <li>Model quality and DAX correctness matter as much as chart choice.</li>
+          <li>Document decisions for the viva and for future you.</li>
+        </ul>
+      </section>
+
+      <section id="next">
+        <h2>12. What’s Next</h2>
+        <p><strong>Module 6 — Capstone</strong> begins with Lecture 27 (Project Proposal), scaling these skills into a full industry-style analytics project.</p>
       </section>
 
       <div class="lecture-nav">
         <a href="lecture25.html" class="nav-btn">← Lecture 25</a>
-        <a href="../../index.html" class="nav-btn primary" onclick="markLectureComplete(26)">Module 5 complete · Course Home →</a>
+        <a href="../week14/lecture27.html" class="nav-btn primary" onclick="markLectureComplete(26)">Next: Lecture 27 — Capstone Proposal →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 26 of 30 · Module 5 complete</p></footer>
+      <footer class="site-footer"><p>Lecture 26 of 30 · Module 5 · Dashboard Design Project · End of Module 5</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 26: Dashboard Project",url:"lecture26.html",module:"Module 5",keywords:"project dashboard rubric star schema measures",summary:"End-to-end mini dashboard project"}];</script>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 26: Dashboard Design Project",url:"lecture26.html",module:"Module 5",keywords:"dashboard project power bi star schema measures rubric viva",summary:"End-to-end dashboard design project for Module 5"}];</script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

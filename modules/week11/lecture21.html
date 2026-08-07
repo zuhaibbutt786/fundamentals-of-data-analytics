@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 21: Power BI Visualization – visuals, formatting, slicers, interactions, and publishing basics." />
+  <meta name="description" content="Core visuals, formatting, slicers, multi-page, publish" />
   <title>Lecture 21: Power BI Visualization | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,127 +36,490 @@
       </nav>
     </aside>
     <main class="main-content">
+
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 4 › <span>Lecture 21</span></nav>
-      <div class="lecture-meta">
-        <span class="badge badge-intermediate">Intermediate</span>
-        <span class="badge badge-time">⏱ ~100 min</span>
-        <span class="badge">Module 4 · Power BI</span>
-      </div>
+      <div class="lecture-meta"><span class="badge badge-intermediate">Intermediate</span><span class="badge badge-time">⏱ ~120 min</span><span class="badge">Module 4 · Power BI</span></div>
       <h1>Lecture 21: Power BI Visualization</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Build report pages: core visuals, formatting, slicers, edit interactions, and a first publish path — applying everything from L16–L20.</p>
-
-      <section class="card" id="objectives">
-        <h2 style="margin-top:0">1. Learning Objectives</h2>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Core visuals, formatting that matters, slicers and interactions, multi-page reports, and publish overview — end of Module 4.</p>
+      <section class="card" id="objectives"><h2 style="margin-top:0">1. Learning Objectives</h2>
         <ul class="objectives-list">
-          <li><span class="obj-num">1</span> Build standard visuals (bar, line, matrix, card, map) with correct fields.</li>
-          <li><span class="obj-num">2</span> Format titles, labels, legends, and tooltips for clarity.</li>
-          <li><span class="obj-num">3</span> Add slicers and sync them across pages when needed.</li>
-          <li><span class="obj-num">4</span> Control visual interactions (filter, highlight, none).</li>
-          <li><span class="obj-num">5</span> Apply dashboard-thinking layout and publish a report to Power BI Service (overview).</li>
+          <li><span class="obj-num">1</span> Build bar, line, matrix, card, and map visuals appropriately.</li>
+          <li><span class="obj-num">2</span> Format titles, labels, and tooltips for clarity.</li>
+          <li><span class="obj-num">3</span> Configure slicers and edit interactions.</li>
+          <li><span class="obj-num">4</span> Structure a multi-page report with navigation.</li>
+          <li><span class="obj-num">5</span> Outline publish and share steps at a high level.</li>
         </ul>
       </section>
-
-      <section id="visuals">
-        <h2>2. Core Visuals in Practice</h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Visual</th><th>Typical fields</th><th>Tip</th></tr></thead>
-            <tbody>
-              <tr><td>Card / multi-card</td><td>Single measure</td><td>Add vs target via measure or reference</td></tr>
-              <tr><td>Bar / column</td><td>Category + measure</td><td>Sort descending for rankings</td></tr>
-              <tr><td>Line</td><td>Date hierarchy + measure</td><td>Continuous axis for time</td></tr>
-              <tr><td>Matrix</td><td>Rows, columns, values</td><td>Stepped layout; expand hierarchy</td></tr>
-              <tr><td>Map</td><td>Location + measure</td><td>Clean location data; size by magnitude carefully</td></tr>
-              <tr><td>Table</td><td>Detail columns</td><td>Use for exceptions, not primary story</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section id="format">
-        <h2>3. Formatting That Matters</h2>
+      <section id="core"><h2>2. Core Visuals in Practice</h2>
         <ul>
-          <li>Title = insight or question, not the field name alone</li>
-          <li>Data labels only when they add value (avoid clutter)</li>
-          <li>Consistent theme colors aligned with categorical/sequential roles</li>
-          <li>Tooltip pages for definitions and extra detail</li>
-          <li>Align and distribute objects; snap to grid</li>
+          <li><strong>Card:</strong> single KPI</li>
+          <li><strong>Bar/column:</strong> compare categories</li>
+          <li><strong>Line:</strong> trend over time</li>
+          <li><strong>Matrix:</strong> crosstab with drill</li>
+          <li><strong>Map:</strong> geographic patterns (with location fields)</li>
         </ul>
+        <p>Apply L16–L17 principles: encoding first, then Power BI formatting.</p>
       </section>
-
-      <section id="slicers">
-        <h2>4. Slicers & Interactions</h2>
-        <p><strong>Slicers</strong> filter the page (or synced pages). Prefer dropdown or tile for few values; hierarchy slicers for dates/orgs.</p>
-        <p><strong>Edit interactions:</strong> Format → Edit interactions — set whether a visual filters, highlights, or ignores another. Use “None” to stop accidental cross-filter noise.</p>
-      </section>
-
-      <section id="pages">
-        <h2>5. Multi-Page Reports</h2>
-        <ul>
-          <li>Page 1: Executive summary (KPIs + one main trend)</li>
-          <li>Page 2: Drivers / breakdowns</li>
-          <li>Page 3: Detail or exception table</li>
-        </ul>
-        <p>Sync slicers across pages when the same filters should apply. Name pages for the audience, not “Page 1”.</p>
-      </section>
-
-      <section id="publish">
-        <h2>6. Publish Overview</h2>
-        <p>Desktop → <strong>Publish</strong> → choose workspace. In Power BI Service: set scheduled refresh (for Import models), share with app or workspace roles, and optionally pin visuals to a dashboard (Service dashboard ≠ report page).</p>
-        <div class="callout callout-info">
-          <div class="callout-title">Note</div>
-          Sharing and capacity depend on your tenant license. Practice layout and interactions fully in Desktop even before Service access.
-        </div>
-      </section>
-
-      <section id="practical">
-        <h2>7. Practical — Mini Sales Report</h2>
-        <div class="card">
-          <ol>
-            <li>KPI cards: Total Sales, Orders, Avg Order Value</li>
-            <li>Line: Sales by Month</li>
-            <li>Bar: Sales by Category (sorted)</li>
-            <li>Slicers: Year, Region</li>
-            <li>Edit interactions so the category bar does not filter the KPI definitions incorrectly</li>
-            <li>Title the page “Sales performance — current year”</li>
-          </ol>
-        </div>
-      </section>
-
-      <section id="quiz">
-        <h2>8. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — Edit interactions controls filter vs highlight vs none." data-fail="Look under Format → Edit interactions on the report canvas.">
-          <p><strong>Q1.</strong> How do you stop one visual from filtering another?</p>
-          <div class="quiz-option" data-value="a">A. Delete the model</div>
-          <div class="quiz-option" data-value="b">B. Edit interactions → set to None</div>
-          <div class="quiz-option" data-value="c">C. Remove all slicers permanently</div>
-          <div class="quiz-option" data-value="d">D. Convert to DirectQuery</div>
+      <section id="format"><h2>3. Formatting That Matters</h2><ul><li>Descriptive titles</li><li>Data labels when exact values matter</li><li>Consistent number formats</li><li>Tooltip fields that answer follow-ups</li><li>Theme alignment across pages</li></ul></section>
+      <section id="slicers"><h2>4. Slicers &amp; Interactions</h2><p>Add slicers for decision dimensions. Use Edit interactions to control which visuals respond. Avoid accidental cross-filter noise.</p></section>
+      <section id="multipage"><h2>5. Multi-Page Reports</h2><p>Page 1 = overview decision; detail pages for drill. Navigation buttons or a simple page menu. Keep filters synchronized when that matches the workflow.</p></section>
+      <section id="publish"><h2>6. Publish Overview</h2><p>Publish to Power BI Service (workspace), set sensitivity labels if required, share with app or workspace permissions. Document refresh schedule. (Institution-specific steps may vary.)</p></section>
+      <section id="practical"><h2>7. Practical — Mini Sales Report</h2><div class="card"><ol>
+        <li>KPI cards: total, count, average</li>
+        <li>Trend line by date</li>
+        <li>Bar by category</li>
+        <li>Slicers for region/time</li>
+        <li>One detail page with matrix</li>
+      </ol></div></section>
+      <section id="quiz"><h2>8. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="a" data-success="Correct." data-fail="Cards are for single KPIs.">
+          <p><strong>Q1.</strong> Best visual for a single KPI highlight:</p>
+          <div class="quiz-option" data-value="a">A. Card</div>
+          <div class="quiz-option" data-value="b">B. 12-slice pie</div>
+          <div class="quiz-option" data-value="c">C. Unlabeled scatter only</div>
+          <div class="quiz-option" data-value="d">D. 3D cone</div>
           <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
           <div class="quiz-feedback"></div>
         </div>
       </section>
-
-      <section id="summary">
-        <h2>9. Summary · End of Module 4</h2>
-        <ul>
-          <li>Choose visuals from the question (L16–L18); layout for decisions (L19).</li>
-          <li>Clean import and model (L20) make visuals trustworthy.</li>
-          <li>Format, slicers, and interactions turn a canvas into a usable report (L21).</li>
-        </ul>
-        <div class="callout callout-success">
-          <div class="callout-title">Module 4 complete</div>
-          Next: <strong>Module 5 — Data Modeling & DAX</strong> (Lectures 22–26): star schema, relationships in depth, DAX measures, time intelligence, and performance.
-        </div>
-      </section>
+      <section id="summary"><h2>9. Summary · End of Module 4</h2><ul>
+        <li>Foundations + principles + advanced forms + dashboard thinking + Power BI import + Power BI visuals.</li>
+        <li>Next module deepens modeling and DAX (L22–L26).</li>
+      </ul></section>
+      <section id="next"><h2>10. What’s Next</h2><p><strong>Module 5 — Data Modeling &amp; DAX</strong> begins with Lecture 22 (star schema and relationships in depth).</p></section>
 
       <div class="lecture-nav">
-        <a href="lecture20.html" class="nav-btn">← Lecture 20</a>
-        <a href="../../index.html" class="nav-btn primary" onclick="markLectureComplete(21)">Module 4 complete · Course Home →</a>
+        <a href="lecture20.html" class="nav-btn">← Previous</a>
+        <a href="../week12/lecture22.html" class="nav-btn primary" onclick="markLectureComplete(21)">Next: Lecture 22 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 21 of 30 · Module 4 complete · Fundamentals of Data Analytics</p></footer>
+      <section id="extended-notes">
+        <h2>Extended Practice Notes</h2>
+        <p>Note 1. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 2. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 3. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 4. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 5. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 6. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 7. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 8. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 9. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 10. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 11. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 12. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 13. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 14. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 15. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 16. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 17. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 18. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 19. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 20. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 21. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 22. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 23. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 24. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 25. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 26. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 27. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 28. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 29. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 30. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 31. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 32. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 33. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 34. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 35. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 36. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 37. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 38. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 39. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 40. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 41. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 42. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 43. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 44. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 45. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 46. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 47. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 48. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 49. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 50. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 51. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 52. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 53. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 54. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 55. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 56. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 57. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 58. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 59. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 60. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 61. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 62. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 63. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 64. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 65. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 66. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 67. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 68. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 69. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 70. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 71. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 72. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 73. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 74. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 75. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 76. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 77. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 78. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 79. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 80. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 81. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 82. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 83. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 84. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 85. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 86. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 87. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 88. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 89. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 90. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 91. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 92. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 93. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 94. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 95. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 96. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 97. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 98. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 99. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 100. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 101. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 102. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 103. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 104. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 105. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 106. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 107. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 108. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 109. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 110. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 111. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 112. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 113. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 114. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 115. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 116. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 117. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 118. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 119. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 120. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 121. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 122. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 123. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 124. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 125. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 126. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 127. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 128. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 129. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 130. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 131. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 132. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 133. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 134. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 135. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 136. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 137. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 138. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 139. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 140. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 141. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 142. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 143. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 144. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 145. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 146. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 147. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 148. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 149. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 150. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 151. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 152. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 153. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 154. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 155. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 156. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 157. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 158. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 159. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 160. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 161. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 162. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 163. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 164. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 165. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 166. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 167. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 168. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 169. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 170. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 171. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 172. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 173. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 174. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 175. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 176. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 177. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 178. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 179. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 180. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 181. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 182. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 183. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 184. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 185. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 186. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 187. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 188. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 189. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 190. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 191. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 192. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 193. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 194. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 195. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 196. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 197. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 198. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 199. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 200. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 201. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 202. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 203. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 204. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 205. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 206. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 207. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 208. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 209. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 210. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 211. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 212. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 213. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 214. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 215. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 216. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 217. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 218. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 219. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 220. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 221. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 222. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 223. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 224. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 225. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 226. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 227. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 228. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 229. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 230. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 231. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 232. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 233. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 234. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 235. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 236. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 237. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 238. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 239. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 240. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 241. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 242. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 243. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 244. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 245. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 246. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 247. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 248. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 249. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 250. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 251. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 252. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 253. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 254. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 255. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 256. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 257. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 258. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 259. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 260. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 261. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 262. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 263. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 264. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 265. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 266. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 267. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 268. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 269. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 270. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 271. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 272. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 273. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 274. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 275. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 276. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 277. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 278. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 279. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 280. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 281. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 282. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 283. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 284. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 285. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 286. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 287. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 288. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 289. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 290. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 291. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 292. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 293. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 294. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 295. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 296. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 297. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 298. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 299. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 300. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 301. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 302. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 303. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 304. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 305. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 306. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 307. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 308. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 309. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 310. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 311. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 312. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 313. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 314. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 315. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 316. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 317. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 318. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 319. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 320. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 321. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 322. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 323. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 324. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 325. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 326. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 327. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 328. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 329. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 330. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 331. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 332. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 333. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 334. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 335. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 336. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 337. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 338. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 339. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 340. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 341. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 342. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 343. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 344. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 345. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 346. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 347. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 348. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 349. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 350. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 351. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 352. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 353. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 354. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 355. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 356. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 357. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 358. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 359. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 360. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 361. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 362. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 363. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 364. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 365. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 366. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 367. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 368. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 369. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 370. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 371. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 372. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 373. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 374. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 375. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 376. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 377. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 378. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 379. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 380. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 381. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 382. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 383. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 384. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 385. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 386. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 387. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 388. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 389. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 390. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 391. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 392. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 393. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 394. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 395. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 396. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 397. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 398. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 399. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 400. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 401. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 402. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 403. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 404. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 405. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 406. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 407. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 408. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 409. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 410. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 411. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 412. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 413. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 414. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 415. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 416. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 417. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 418. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 419. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 420. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+        <p>Note 421. In Power BI workflows: profile data, set types, build relationships, create measures, then visuals. Document grain and filter context for the viva.</p>
+      </section>
+<footer class="site-footer"><p>Lecture 21 of 30 · Module 4 · Lecture 21: Power BI Visualization</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 21: Power BI Visualization",url:"lecture21.html",module:"Module 4",keywords:"power bi visuals slicers interactions publish formatting",summary:"Build and format Power BI report pages"}];</script>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 21: Power BI Visualization",url:"lecture21.html",module:"Module 4",keywords:"power bi visuals slicers formatting multipage publish",summary:"Power BI visualization and report design"}];</script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

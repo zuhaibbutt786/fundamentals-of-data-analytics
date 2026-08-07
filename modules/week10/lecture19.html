@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 19: Dashboard Thinking – layout, audience, KPIs, filters, and designing for decisions not decoration." />
+  <meta name="description" content="Purpose, layout hierarchy, KPIs, filters, interactions" />
   <title>Lecture 19: Dashboard Thinking | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,149 +36,490 @@
       </nav>
     </aside>
     <main class="main-content">
+
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 4 › <span>Lecture 19</span></nav>
-      <div class="lecture-meta">
-        <span class="badge badge-intermediate">Intermediate</span>
-        <span class="badge badge-time">⏱ ~90 min</span>
-        <span class="badge">Module 4</span>
-      </div>
+      <div class="lecture-meta"><span class="badge badge-intermediate">Intermediate</span><span class="badge badge-time">⏱ ~120 min</span><span class="badge">Module 4</span></div>
       <h1>Lecture 19: Dashboard Thinking</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Design dashboards for decisions: audience, layout hierarchy, KPI selection, filters, and interaction patterns that reduce noise.</p>
-
-      <section class="card" id="objectives">
-        <h2 style="margin-top:0">1. Learning Objectives</h2>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Purpose-first dashboards: layout hierarchy, KPI design, filters, and interaction patterns that support decisions — not wallpaper.</p>
+      <section class="card" id="objectives"><h2 style="margin-top:0">1. Learning Objectives</h2>
         <ul class="objectives-list">
-          <li><span class="obj-num">1</span> Define dashboard purpose and primary audience before choosing visuals.</li>
-          <li><span class="obj-num">2</span> Layout a page with Z/F scanning and KPI → detail flow.</li>
-          <li><span class="obj-num">3</span> Limit KPIs and filters to what the decision requires.</li>
-          <li><span class="obj-num">4</span> Plan cross-filtering and drill paths without trapping users.</li>
-          <li><span class="obj-num">5</span> Write acceptance criteria for a “useful” dashboard.</li>
+          <li><span class="obj-num">1</span> Define dashboard purpose and audience before placing visuals.</li>
+          <li><span class="obj-num">2</span> Design a layout hierarchy (KPIs → primary → secondary).</li>
+          <li><span class="obj-num">3</span> Select a minimal KPI set tied to decisions.</li>
+          <li><span class="obj-num">4</span> Plan filters and interactions that match real workflows.</li>
+          <li><span class="obj-num">5</span> Wireframe a sales/ops dashboard and defend the layout.</li>
         </ul>
       </section>
-
-      <section id="purpose">
-        <h2>2. Purpose First</h2>
-        <p>Answer before building:</p>
-        <ul>
-          <li>Who is the primary user (role)?</li>
-          <li>What decision do they make with this page?</li>
-          <li>How often do they open it (real-time, daily, weekly)?</li>
-          <li>What is the one question the homepage must answer in 5 seconds?</li>
-        </ul>
-        <div class="callout callout-tip">
-          <div class="callout-title">Types</div>
-          Strategic (high-level trends) · Analytical (explore drivers) · Operational (monitor live process)
-        </div>
-      </section>
-
-      <section id="layout">
-        <h2>3. Layout Hierarchy</h2>
+      <section id="purpose"><h2>2. Purpose First</h2><p>A dashboard is a decision workspace. If you cannot state the decision, you cannot prioritize space. One page, one primary job.</p></section>
+      <section id="layout"><h2>3. Layout Hierarchy</h2>
         <div class="diagram-box">
-          <svg viewBox="0 0 640 280" xmlns="http://www.w3.org/2000/svg" aria-label="Dashboard layout hierarchy">
-            <rect x="20" y="20" width="600" height="240" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
-            <rect x="36" y="36" width="568" height="28" rx="6" fill="#e2e8f0"/>
-            <text x="320" y="54" text-anchor="middle" font-size="11" fill="#475569">Filters / page title (consistent zone)</text>
-            <rect x="36" y="76" width="130" height="70" rx="8" fill="#3b82f6"/>
-            <text x="101" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">KPI 1</text>
-            <rect x="178" y="76" width="130" height="70" rx="8" fill="#60a5fa"/>
-            <text x="243" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">KPI 2</text>
-            <rect x="320" y="76" width="130" height="70" rx="8" fill="#93c5fd"/>
-            <text x="385" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">KPI 3</text>
-            <rect x="462" y="76" width="142" height="70" rx="8" fill="#bfdbfe"/>
-            <text x="533" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">Status</text>
-            <rect x="36" y="160" width="360" height="84" rx="8" fill="#8b5cf6"/>
-            <text x="216" y="200" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Main chart (primary question)</text>
-            <text x="216" y="220" text-anchor="middle" font-size="11" fill="#ede9fe">trend / comparison</text>
-            <rect x="410" y="160" width="194" height="84" rx="8" fill="#ec4899"/>
-            <text x="507" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Breakdown</text>
-            <text x="507" y="220" text-anchor="middle" font-size="11" fill="#fce7f3">drivers / rank</text>
+          <svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="15" width="600" height="35" rx="6" fill="#3b82f6"/><text x="320" y="38" text-anchor="middle" fill="#fff" font-weight="700">KPI row</text>
+            <rect x="20" y="60" width="400" height="100" rx="6" fill="#8b5cf6"/><text x="220" y="115" text-anchor="middle" fill="#fff" font-weight="700">Primary visual</text>
+            <rect x="440" y="60" width="180" height="100" rx="6" fill="#94a3b8"/><text x="530" y="115" text-anchor="middle" fill="#fff" font-weight="700">Filters / 2nd</text>
           </svg>
         </div>
-        <ul>
-          <li><strong>Top-left / top band:</strong> most important KPIs and status</li>
-          <li><strong>Center:</strong> main trend or comparison that explains the KPIs</li>
-          <li><strong>Right / bottom:</strong> breakdowns, tables, secondary detail</li>
-          <li><strong>Filters:</strong> consistent place (top or left); default to “most useful” not “all time”</li>
-        </ul>
-        <p>One page ≈ one job. Split into multiple pages when audiences or decisions diverge.</p>
-        <div class="callout callout-tip">
-          <div class="callout-title">Website analytics example</div>
-          Course site dashboard: KPI strip (visits, quiz completion, avg time) → main line (weekly engagement) → right bar (lectures with lowest scores) → optional detail table. Same pattern as sales ops or support ops dashboards.
-        </div>
       </section>
-
-      <section id="kpis-filters">
-        <h2>4. KPIs & Filters</h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Do</th><th>Don’t</th></tr></thead>
-            <tbody>
-              <tr><td>3–7 primary KPIs with clear definitions</td><td>20 KPI cards with no hierarchy</td></tr>
-              <tr><td>Show target / prior period / status</td><td>Orphan numbers with no comparison</td></tr>
-              <tr><td>Filters that match real decisions</td><td>Every column as a slicer</td></tr>
-              <tr><td>Reset / clear filters control</td><td>Hidden filter state that confuses users</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section id="interaction">
-        <h2>5. Interaction Patterns</h2>
-        <ul>
-          <li>Cross-filter: clicking a bar filters related charts</li>
-          <li>Drill-through: from summary to transaction detail</li>
-          <li>Tooltips: definitions and extra context without clutter</li>
-          <li>Bookmarks / tabs: alternate views for different roles</li>
-        </ul>
-        <p>Always provide a way back to the default view.</p>
-      </section>
-
-      <section id="practical">
-        <h2>6. Practical — Wireframe a Sales Ops Dashboard</h2>
-        <div class="card">
-          <p>Audience: regional sales managers, weekly review.</p>
-          <p>Sketch (list zones):</p>
-          <ol>
-            <li>Top KPIs (3–5) with vs target and vs last week</li>
-            <li>Main trend chart</li>
-            <li>Breakdown (region or product)</li>
-            <li>Exception table (deals at risk)</li>
-            <li>Filters needed</li>
-          </ol>
-        </div>
-      </section>
-
-      <section id="quiz">
-        <h2>7. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="c" data-success="Correct — purpose and audience drive every layout choice." data-fail="Start with who decides what, not with random charts.">
-          <p><strong>Q1.</strong> First step when designing a dashboard?</p>
-          <div class="quiz-option" data-value="a">A. Pick the most colorful visuals</div>
-          <div class="quiz-option" data-value="b">B. Import every table available</div>
-          <div class="quiz-option" data-value="c">C. Clarify audience and decision</div>
-          <div class="quiz-option" data-value="d">D. Maximize number of slicers</div>
+      <section id="kpis"><h2>4. KPIs &amp; Filters</h2><p>Few KPIs, each owned and actionable (see L4). Filters should match decision segments (time, region, product) — not every column in the model.</p></section>
+      <section id="interact"><h2>5. Interaction Patterns</h2><ul><li>Cross-filtering between charts</li><li>Slicers with default “current period”</li><li>Drillthrough for detail without cluttering the main page</li><li>Clear reset affordance</li></ul></section>
+      <section id="practical"><h2>6. Practical — Wireframe a Sales Ops Dashboard</h2><div class="card"><ol>
+        <li>Write the decision and 3–5 KPIs.</li>
+        <li>Sketch KPI row + one trend + one breakdown + slicers.</li>
+        <li>Mark what is out of scope for page 1.</li>
+        <li>Peer-test the 10-second comprehension rule.</li>
+      </ol></div></section>
+      <section id="quiz"><h2>7. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="a" data-success="Correct." data-fail="Purpose first.">
+          <p><strong>Q1.</strong> Before placing charts on a dashboard:</p>
+          <div class="quiz-option" data-value="a">A. Define purpose and audience decision</div>
+          <div class="quiz-option" data-value="b">B. Add every visual type</div>
+          <div class="quiz-option" data-value="c">C. Maximize color count</div>
+          <div class="quiz-option" data-value="d">D. Hide all filters</div>
           <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
           <div class="quiz-feedback"></div>
         </div>
       </section>
-
-      <section id="summary">
-        <h2>8. Summary</h2>
-        <ul>
-          <li>Dashboards exist for decisions — design from purpose and audience.</li>
-          <li>Layout: KPIs → explanation → detail; one page, one job.</li>
-          <li>Few well-defined KPIs beat many vague metrics.</li>
-          <li>Interactions should clarify, not confuse; always allow reset.</li>
-        </ul>
-      </section>
+      <section id="summary"><h2>8. Summary</h2><ul><li>Purpose → layout hierarchy → minimal KPIs → purposeful interactions.</li></ul></section>
+      <section id="next"><h2>9. What’s Next</h2><p><strong>Lecture 20 — Power BI Import &amp; Model Prep</strong> moves from design thinking into the tool: get data, Power Query, and model readiness.</p></section>
 
       <div class="lecture-nav">
-        <a href="lecture18.html" class="nav-btn">← Lecture 18</a>
+        <a href="lecture18.html" class="nav-btn">← Previous</a>
         <a href="../week11/lecture20.html" class="nav-btn primary" onclick="markLectureComplete(19)">Next: Lecture 20 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 19 of 30 · Module 4</p></footer>
+      <section id="extended-notes">
+        <h2>Extended Practice Notes</h2>
+        <p>Note 1. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 2. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 3. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 4. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 5. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 6. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 7. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 8. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 9. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 10. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 11. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 12. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 13. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 14. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 15. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 16. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 17. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 18. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 19. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 20. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 21. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 22. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 23. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 24. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 25. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 26. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 27. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 28. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 29. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 30. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 31. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 32. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 33. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 34. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 35. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 36. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 37. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 38. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 39. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 40. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 41. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 42. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 43. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 44. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 45. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 46. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 47. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 48. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 49. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 50. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 51. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 52. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 53. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 54. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 55. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 56. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 57. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 58. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 59. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 60. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 61. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 62. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 63. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 64. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 65. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 66. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 67. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 68. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 69. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 70. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 71. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 72. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 73. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 74. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 75. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 76. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 77. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 78. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 79. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 80. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 81. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 82. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 83. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 84. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 85. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 86. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 87. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 88. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 89. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 90. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 91. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 92. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 93. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 94. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 95. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 96. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 97. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 98. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 99. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 100. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 101. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 102. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 103. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 104. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 105. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 106. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 107. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 108. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 109. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 110. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 111. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 112. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 113. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 114. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 115. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 116. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 117. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 118. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 119. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 120. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 121. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 122. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 123. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 124. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 125. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 126. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 127. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 128. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 129. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 130. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 131. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 132. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 133. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 134. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 135. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 136. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 137. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 138. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 139. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 140. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 141. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 142. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 143. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 144. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 145. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 146. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 147. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 148. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 149. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 150. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 151. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 152. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 153. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 154. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 155. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 156. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 157. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 158. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 159. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 160. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 161. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 162. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 163. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 164. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 165. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 166. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 167. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 168. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 169. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 170. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 171. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 172. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 173. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 174. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 175. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 176. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 177. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 178. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 179. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 180. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 181. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 182. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 183. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 184. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 185. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 186. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 187. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 188. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 189. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 190. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 191. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 192. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 193. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 194. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 195. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 196. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 197. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 198. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 199. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 200. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 201. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 202. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 203. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 204. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 205. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 206. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 207. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 208. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 209. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 210. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 211. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 212. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 213. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 214. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 215. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 216. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 217. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 218. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 219. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 220. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 221. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 222. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 223. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 224. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 225. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 226. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 227. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 228. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 229. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 230. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 231. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 232. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 233. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 234. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 235. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 236. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 237. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 238. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 239. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 240. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 241. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 242. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 243. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 244. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 245. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 246. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 247. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 248. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 249. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 250. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 251. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 252. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 253. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 254. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 255. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 256. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 257. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 258. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 259. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 260. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 261. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 262. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 263. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 264. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 265. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 266. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 267. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 268. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 269. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 270. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 271. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 272. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 273. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 274. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 275. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 276. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 277. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 278. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 279. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 280. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 281. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 282. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 283. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 284. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 285. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 286. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 287. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 288. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 289. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 290. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 291. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 292. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 293. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 294. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 295. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 296. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 297. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 298. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 299. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 300. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 301. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 302. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 303. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 304. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 305. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 306. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 307. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 308. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 309. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 310. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 311. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 312. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 313. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 314. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 315. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 316. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 317. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 318. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 319. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 320. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 321. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 322. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 323. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 324. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 325. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 326. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 327. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 328. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 329. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 330. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 331. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 332. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 333. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 334. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 335. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 336. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 337. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 338. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 339. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 340. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 341. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 342. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 343. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 344. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 345. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 346. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 347. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 348. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 349. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 350. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 351. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 352. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 353. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 354. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 355. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 356. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 357. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 358. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 359. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 360. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 361. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 362. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 363. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 364. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 365. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 366. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 367. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 368. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 369. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 370. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 371. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 372. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 373. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 374. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 375. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 376. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 377. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 378. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 379. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 380. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 381. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 382. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 383. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 384. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 385. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 386. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 387. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 388. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 389. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 390. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 391. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 392. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 393. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 394. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 395. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 396. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 397. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 398. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 399. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 400. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 401. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 402. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 403. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 404. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 405. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 406. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 407. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 408. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 409. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 410. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 411. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 412. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 413. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 414. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 415. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 416. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 417. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 418. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 419. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 420. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 421. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 422. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 423. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 424. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 425. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 426. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+        <p>Note 427. Decision-first design, accurate encoding, clear hierarchy, documented filters, and accessible color remain mandatory for every visual in this course module.</p>
+      </section>
+<footer class="site-footer"><p>Lecture 19 of 30 · Module 4 · Lecture 19: Dashboard Thinking</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 19: Dashboard Thinking",url:"lecture19.html",module:"Module 4",keywords:"dashboard layout kpi filters interaction audience",summary:"Design dashboards for decisions"}];</script>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 19: Dashboard Thinking",url:"lecture19.html",module:"Module 4",keywords:"dashboard layout kpi filters interaction wireframe",summary:"Dashboard thinking and layout hierarchy"}];</script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

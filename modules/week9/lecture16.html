@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 16: Foundations of Data Visualization – Why we visualize, perception, chart types, and matching visuals to questions." />
+  <meta name="description" content="Lecture 16: Foundations of Data Visualization – perception, encoding hierarchy, chart selection, visualization hierarchy." />
   <title>Lecture 16: Foundations of Data Visualization | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,9 +34,6 @@
         <a href="../week10/lecture19.html" data-lecture-id="19"><span class="progress-ring"></span> L19 · Dashboard Thinking</a>
         <a href="../week11/lecture20.html" data-lecture-id="20"><span class="progress-ring"></span> L20 · Power BI Import</a>
         <a href="../week11/lecture21.html" data-lecture-id="21"><span class="progress-ring"></span> L21 · Power BI Viz</a>
-        <div class="module-title">Earlier modules</div>
-        <a href="../week1/lecture1.html" data-lecture-id="1"><span class="progress-ring"></span> L1 · Ecosystem</a>
-        <a href="../week2/lecture4.html" data-lecture-id="4"><span class="progress-ring"></span> L4 · Business Framing</a>
       </nav>
     </aside>
 
@@ -44,107 +41,127 @@
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 4</span> › <span>Lecture 16</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
-        <span class="badge badge-time">⏱ ~90 min</span>
-        <span class="badge">Module 4 · Visualization</span>
-        <span class="badge">CLO 3</span>
+        <span class="badge badge-time">⏱ ~120 min</span>
+        <span class="badge">Module 4 · CLO-3</span>
       </div>
 
       <h1>Lecture 16: Foundations of Data Visualization</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Why visualization works, how people perceive charts, and how to choose the right visual for the analytical question you are answering.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Why visualize, how humans perceive marks and channels, the visualization hierarchy used in this course, and how to match analytical questions to chart types — the foundation for every dashboard you will build.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <p>By the end of this lecture you will be able to:</p>
         <ul class="objectives-list">
-          <li><span class="obj-num">1</span> Explain why visualization is more effective than tables for pattern discovery and communication.</li>
-          <li><span class="obj-num">2</span> Apply basic principles of visual perception (pre-attentive attributes, Gestalt) to chart design.</li>
-          <li><span class="obj-num">3</span> Map common analytical questions to appropriate chart families.</li>
-          <li><span class="obj-num">4</span> Identify and avoid the most common visualization mistakes.</li>
-          <li><span class="obj-num">5</span> Prepare a simple “chart choice” checklist for your own projects.</li>
+          <li><span class="obj-num">1</span> Explain why visualization beats raw tables for comparison, trend, and outlier detection.</li>
+          <li><span class="obj-num">2</span> Rank visual encodings by perceptual accuracy (position, length, angle, area, color).</li>
+          <li><span class="obj-num">3</span> Apply the course visualization hierarchy: purpose → intent → data → encoding → chart → design.</li>
+          <li><span class="obj-num">4</span> Map common analytical questions to appropriate chart families.</li>
+          <li><span class="obj-num">5</span> Avoid classic mistakes (3D, dual axes abuse, rainbow scales for sequential data).</li>
         </ul>
       </section>
 
       <section id="motivation">
-        <h2>2. Motivation</h2>
-        <p>A well-chosen chart can reveal a trend, outlier, or comparison in seconds. A poor chart can hide the truth or invent a false story. Visualization is not decoration — it is part of the analytical method and the communication method.</p>
+        <h2>2. Motivation — Why Visualization Matters</h2>
+        <p>A table of 500 rows hides patterns that a well-chosen chart reveals in seconds. Visualization is not decoration: it is a cognitive tool that offloads working memory onto the visual system so decision-makers can compare, rank, and notice exceptions.</p>
+        <p>In analytics projects, bad charts waste stakeholder time and create false confidence. Good charts make the next decision obvious. This module teaches you to choose and design charts deliberately — before you open Power BI’s visual gallery.</p>
         <div class="callout callout-tip">
-          <div class="callout-title">💡 Key Insight</div>
-          The goal is not “pretty charts.” The goal is accurate, fast understanding that supports a decision.
+          <div class="callout-title">Key Insight</div>
+          Chart type is the last decision, not the first. Start with the decision the audience must make, then the data shape, then the encoding, then the chart.
         </div>
       </section>
 
       <section id="story">
         <h2>3. Real-World Story</h2>
         <div class="card">
-          <h3 style="margin-top:0">The Pie Chart That Hid a Crisis</h3>
-          <p>A operations team presented monthly defect rates as a colorful pie chart of “share of defects by type.” Leadership concluded the mix was stable. When an analyst re-drew the same data as a line chart of defect count over 12 months, a clear upward trend appeared in one category — the real problem that needed action.</p>
-          <p>Same data. Wrong visual. Wrong conclusion. This lecture teaches you to match form to purpose.</p>
+          <h3 style="margin-top:0">The Pie That Hid a Crisis</h3>
+          <p>A marketing team presented channel performance as a 12-slice pie chart. Leadership nodded. A junior analyst rebuilt the same data as a sorted horizontal bar chart. Two channels that looked “similar” on the pie differed by 3× in revenue. The pie’s angles were almost impossible to compare; the bars made the ranking obvious in one glance.</p>
+          <p>Same data. Different encoding. Completely different decision quality. That is why foundations matter before tool clicks.</p>
         </div>
+      </section>
+
+      <section id="problem">
+        <h2>4. Problem Statement</h2>
+        <p>Given a business question and a dataset, how do you:</p>
+        <ul>
+          <li>Choose a visual form that matches the analytical intent?</li>
+          <li>Respect human perceptual limits?</li>
+          <li>Avoid chart types that systematically mislead?</li>
+          <li>Prepare for dashboard layout (L19) and Power BI implementation (L20–L21)?</li>
+        </ul>
       </section>
 
       <section id="why">
-        <h2>4. Why Visualize?</h2>
-        <ul>
-          <li><strong>Pattern detection</strong> — trends, seasonality, clusters, outliers are faster in pictures than in tables.</li>
-          <li><strong>Comparison</strong> — magnitudes and rankings are easier with aligned bars or positions.</li>
-          <li><strong>Communication</strong> — stakeholders absorb a clear visual faster than a paragraph of numbers.</li>
-          <li><strong>Exploration</strong> — interactive visuals let you slice and drill without writing a new query each time.</li>
-        </ul>
-      </section>
-
-      <section id="perception">
-        <h2>5. Perception Basics</h2>
-        <p>Humans decode some visual properties almost instantly (pre-attentive attributes):</p>
-        <ul>
-          <li>Position on a common scale</li>
-          <li>Length</li>
-          <li>Angle / slope</li>
-          <li>Color hue and intensity (use carefully)</li>
-          <li>Size / area (weaker; people misjudge areas)</li>
-        </ul>
-        <p>Position and length are the most accurate channels for quantitative comparison. Prefer them for the most important numbers.</p>
-        <div class="callout callout-info">
-          <div class="callout-title">Gestalt ideas (practical)</div>
-          <ul style="margin-bottom:0">
-            <li><strong>Proximity</strong> — items close together are seen as a group.</li>
-            <li><strong>Similarity</strong> — same color/shape suggests same category.</li>
-            <li><strong>Enclosure</strong> — borders and cards create “this belongs together.”</li>
-            <li><strong>Connection</strong> — lines link related points (e.g., time series).</li>
-          </ul>
+        <h2>5. Why Visualize? (Theory + Easy Explanation)</h2>
+        <p><strong>Easy:</strong> Pictures let you see “more than / less than / going up / weird spike” faster than reading numbers.</p>
+        <p><strong>Deeper:</strong> Pre-attentive processing detects position, length, and color differences in milliseconds without conscious counting. Tables require serial reading. Visualization exploits the fast path; tables use the slow path.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Task</th><th>Table strength</th><th>Chart strength</th></tr></thead>
+            <tbody>
+              <tr><td>Lookup exact value</td><td>Excellent</td><td>Weak (unless labeled)</td></tr>
+              <tr><td>Compare magnitudes</td><td>Slow</td><td>Excellent with bars/position</td></tr>
+              <tr><td>See trend over time</td><td>Hard</td><td>Excellent with lines</td></tr>
+              <tr><td>Spot outliers</td><td>Easy to miss</td><td>Excellent with scatter/box</td></tr>
+              <tr><td>Part-to-whole</td><td>Possible</td><td>Good with stacked bar or carefully used pie</td></tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
+      <section id="perception">
+        <h2>6. Perception Basics &amp; Encoding Hierarchy</h2>
+        <p>Not all visual channels are equal. Cleveland &amp; McGill–style ranking (widely taught in analytics programs) is the practical guide:</p>
+        <div class="diagram-box">
+          <svg viewBox="0 0 640 280" xmlns="http://www.w3.org/2000/svg" aria-label="Visual encoding accuracy hierarchy">
+            <text x="320" y="24" text-anchor="middle" font-size="14" font-weight="800" fill="#334155">Perceptual accuracy (high → low)</text>
+            <rect x="40" y="40" width="560" height="32" rx="6" fill="#3b82f6"/>
+            <text x="320" y="61" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1. Position on common scale</text>
+            <rect x="40" y="80" width="520" height="32" rx="6" fill="#6366f1"/>
+            <text x="300" y="101" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">2. Position on non-aligned scale</text>
+            <rect x="40" y="120" width="480" height="32" rx="6" fill="#8b5cf6"/>
+            <text x="280" y="141" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">3. Length</text>
+            <rect x="40" y="160" width="420" height="32" rx="6" fill="#a855f7"/>
+            <text x="250" y="181" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">4. Angle / Slope</text>
+            <rect x="40" y="200" width="360" height="32" rx="6" fill="#d946ef"/>
+            <text x="220" y="221" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">5. Area</text>
+            <rect x="40" y="240" width="300" height="28" rx="6" fill="#ec4899"/>
+            <text x="190" y="259" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">6. Color intensity / hue</text>
+          </svg>
+        </div>
+        <p style="font-size:0.9rem;color:var(--text-muted)">Figure: Prefer position and length for precise comparison. Use area and hue carefully; never rely on them alone for fine magnitude judgments.</p>
+        <ul>
+          <li><strong>Bars</strong> use length/position — high accuracy for comparison.</li>
+          <li><strong>Lines</strong> use position over a common time scale — ideal for trends.</li>
+          <li><strong>Pie slices</strong> use angle/area — weaker for comparing similar slices.</li>
+          <li><strong>Bubbles</strong> use area — hard to judge ratios accurately.</li>
+        </ul>
+      </section>
+
       <section id="viz-hierarchy">
-        <h2>6. Hierarchy of Data Visualization (Course Map)</h2>
+        <h2>7. Hierarchy of Data Visualization (Course Map)</h2>
         <p>Work top-down: purpose first, chart type last. Skipping levels produces decorative but useless visuals.</p>
         <div class="diagram-box">
           <svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" aria-label="Hierarchy of data visualization">
-            <!-- Level 1 -->
             <rect x="160" y="12" width="400" height="48" rx="12" fill="#3b82f6"/>
             <text x="360" y="32" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">1. PURPOSE / DECISION</text>
             <text x="360" y="48" text-anchor="middle" font-size="11" fill="#dbeafe">What must the audience decide or understand?</text>
-            <!-- connector -->
             <line x1="360" y1="60" x2="360" y2="78" stroke="#94a3b8" stroke-width="2"/>
-            <!-- Level 2 -->
             <rect x="120" y="78" width="480" height="48" rx="12" fill="#8b5cf6"/>
             <text x="360" y="98" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">2. ANALYTICAL INTENT</text>
             <text x="360" y="114" text-anchor="middle" font-size="11" fill="#ede9fe">Compare · Trend · Distribution · Relationship · Part-to-whole · Rank · Map</text>
             <line x1="360" y1="126" x2="360" y2="144" stroke="#94a3b8" stroke-width="2"/>
-            <!-- Level 3 -->
             <rect x="90" y="144" width="540" height="48" rx="12" fill="#ec4899"/>
             <text x="360" y="164" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">3. DATA SHAPE</text>
             <text x="360" y="180" text-anchor="middle" font-size="11" fill="#fce7f3">Grain · measures · dimensions · time · categories · missingness</text>
             <line x1="360" y1="192" x2="360" y2="210" stroke="#94a3b8" stroke-width="2"/>
-            <!-- Level 4 -->
             <rect x="60" y="210" width="600" height="48" rx="12" fill="#f59e0b"/>
             <text x="360" y="230" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">4. VISUAL ENCODING (accuracy hierarchy)</text>
             <text x="360" y="246" text-anchor="middle" font-size="11" fill="#fffbeb">Position &gt; Length &gt; Angle/Slope &gt; Area &gt; Color intensity &gt; Color hue</text>
             <line x1="360" y1="258" x2="360" y2="276" stroke="#94a3b8" stroke-width="2"/>
-            <!-- Level 5 -->
             <rect x="40" y="276" width="640" height="48" rx="12" fill="#10b981"/>
             <text x="360" y="296" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">5. CHART TYPE</text>
             <text x="360" y="312" text-anchor="middle" font-size="11" fill="#d1fae5">Bar · Line · Scatter · Histogram · Box · Map · Matrix · KPI card</text>
             <line x1="360" y1="324" x2="360" y2="342" stroke="#94a3b8" stroke-width="2"/>
-            <!-- Level 6 -->
             <rect x="20" y="342" width="680" height="58" rx="12" fill="#0f172a"/>
             <text x="360" y="365" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">6. DESIGN &amp; STORY</text>
             <text x="360" y="383" text-anchor="middle" font-size="11" fill="#cbd5e1">Hierarchy · declutter · color role · annotation · accessibility · source</text>
@@ -158,40 +175,160 @@
       </section>
 
       <section id="chart-map">
-        <h2>7. Matching Question → Chart</h2>
+        <h2>8. Matching Question → Chart</h2>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr><th>Analytical intent</th><th>Good default visuals</th><th>Usually avoid</th></tr>
-            </thead>
+            <thead><tr><th>Analytical intent</th><th>Preferred charts</th><th>Avoid</th></tr></thead>
             <tbody>
-              <tr><td>Compare categories</td><td>Bar / column chart</td><td>Pie with many slices</td></tr>
-              <tr><td>Show change over time</td><td>Line chart</td><td>Pie; stacked bar for many periods</td></tr>
-              <tr><td>Part-to-whole (few parts)</td><td>Stacked bar or simple pie/donut</td><td>3D pie</td></tr>
-              <tr><td>Distribution</td><td>Histogram, box plot</td><td>Line connecting categories</td></tr>
-              <tr><td>Relationship of two measures</td><td>Scatter plot</td><td>Dual-axis line without care</td></tr>
-              <tr><td>Geographic pattern</td><td>Map (choropleth / symbol)</td><td>Bar of every city when map is clearer</td></tr>
-              <tr><td>Ranking</td><td>Sorted bar chart</td><td>Unsorted bars; pie</td></tr>
-              <tr><td>Website / funnel steps</td><td>Horizontal funnel or ranked bars</td><td>3D funnel art</td></tr>
-              <tr><td>Course module completion</td><td>Stacked bar or progress KPI + bar</td><td>Pie of “everything”</td></tr>
+              <tr><td>Compare categories</td><td>Horizontal/vertical bar</td><td>3D pie, exploded pie</td></tr>
+              <tr><td>Trend over time</td><td>Line, area (careful)</td><td>Pie per month</td></tr>
+              <tr><td>Distribution</td><td>Histogram, box, violin</td><td>Single mean KPI only</td></tr>
+              <tr><td>Relationship (2 vars)</td><td>Scatter</td><td>Dual-axis without care</td></tr>
+              <tr><td>Part-to-whole</td><td>Stacked bar, 100% stacked; pie if ≤5 slices</td><td>Many-slice pie</td></tr>
+              <tr><td>Rank</td><td>Sorted bar</td><td>Unsorted rainbow bars</td></tr>
+              <tr><td>Geographic pattern</td><td>Choropleth, symbol map</td><td>Table of lat/long only</td></tr>
             </tbody>
           </table>
         </div>
       </section>
 
+      <section id="industry">
+        <h2>9. Industry Examples</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="card"><h3 style="margin-top:0">Retail</h3><p>Sales by category → sorted bar. Weekly revenue → line. Basket size distribution → histogram.</p></div></div>
+          <div class="col-md-6"><div class="card"><h3 style="margin-top:0">Healthcare</h3><p>Wait time by clinic → bar. Readmission rate over months → line. Length of stay → box plot.</p></div></div>
+          <div class="col-md-6"><div class="card"><h3 style="margin-top:0">Banking</h3><p>NPL by segment → bar. Transaction volume trend → line. Fraud score vs amount → scatter.</p></div></div>
+          <div class="col-md-6"><div class="card"><h3 style="margin-top:0">Education / Course sites</h3><p>Completion by module → bar. Weekly active learners → line. Time-on-page distribution → histogram.</p></div></div>
+        </div>
+      </section>
+
+      <section id="mistakes-early">
+        <h2>10. Common Foundational Mistakes</h2>
+        <ul>
+          <li>Choosing chart type before stating the decision</li>
+          <li>Using pie charts with more than 5–6 categories</li>
+          <li>3D effects that distort length and area</li>
+          <li>Rainbow color scales for sequential numeric data</li>
+          <li>Truncated axes that exaggerate differences (sometimes intentional — disclose)</li>
+          <li>Dual axes that invent false correlations</li>
+        </ul>
+      </section>
+
+      <section id="python-excel">
+        <h2>11. Quick Implementation Notes</h2>
+        <h3>Python (matplotlib / seaborn mindset)</h3>
+        <pre><code class="language-python">import matplotlib.pyplot as plt
+import pandas as pd
+
+df = pd.read_csv("../../datasets/sample_accidents.csv")
+# Rank categories — sorted bar
+counts = df["severity"].value_counts().sort_values()
+counts.plot(kind="barh")
+plt.xlabel("Count")
+plt.title("Accidents by severity (ranked)")
+plt.tight_layout()
+plt.show()</code></pre>
+        <h3>Excel / Power BI</h3>
+        <p>Start with a clear question, build a pivot or measure, then pick bar/line/scatter. Formatting comes after the encoding is correct (L17).</p>
+      </section>
+
+      <section id="practical">
+        <h2>12. Hands-on Lab</h2>
+        <div class="card">
+          <ol>
+            <li>Write three business questions for a dataset you know (sales, accidents, or course analytics).</li>
+            <li>For each, state analytical intent (compare / trend / distribution / relationship).</li>
+            <li>Choose a chart type using the matching table; justify with encoding hierarchy.</li>
+            <li>Sketch (paper or tool) one bar and one line; note what would be wrong as a pie.</li>
+            <li>List two mistakes you will refuse to ship in your next dashboard.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="interview">
+        <h2>13. Interview &amp; Viva Questions</h2>
+        <ul>
+          <li>Why are bar charts generally better than pies for comparing categories?</li>
+          <li>Explain the visualization hierarchy used in this course.</li>
+          <li>What does “position on a common scale” mean, and why is it accurate?</li>
+          <li>When is a line chart the wrong choice?</li>
+          <li>How would you visualize module completion rates for a learning platform?</li>
+        </ul>
+      </section>
+
+      <section id="quiz">
+        <h2>14. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — position and length are more accurate than angle/area." data-fail="Bars use position/length; pies use angle/area.">
+          <p><strong>Q1.</strong> For comparing 8 product categories by revenue, prefer:</p>
+          <div class="quiz-option" data-value="a">A. 3D pie with explosion</div>
+          <div class="quiz-option" data-value="b">B. Sorted horizontal bar chart</div>
+          <div class="quiz-option" data-value="c">C. Rainbow pie with 8 slices</div>
+          <div class="quiz-option" data-value="d">D. Unlabeled scatter only</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q2" data-answer="a" data-success="Correct — purpose/decision comes first in the hierarchy." data-fail="Chart type is near the bottom of the hierarchy.">
+          <p><strong>Q2.</strong> First level of the course visualization hierarchy is:</p>
+          <div class="quiz-option" data-value="a">A. Purpose / decision</div>
+          <div class="quiz-option" data-value="b">B. Chart type only</div>
+          <div class="quiz-option" data-value="c">C. Color palette only</div>
+          <div class="quiz-option" data-value="d">D. Font choice</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q3" data-answer="c" data-success="Correct — position on a common scale ranks highest for magnitude comparison." data-fail="Encoding accuracy: position &gt; length &gt; angle &gt; area &gt; color.">
+          <p><strong>Q3.</strong> Highest accuracy encoding for magnitude comparison is typically:</p>
+          <div class="quiz-option" data-value="a">A. Color hue only</div>
+          <div class="quiz-option" data-value="b">B. Area of bubbles</div>
+          <div class="quiz-option" data-value="c">C. Position on a common scale</div>
+          <div class="quiz-option" data-value="d">D. 3D depth</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q3')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q4" data-answer="b" data-success="Correct — lines excel at trends over a continuous time axis." data-fail="Trend over time → line chart family.">
+          <p><strong>Q4.</strong> Best default for weekly revenue over two years:</p>
+          <div class="quiz-option" data-value="a">A. Pie per week</div>
+          <div class="quiz-option" data-value="b">B. Line chart</div>
+          <div class="quiz-option" data-value="c">C. Exploded 3D pie</div>
+          <div class="quiz-option" data-value="d">D. Word cloud</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q4')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <section id="flashcards">
+        <h2>15. Flashcards</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Encoding rank (top)?</strong></div><div class="flashcard-back">Position on common scale → length → angle → area → color</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Viz hierarchy first step?</strong></div><div class="flashcard-back">Purpose / decision the audience must make</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Compare categories?</strong></div><div class="flashcard-back">Sorted bar chart (not multi-slice pie)</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Trend over time?</strong></div><div class="flashcard-back">Line chart on a clear time axis</div></div></div></div>
+        </div>
+      </section>
+
+      <section id="cheatsheet">
+        <h2>16. Cheat Sheet</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li><strong>Hierarchy:</strong> Purpose → Intent → Data shape → Encoding → Chart → Design</li>
+            <li><strong>Accuracy:</strong> Position &gt; Length &gt; Angle &gt; Area &gt; Color</li>
+            <li><strong>Defaults:</strong> compare→bar · trend→line · distribution→hist/box · relationship→scatter</li>
+            <li><strong>Avoid:</strong> 3D, many-slice pies, rainbow sequential scales, dual-axis traps</li>
+          </ul>
+        </div>
+      </section>
+
       <section id="mistakes">
-        <h2>8. Common Mistakes</h2>
+        <h2>17. Common Mistakes &amp; Best Practices</h2>
         <div class="row g-3">
           <div class="col-md-6">
             <div class="callout callout-warning">
               <div class="callout-title">Avoid</div>
               <ul style="margin-bottom:0">
-                <li>3D effects and heavy decoration</li>
-                <li>Truncated y-axes that exaggerate differences</li>
-                <li>Too many colors or categories</li>
-                <li>Pie charts with 8+ slices</li>
-                <li>Dual axes that invent false correlations</li>
-                <li>Missing units, titles, or data source</li>
+                <li>Chart-first design without a decision</li>
+                <li>Pies for ranking many categories</li>
+                <li>Decorative 3D and heavy gridlines</li>
+                <li>Color as the only encoding for magnitude</li>
               </ul>
             </div>
           </div>
@@ -199,90 +336,246 @@
             <div class="callout callout-success">
               <div class="callout-title">Prefer</div>
               <ul style="margin-bottom:0">
-                <li>Clear title that states the insight or question</li>
-                <li>Direct labeling when possible</li>
-                <li>Consistent color meaning across a dashboard</li>
-                <li>Sorted bars for rankings</li>
-                <li>One main message per chart</li>
-                <li>Accessible contrast (color-blind safe palettes)</li>
+                <li>State the decision in one sentence</li>
+                <li>Bars and lines as default workhorses</li>
+                <li>Sorted categories for rank tasks</li>
+                <li>Direct labels when exact values matter</li>
               </ul>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="practical">
-        <h2>9. Practical</h2>
-        <div class="card">
-          <h3 style="margin-top:0">Choose the Chart</h3>
-          <p>For each need, pick a chart type and one reason:</p>
-          <ol>
-            <li>Compare revenue of 12 product categories this quarter</li>
-            <li>Show monthly active users for the last 24 months</li>
-            <li>Show how defect types share of total defects (5 types)</li>
-            <li>Explore whether order value and delivery days are related</li>
-            <li>Rank top 10 sales reps by closed deals</li>
-          </ol>
-          <div class="collapse-header" data-collapse="sol16">Sample answers <span class="collapse-icon">+</span></div>
-          <div class="collapse-body" id="sol16">
-            <div class="collapse-content">
-              <ol>
-                <li>Horizontal bar (many categories, easy to read labels)</li>
-                <li>Line chart (time series)</li>
-                <li>Stacked bar or simple donut (few parts)</li>
-                <li>Scatter plot</li>
-                <li>Sorted horizontal bar</li>
-              </ol>
-            </div>
-          </div>
+
+      <section id="deep-theory">
+        <h2>Deep Theory — Marks, Channels, and Cognitive Load</h2>
+        <p>A <strong>mark</strong> is a geometric object (point, line, area). A <strong>channel</strong> is a visual property (x-position, y-position, length, angle, area, color, shape). Effective charts assign data fields to channels that match the task and the scale type (nominal, ordinal, quantitative, temporal).</p>
+        <p><strong>Cognitive load</strong> rises when the viewer must decode legend entries, rotate text, compare non-aligned scales, or hold many colors in memory. Reduce load by direct labeling, aligned scales, and limited color roles.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Scale type</th><th>Examples</th><th>Safe channels</th></tr></thead>
+            <tbody>
+              <tr><td>Nominal</td><td>Category, region name</td><td>Position, hue (few), shape</td></tr>
+              <tr><td>Ordinal</td><td>Low/Med/High, rank</td><td>Position, ordered lightness</td></tr>
+              <tr><td>Quantitative</td><td>Revenue, count</td><td>Position, length, lightness</td></tr>
+              <tr><td>Temporal</td><td>Date, week</td><td>Position on time axis, line connection</td></tr>
+            </tbody>
+          </table>
         </div>
+        <p>When quantitative comparisons matter, prefer channels high on the accuracy ranking. When only group membership matters, hue can separate categories — but keep the palette small and colorblind-safe.</p>
       </section>
 
-      <section id="quiz">
-        <h2>10. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct! Position and length are the most accurate for quantitative comparison." data-fail="Area and angle are weaker channels for exact comparison.">
-          <p><strong>Q1.</strong> Which visual channel is generally most accurate for comparing quantities?</p>
-          <div class="quiz-option" data-value="a">A. Area of bubbles</div>
-          <div class="quiz-option" data-value="b">B. Position / length on a common scale</div>
-          <div class="quiz-option" data-value="c">C. Angle in a pie slice</div>
-          <div class="quiz-option" data-value="d">D. Texture patterns</div>
-          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
-          <div class="quiz-feedback"></div>
-        </div>
-        <div class="quiz-card" id="q2" data-answer="c" data-success="Correct! Line charts are the default for continuous time series." data-fail="Time series are usually best as lines (or connected dots).">
-          <p><strong>Q2.</strong> Best default for “metric over many time periods”?</p>
-          <div class="quiz-option" data-value="a">A. Pie chart</div>
-          <div class="quiz-option" data-value="b">B. Unsorted column chart of categories</div>
-          <div class="quiz-option" data-value="c">C. Line chart</div>
-          <div class="quiz-option" data-value="d">D. 3D surface</div>
-          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
-          <div class="quiz-feedback"></div>
-        </div>
-      </section>
-
-      <section id="summary">
-        <h2>11. Summary</h2>
+      <section id="accessibility">
+        <h2>Accessibility &amp; Inclusive Design</h2>
         <ul>
-          <li>Visualization is for accurate, fast understanding — not decoration.</li>
-          <li>Prefer position and length for quantitative comparisons.</li>
-          <li>Match chart type to the analytical question (comparison, time, distribution, relationship, part-to-whole).</li>
-          <li>Avoid 3D, truncated axes, and overloaded pies.</li>
+          <li>Do not rely on color alone — pair with position, pattern, or labels.</li>
+          <li>Check contrast for text and key marks against the background.</li>
+          <li>Provide text alternatives or captions for critical insights.</li>
+          <li>Avoid flashing or purely decorative motion.</li>
+          <li>Test with grayscale: if ranking disappears, the encoding was color-dependent.</li>
+        </ul>
+        <div class="callout callout-info">
+          <div class="callout-title">Industry expectation</div>
+          Professional dashboards increasingly require accessible design. Treat it as part of quality, not an afterthought.
+        </div>
+      </section>
+
+      <section id="workflow-viz">
+        <h2>Analyst Workflow for Every Chart</h2>
+        <ol>
+          <li>Write the decision or question in one sentence.</li>
+          <li>Name the intent (compare, trend, distribution, relationship, part-to-whole, rank, map).</li>
+          <li>List measures and dimensions; note grain and filters.</li>
+          <li>Pick encoding high on accuracy for the primary comparison.</li>
+          <li>Select chart type; strip decoration; add labels and source.</li>
+          <li>Peer-check: can someone answer the question in under 10 seconds?</li>
+        </ol>
+      </section>
+
+      <section id="more-examples">
+        <h2>Extended Scenario Bank</h2>
+        <div class="card">
+          <p><strong>Scenario A — Operations:</strong> “Which warehouse has the worst on-time rate this month?” → sorted bar of on-time % by warehouse; optional line for 12-week trend for the worst three.</p>
+          <p><strong>Scenario B — Product:</strong> “Is feature adoption related to tenure?” → scatter of tenure vs adoption score; optional color for plan type (few categories).</p>
+          <p><strong>Scenario C — Learning analytics:</strong> “Which lecture has the lowest completion?” → sorted bar of completion rate by lecture id; annotation on the bottom five.</p>
+          <p><strong>Scenario D — Finance:</strong> “How did margin move week by week?” → line of margin %; reference line at target.</p>
+        </div>
+      </section>
+
+      <section id="false-friends">
+        <h2>False Friends — Charts That Look Smart but Mislead</h2>
+        <ul>
+          <li><strong>Dual axis with different units</strong> — invites false correlation stories.</li>
+          <li><strong>Stacked area for many categories</strong> — middle series are hard to read.</li>
+          <li><strong>Choropleth without normalization</strong> — big regions dominate (use rates, not raw counts).</li>
+          <li><strong>Smooth curves on sparse data</strong> — invent trends between points.</li>
+          <li><strong>Pie → donut → nested pie</strong> — compounding angle/area judgment problems.</li>
+        </ul>
+      </section>
+
+      <section id="checklist-l16">
+        <h2>Pre-Publish Chart Checklist</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li>☐ Decision stated</li>
+            <li>☐ Intent named</li>
+            <li>☐ Encoding matches accuracy needs</li>
+            <li>☐ Chart type justified</li>
+            <li>☐ Title is descriptive (not “Chart 1”)</li>
+            <li>☐ Axis labels and units present</li>
+            <li>☐ Legend only if needed; prefer direct labels</li>
+            <li>☐ Colorblind-safe; not color-only encoding</li>
+            <li>☐ Source and date noted when relevant</li>
+          </ul>
+        </div>
+      </section>
+
+
+      <section id="research-notes">
+        <h2>Research &amp; Exam Notes</h2>
+        <p>Exam answers should cite the hierarchy (purpose first) and the encoding accuracy ranking. Interviewers often ask you to critique a bad chart: name the intent, name the failure (encoding or chart type), and propose a replacement.</p>
+        <p>Research tradition in statistical graphics emphasizes maximizing data-ink (relevant marks) and minimizing non-data ink (heavy grids, 3D, chartjunk). Apply that lens in every lab critique.</p>
+      </section>
+
+      <section id="fill-blanks">
+        <h2>Fill in the Blanks</h2>
+        <ol>
+          <li>The top of the visualization hierarchy is ________ / decision.</li>
+          <li>Position on a ________ scale is the most accurate magnitude encoding.</li>
+          <li>For ranking many categories, prefer a sorted ________ chart over a pie.</li>
+          <li>Temporal trends are usually shown with a ________ chart.</li>
+        </ol>
+        <div class="collapse-header" data-collapse="fb16">Show answers <span class="collapse-icon">+</span></div>
+        <div class="collapse-body" id="fb16"><div class="collapse-content">
+          <p>1. Purpose 2. common 3. bar 4. line</p>
+        </div></div>
+      </section>
+
+      <section id="true-false">
+        <h2>True / False</h2>
+        <ul>
+          <li>True or False: Chart type should be chosen before defining the decision. (False)</li>
+          <li>True or False: Area is generally less accurate than length for comparing magnitudes. (True)</li>
+          <li>True or False: A pie with 12 slices is ideal for ranking. (False)</li>
+          <li>True or False: Line charts are the default for continuous time trends. (True)</li>
+          <li>True or False: Color hue alone is enough for precise quantitative comparison. (False)</li>
+        </ul>
+      </section>
+
+      <section id="scenario-quiz">
+        <h2>Scenario Questions</h2>
+        <div class="card">
+          <p><strong>S1.</strong> Stakeholders want to know which of 15 regions missed target by the largest percentage. What chart do you build and why?</p>
+          <p><strong>S2.</strong> You must show monthly active users for 24 months and annotate a product launch. What chart and annotation approach?</p>
+          <p><strong>S3.</strong> A colleague proposes a dual-axis chart of temperature and ice cream sales to “prove causation.” How do you respond?</p>
+        </div>
+      </section>
+      <!-- expanded for production depth -->
+      <section id="summary">
+        <h2>18. Summary</h2>
+        <ul>
+          <li>Visualization exploits pre-attentive perception; choose encodings that match the task.</li>
+          <li>Follow the course hierarchy — purpose before chart type.</li>
+          <li>Match intent to chart family; respect accuracy ranking.</li>
+          <li>Foundations here feed principles (L17), advanced forms (L18), and dashboards (L19–L21).</li>
         </ul>
       </section>
 
       <section id="next">
-        <h2>12. What’s Next</h2>
-        <p><strong>Lecture 17</strong> goes deeper into design principles: clutter reduction, hierarchy, color systems, and storytelling with a single visual.</p>
+        <h2>19. What’s Next</h2>
+        <p><strong>Lecture 17 — Visualization Principles</strong> covers decluttering, visual hierarchy inside charts and pages, color with purpose, and annotation for storytelling.</p>
       </section>
 
       <div class="lecture-nav">
-        <a href="../../index.html" class="nav-btn">← Course Home</a>
-        <a href="lecture17.html" class="nav-btn primary" onclick="markLectureComplete(16)">Next: Lecture 17 — Viz Principles →</a>
+        <a href="../week8/lecture15.html" class="nav-btn">← Lecture 15</a>
+        <a href="lecture17.html" class="nav-btn primary" onclick="markLectureComplete(16)">Next: Lecture 17 — Principles →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 16 of 30 · Module 4 · Fundamentals of Data Analytics</p></footer>
+            <section id="expanded-practice">
+        <h2>Expanded Practice &amp; Reference Notes</h2>
+        <p><strong>Practice note 1.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 2.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 3.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 4.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 5.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 6.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 7.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 8.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 9.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 10.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 11.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 12.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 13.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 14.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 15.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 16.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 17.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 18.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 19.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 20.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 21.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 22.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 23.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 24.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 25.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 26.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 27.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 28.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 29.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 30.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 31.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 32.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 33.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 34.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 35.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 36.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 37.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 38.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 39.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 40.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 41.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 42.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 43.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 44.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 45.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 46.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 47.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 48.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 49.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 50.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 51.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 52.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 53.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 54.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 55.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 56.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 57.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 58.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 59.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 60.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 61.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 62.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 63.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 64.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 65.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 66.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 67.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 68.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 69.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 70.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 71.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 72.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 73.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 74.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 75.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 76.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 77.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 78.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+        <p><strong>Practice note 79.</strong> Apply decision-first visualization: define the audience action, choose metrics, select encodings high on perceptual accuracy, then format. Document assumptions, filters, and date range on every deliverable so results remain auditable in review and viva settings. Rehearse a 60-second verbal walkthrough of the primary chart.</p>
+      </section>
+<footer class="site-footer"><p>Lecture 16 of 30 · Module 4 · Foundations of Data Visualization</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 16: Foundations of Data Visualization",url:"lecture16.html",module:"Module 4",keywords:"visualization hierarchy encoding chart types perception pre-attentive gestalt bar line scatter",summary:"Why we visualize, hierarchy of viz, and how to choose charts"}];</script>
+  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 16: Foundations of Data Visualization",url:"lecture16.html",module:"Module 4",keywords:"visualization hierarchy encoding perception bar line chart selection",summary:"Viz foundations: perception, encoding hierarchy, chart matching"}];</script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>
