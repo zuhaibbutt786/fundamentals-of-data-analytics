@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 12: Correlation & Relationships – Pearson, Spearman, matrix, multicollinearity, heatmap practical." />
+  <meta name="description" content="Lecture 12: Correlation & Relationships – Pearson, Spearman, multicollinearity, VIF, and choosing the right statistical test." />
   <title>Lecture 12: Correlation & Relationships | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,10 +26,10 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-section">Course Navigation</div>
       <nav class="sidebar-nav">
-        <div class="module-title">Module 3 · Advanced EDA</div>
+        <div class="module-title">Module 3 · EDA</div>
         <a href="lecture11.html" data-lecture-id="11"><span class="progress-ring"></span> L11 · Descriptive Stats</a>
         <a href="lecture12.html" class="active" data-lecture-id="12"><span class="progress-ring"></span> L12 · Correlation</a>
-        <a href="../week7/lecture13.html" data-lecture-id="13"><span class="progress-ring"></span> L13 · Grouped Analysis</a>
+        <a href="../week7/lecture13.html" data-lecture-id="13"><span class="progress-ring"></span> L13 · Aggregation</a>
         <a href="../week7/lecture14.html" data-lecture-id="14"><span class="progress-ring"></span> L14 · Time Series</a>
         <a href="../week8/lecture15.html" data-lecture-id="15"><span class="progress-ring"></span> L15 · EDA Case Study</a>
       </nav>
@@ -41,129 +41,305 @@
         <span class="badge badge-time">⏱ ~110 min</span>
         <span class="badge">Module 3 · CLO-2</span>
       </div>
-      <h1>Lecture 12: Correlation &amp; Relationships</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Pearson vs Spearman, correlation matrices, multicollinearity, and heatmap analysis — as specified in the syllabus and correlation course materials.</p>
+      <h1>Lecture 12: Correlation & Relationships</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Pearson & Spearman correlation, multicollinearity & VIF, and a practical guide to choosing the right statistical test — fully aligned with the CS-399 outline and the “Choosing the Right Statistical Test” slides.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
         <ul class="objectives-list">
-          <li><span class="obj-num">1</span> Distinguish Pearson (linear) from Spearman (rank/monotonic) correlation.</li>
-          <li><span class="obj-num">2</span> Build and interpret a correlation matrix for numeric features.</li>
-          <li><span class="obj-num">3</span> Explain multicollinearity and why it matters for regression-style models.</li>
-          <li><span class="obj-num">4</span> Create a correlation heatmap in Python and state actionable insights.</li>
-          <li><span class="obj-num">5</span> Avoid mistaking correlation for causation in stakeholder communication.</li>
+          <li><span class="obj-num">1</span> Compute and interpret Pearson and Spearman correlation coefficients.</li>
+          <li><span class="obj-num">2</span> Build and read a correlation matrix / heatmap.</li>
+          <li><span class="obj-num">3</span> Detect multicollinearity with VIF and decide what to do about it.</li>
+          <li><span class="obj-num">4</span> Choose the appropriate statistical test based on variable type and research question.</li>
+          <li><span class="obj-num">5</span> Apply the decision framework to real business / healthcare / education scenarios.</li>
         </ul>
       </section>
 
-      <section id="pearson-spearman">
-        <h2>2. Pearson vs Spearman</h2>
+      <section id="motivation">
+        <h2>2. Motivation</h2>
+        <p>Almost every analytical question eventually asks: “Are these two things related?” or “Is there a difference between groups?” Choosing the wrong test produces either meaningless p-values or, worse, false confidence. This lecture gives you the mental map that professional analysts use every day.</p>
+      </section>
+
+      <section id="pearson">
+        <h2>3. Pearson Correlation Coefficient (r)</h2>
+        <p>Measures the strength and direction of a <strong>linear</strong> relationship between two continuous numerical variables.</p>
+        <p>\[
+        r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum (x_i - \bar{x})^2 \sum (y_i - \bar{y})^2}}
+        \]</p>
+        <ul>
+          <li>\( r = 1 \): perfect positive linear relationship</li>
+          <li>\( r = -1 \): perfect negative linear relationship</li>
+          <li>\( r = 0 \): no linear relationship (there may still be a non-linear one)</li>
+        </ul>
+        <div class="callout callout-tip">
+          <div class="callout-title">Rule of thumb (approximate)</div>
+          |r| < 0.3 weak · 0.3–0.7 moderate · > 0.7 strong (always plot the data!)
+        </div>
+      </section>
+
+      <section id="spearman">
+        <h2>4. Spearman Rank Correlation (ρ)</h2>
+        <p>Used when data are ranked (ordinal) or when the relationship is monotonic but not strictly linear.</p>
+        <p>\[
+        \rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}
+        \]</p>
+        <p>where \( d_i \) is the difference between the ranks of each pair and \( n \) is the number of observations.</p>
+        <p><strong>When to prefer Spearman:</strong> outliers, ordinal scales, or clear non-linear but still monotonic patterns.</p>
+      </section>
+
+      <section id="vif">
+        <h2>5. Multicollinearity & VIF</h2>
+        <p>Multicollinearity occurs when two or more independent variables in a regression model are highly correlated. It inflates standard errors and makes coefficient estimates unstable.</p>
+        <p>\[
+        \text{VIF} = \frac{1}{1 - R^2}
+        \]</p>
+        <p>where \( R^2 \) comes from regressing one predictor on all the other predictors.</p>
+        <ul>
+          <li>VIF = 1 → no multicollinearity</li>
+          <li>VIF 5–10 → moderate concern</li>
+          <li>VIF > 10 → serious problem (consider removing or combining variables)</li>
+        </ul>
+      </section>
+
+      <section id="choosing" class="card">
+        <h2 style="margin-top:0">6. Choosing the Right Statistical Test</h2>
+        <p>This section is adapted from the course slide deck <em>“Choosing the Right Statistical Test”</em> by Zuhaib Hussain Butt. The correct test depends on two things: the type of variables you have and the question you want to answer.</p>
+
+        <h3>6.1 Type of Variables</h3>
         <div class="table-wrap">
           <table>
-            <thead><tr><th></th><th>Pearson</th><th>Spearman</th></tr></thead>
+            <thead><tr><th>Type</th><th>Sub-type</th><th>Examples</th></tr></thead>
             <tbody>
-              <tr><td><strong>Measures</strong></td><td>Linear association</td><td>Monotonic association (ranks)</td></tr>
-              <tr><td><strong>Assumptions</strong></td><td>Roughly linear; sensitive to outliers</td><td>Fewer distribution assumptions; robust to monotone transforms</td></tr>
-              <tr><td><strong>Range</strong></td><td>−1 to +1</td><td>−1 to +1</td></tr>
-              <tr><td><strong>Use when</strong></td><td>Linear relationships expected</td><td>Skewed data, ordinal vars, non-linear but monotone links</td></tr>
+              <tr><td rowspan="2"><strong>Categorical</strong></td><td>Nominal</td><td>Gender, Department, Blood type</td></tr>
+              <tr><td>Ordinal</td><td>Rating (Poor → Excellent), Education level</td></tr>
+              <tr><td rowspan="2"><strong>Quantitative</strong></td><td>Continuous</td><td>Height, Weight, Age, Salary</td></tr>
+              <tr><td>Discrete (counts)</td><td>Number of children, number of claims</td></tr>
             </tbody>
           </table>
         </div>
-        <p>\[
-        r_{xy} = \frac{\sum (x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum (x_i-\bar{x})^2\sum (y_i-\bar{y})^2}}
-        \]
-        Spearman is Pearson applied to ranks.</p>
+
+        <h3>6.2 Decision Framework</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Objective</th><th>Variable types</th><th>Recommended test(s)</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Compare means of <strong>two independent groups</strong></td>
+                <td>1 categorical (2 levels) + 1 continuous</td>
+                <td>Independent Samples t-test (normal)<br>Mann-Whitney U (non-normal)</td>
+              </tr>
+              <tr>
+                <td>Compare means of <strong>paired / repeated measures</strong></td>
+                <td>Same subjects measured twice</td>
+                <td>Paired t-test (normal)<br>Wilcoxon signed-rank (non-normal)</td>
+              </tr>
+              <tr>
+                <td>Compare means of <strong>three or more groups</strong></td>
+                <td>1 categorical (≥3 levels) + 1 continuous</td>
+                <td>One-way ANOVA (normal)<br>Kruskal-Wallis (non-normal)</td>
+              </tr>
+              <tr>
+                <td>Association between <strong>two categorical</strong> variables</td>
+                <td>Both categorical</td>
+                <td>Chi-square test of independence</td>
+              </tr>
+              <tr>
+                <td>Linear relationship between <strong>two continuous</strong> variables</td>
+                <td>Both continuous</td>
+                <td>Pearson correlation (normal / linear)<br>Spearman correlation (monotonic / ranks)</td>
+              </tr>
+              <tr>
+                <td>Predict continuous outcome from several predictors</td>
+                <td>Multiple continuous / mixed</td>
+                <td>Multiple linear regression</td>
+              </tr>
+              <tr>
+                <td>Predict binary outcome</td>
+                <td>Binary dependent + predictors</td>
+                <td>Logistic regression</td>
+              </tr>
+              <tr>
+                <td>Count data outcome</td>
+                <td>Count dependent</td>
+                <td>Poisson regression (or Negative Binomial)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>6.3 Practical Decision Steps</h3>
+        <ol>
+          <li><strong>Identify your variables</strong> – categorical or quantitative? nominal / ordinal / continuous / discrete?</li>
+          <li><strong>Check the distribution</strong> – for quantitative variables use histograms, Q-Q plots or Shapiro-Wilk. This decides parametric vs non-parametric.</li>
+          <li><strong>State the objective clearly</strong> – comparing groups? testing association? modelling a relationship?</li>
+          <li><strong>Select the test</strong> from the table above.</li>
+          <li><strong>Check assumptions</strong> and report effect size, not only p-value.</li>
+        </ol>
       </section>
 
-      <section id="matrix">
-        <h2>3. Correlation Matrix</h2>
-        <p>A symmetric table of pairwise correlations. Diagonal = 1. Use it to:</p>
-        <ul>
-          <li>Spot redundant features (very high |r|)</li>
-          <li>Find promising predictors of a target</li>
-          <li>Guide which pairs to scatter-plot next</li>
-        </ul>
-        <div class="callout callout-info">
-          <div class="callout-title">Rule of thumb for |r|</div>
-          ~0–0.3 weak · 0.3–0.7 moderate · 0.7–1 strong (context-dependent; always plot).
+      <section id="examples">
+        <h2>7. Worked Examples (from the slides)</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Example 1 – Weight loss across diets</h3>
+              <p><strong>Variables:</strong> Diet (Keto / Mediterranean / Vegan) + Weight loss (kg)<br>
+              <strong>Test:</strong> ANOVA (if normal) or Kruskal-Wallis (if not)</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Example 2 – Gender × Department</h3>
+              <p><strong>Variables:</strong> Gender + Department (both categorical)<br>
+              <strong>Test:</strong> Chi-square test of independence</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Example 3 – Age vs Spending</h3>
+              <p><strong>Variables:</strong> Age + Spending (both continuous)<br>
+              <strong>Test:</strong> Pearson (linear + normal) or Spearman (otherwise)</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <h3 style="margin-top:0">Example 4 – Two teaching methods</h3>
+              <p><strong>Variables:</strong> Method A vs B + Test scores<br>
+              <strong>Test:</strong> Independent t-test or Mann-Whitney U</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section id="multi">
-        <h2>4. Multicollinearity</h2>
-        <p>When predictors are highly correlated with each other, regression coefficients become unstable and hard to interpret. Detection:</p>
-        <ul>
-          <li>High pairwise |r| among predictors</li>
-          <li>Variance Inflation Factor (VIF) — VIF &gt; 5 or 10 often flags concern</li>
-        </ul>
-        <p>Remedies: drop/combine features, use dimensionality reduction, or regularization (conceptual for this course stage).</p>
-      </section>
-
       <section id="python">
-        <h2>5. Python — Heatmap Practical</h2>
+        <h2>8. Python Practical</h2>
+        <p>Use <a href="../../datasets/sample_sales.csv" download>sample_sales.csv</a> or load Titanic / Gapminder from the public links in the <a href="../../datasets/README.md">datasets README</a>.</p>
         <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>import pandas as pd
+import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+from scipy import stats
 
-df = pd.read_csv("../../datasets/sample_accidents.csv")
-num = df[["speed_limit", "vehicles", "casualties"]]
+df = pd.read_csv("../../datasets/sample_sales.csv")
 
-pearson = num.corr(method="pearson")
-spearman = num.corr(method="spearman")
+# Pearson & Spearman between Quantity and UnitPrice
+print("Pearson :", df["Quantity"].corr(df["UnitPrice"]))
+print("Spearman:", df["Quantity"].corr(df["UnitPrice"], method="spearman"))
 
-sns.heatmap(pearson, annot=True, cmap="RdBu_r", center=0, vmin=-1, vmax=1)
-plt.title("Pearson correlation — accidents sample")
-plt.tight_layout()
+# Correlation matrix + heatmap
+num = df[["Quantity","UnitPrice","Discount"]]
+corr = num.corr()
+sns.heatmap(corr, annot=True, cmap="coolwarm", center=0)
+plt.title("Correlation Matrix")
 plt.show()
-
-# Pair to inspect
-sns.scatterplot(data=df, x="vehicles", y="casualties")
-plt.show()</code></pre>
-        <p><strong>Insight pattern:</strong> more vehicles in an incident often associate with higher casualties — check strength, then ask whether road type or speed confounds the relationship.</p>
+</code></pre>
       </section>
 
       <section id="practical">
-        <h2>6. Practical (Syllabus)</h2>
+        <h2>9. Hands-on Lab</h2>
         <div class="card">
           <ol>
-            <li>Compute Pearson and Spearman matrices for numeric columns in the sample accidents file.</li>
-            <li>Draw a heatmap; list the strongest pair.</li>
-            <li>State one multicollinearity risk if you modeled casualties from highly related predictors.</li>
-            <li>Write one sentence that does <em>not</em> claim causation from correlation alone.</li>
+            <li>Compute Pearson and Spearman between two numeric columns of your choice.</li>
+            <li>Draw a correlation heatmap for all numeric columns.</li>
+            <li>For each of the four examples in section 7, write down the exact test you would run and why.</li>
+            <li>(Stretch) Load Titanic and decide the correct test for: (a) Sex vs Survived, (b) Age vs Fare, (c) Pclass vs Survived.</li>
           </ol>
         </div>
       </section>
 
+      <section id="interview">
+        <h2>10. Interview & Viva Questions</h2>
+        <ul>
+          <li>When would you choose Spearman over Pearson?</li>
+          <li>What does a VIF of 12 tell you and what would you do?</li>
+          <li>How do you decide between a t-test and a Mann-Whitney U test?</li>
+          <li>Give an example where a Chi-square test is the correct choice.</li>
+          <li>Why is “p < 0.05” not enough on its own?</li>
+        </ul>
+      </section>
+
       <section id="quiz">
-        <h2>7. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — Spearman uses ranks and handles monotone non-linear links better." data-fail="Pearson = linear; Spearman = rank/monotonic.">
-          <p><strong>Q1.</strong> For skewed variables with a monotone but non-linear link, prefer:</p>
+        <h2>11. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — Spearman is rank-based and works for monotonic relationships." data-fail="Spearman is preferred when the relationship is monotonic but not linear or when data are ranked.">
+          <p><strong>Q1.</strong> You have two ordinal variables. Which correlation is most appropriate?</p>
           <div class="quiz-option" data-value="a">A. Pearson only</div>
           <div class="quiz-option" data-value="b">B. Spearman</div>
-          <div class="quiz-option" data-value="c">C. Mode only</div>
-          <div class="quiz-option" data-value="d">D. Kurtosis only</div>
+          <div class="quiz-option" data-value="c">C. Chi-square</div>
+          <div class="quiz-option" data-value="d">D. ANOVA</div>
           <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q2" data-answer="c" data-success="Correct — Chi-square tests association between two categorical variables." data-fail="Two categorical variables → Chi-square test of independence.">
+          <p><strong>Q2.</strong> You want to test whether Gender and Department are associated. Correct test?</p>
+          <div class="quiz-option" data-value="a">A. Independent t-test</div>
+          <div class="quiz-option" data-value="b">B. Pearson correlation</div>
+          <div class="quiz-option" data-value="c">C. Chi-square test of independence</div>
+          <div class="quiz-option" data-value="d">D. Paired t-test</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q3" data-answer="a" data-success="Correct — VIF > 10 is commonly treated as a serious multicollinearity problem." data-fail="VIF above 10 usually indicates a serious problem.">
+          <p><strong>Q3.</strong> A predictor has VIF = 15. What does this usually mean?</p>
+          <div class="quiz-option" data-value="a">A. Serious multicollinearity – consider removing or combining variables</div>
+          <div class="quiz-option" data-value="b">B. Perfect independence</div>
+          <div class="quiz-option" data-value="c">C. The variable is binary</div>
+          <div class="quiz-option" data-value="d">D. The data are not ranked</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q3')">Check Answer</button>
           <div class="quiz-feedback"></div>
         </div>
       </section>
 
+      <section id="flashcards">
+        <h2>12. Flashcards</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Pearson vs Spearman?</strong></div><div class="flashcard-back">Pearson = linear continuous; Spearman = ranks / monotonic</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>VIF formula?</strong></div><div class="flashcard-back">1 / (1 − R²) from regressing one predictor on the others</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Two categorical vars?</strong></div><div class="flashcard-back">Chi-square test of independence</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Two groups, continuous outcome?</strong></div><div class="flashcard-back">t-test (normal) or Mann-Whitney U (non-normal)</div></div></div></div>
+        </div>
+      </section>
+
+      <section id="cheatsheet">
+        <h2>13. Cheat Sheet – Choosing the Test</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li><strong>2 groups, continuous</strong> → t-test / Mann-Whitney</li>
+            <li><strong>Paired continuous</strong> → Paired t / Wilcoxon</li>
+            <li><strong>≥3 groups, continuous</strong> → ANOVA / Kruskal-Wallis</li>
+            <li><strong>2 categorical</strong> → Chi-square</li>
+            <li><strong>2 continuous</strong> → Pearson / Spearman</li>
+            <li><strong>Always</strong> check normality & report effect size</li>
+          </ul>
+        </div>
+      </section>
+
       <section id="summary">
-        <h2>8. Summary</h2>
+        <h2>14. Summary</h2>
         <ul>
-          <li>Pearson: linear; Spearman: ranks / monotone.</li>
-          <li>Matrix + heatmap = fast relationship scan.</li>
-          <li>Multicollinearity destabilizes multi-predictor models.</li>
-          <li>Correlation ≠ causation — always.</li>
+          <li>Pearson for linear continuous relationships; Spearman for ranks or monotonic patterns.</li>
+          <li>VIF diagnoses multicollinearity — values > 10 are a red flag.</li>
+          <li>Choosing the right test starts with variable type + research objective (see the decision table).</li>
+          <li>Always visualise first and report practical significance, not only p-values.</li>
         </ul>
+      </section>
+
+      <section id="next">
+        <h2>15. What’s Next</h2>
+        <p><strong>Lecture 13 — Grouped Analysis & Pivot Logic</strong> shows how to turn these relationships into actionable multi-dimensional summaries with group-by and pivot tables.</p>
       </section>
 
       <div class="lecture-nav">
         <a href="lecture11.html" class="nav-btn">← Lecture 11</a>
         <a href="../week7/lecture13.html" class="nav-btn primary" onclick="markLectureComplete(12)">Next: Lecture 13 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 12 of 30 · Module 3 · Syllabus: Pearson, Spearman, matrix, multicollinearity, heatmap</p></footer>
+      <footer class="site-footer"><p>Lecture 12 of 30 · Module 3 · Correlation & Choosing the Right Statistical Test · CS-399 aligned</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 12: Correlation & Relationships",url:"lecture12.html",module:"Module 3",keywords:"pearson spearman multicollinearity heatmap correlation matrix",summary:"Correlation and multicollinearity"}];</script>
+  <script>
+    window.COURSE_SEARCH_INDEX = [
+      { title: "Lecture 12: Correlation & Relationships", url: "modules/week6/lecture12.html", module: "Module 3", keywords: "pearson spearman vif multicollinearity chi-square t-test anova choosing statistical test", summary: "Correlation, VIF and decision framework for statistical tests" }
+    ];
+  </script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>
