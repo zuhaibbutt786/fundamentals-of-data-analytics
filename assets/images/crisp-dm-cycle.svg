@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="CRISP-DM cycle diagram">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="420" fill="#0b1120" rx="16"/>
+  <text x="320" y="36" text-anchor="middle" fill="#f1f5f9" font-family="Inter,system-ui,sans-serif" font-size="20" font-weight="700">CRISP-DM Lifecycle</text>
+  <circle cx="320" cy="220" r="48" fill="url(#g1)" opacity="0.9"/>
+  <text x="320" y="216" text-anchor="middle" fill="#fff" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="700">DATA</text>
+  <text x="320" y="232" text-anchor="middle" fill="#fff" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="700">DRIVEN</text>
+  <g font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600">
+    <rect x="250" y="70" width="140" height="40" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+    <text x="320" y="95" text-anchor="middle" fill="#93c5fd">1. Business Understanding</text>
+    <rect x="430" y="120" width="160" height="40" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="510" y="145" text-anchor="middle" fill="#c4b5fd">2. Data Understanding</text>
+    <rect x="450" y="230" width="140" height="40" rx="10" fill="#1e293b" stroke="#06b6d4" stroke-width="2"/>
+    <text x="520" y="255" text-anchor="middle" fill="#67e8f9">3. Data Preparation</text>
+    <rect x="250" y="320" width="140" height="40" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+    <text x="320" y="345" text-anchor="middle" fill="#6ee7b7">4. Modeling</text>
+    <rect x="50" y="230" width="140" height="40" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+    <text x="120" y="255" text-anchor="middle" fill="#fcd34d">5. Evaluation</text>
+    <rect x="50" y="120" width="140" height="40" rx="10" fill="#1e293b" stroke="#ef4444" stroke-width="2"/>
+    <text x="120" y="145" text-anchor="middle" fill="#fca5a5">6. Deployment</text>
+  </g>
+  <text x="320" y="400" text-anchor="middle" fill="#94a3b8" font-family="Inter,system-ui,sans-serif" font-size="11">Iterative · feedback loops between phases are expected</text>
+</svg>
