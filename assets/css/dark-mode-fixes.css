@@ -1,0 +1,83 @@
+/* =====================================================
+   Dark-mode fixes: formulas, tables, structure visibility
+   ===================================================== */
+
+/* Table cells must inherit readable text in both themes */
+td {
+  color: var(--text-secondary);
+  background: transparent;
+}
+th {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+[data-theme="dark"] .table-wrap {
+  border-color: rgba(148, 163, 184, 0.25);
+  background: var(--bg-secondary);
+}
+[data-theme="dark"] table th {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-bottom-color: rgba(148, 163, 184, 0.25);
+}
+[data-theme="dark"] table td {
+  color: #cbd5e1;
+  border-bottom-color: rgba(148, 163, 184, 0.12);
+}
+[data-theme="dark"] tr:hover td {
+  background: rgba(59, 130, 246, 0.12);
+}
+
+/* KaTeX / math formulas — ensure visibility in dark mode */
+.katex, .katex-display {
+  color: var(--text-primary) !important;
+}
+.katex-display {
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 0;
+}
+[data-theme="dark"] .katex .base,
+[data-theme="dark"] .katex .mord,
+[data-theme="dark"] .katex .mbin,
+[data-theme="dark"] .katex .mrel,
+[data-theme="dark"] .katex .mopen,
+[data-theme="dark"] .katex .mclose {
+  color: #f1f5f9 !important;
+}
+
+/* SVG diagrams: lift contrast for hardcoded dark text in dark mode */
+[data-theme="dark"] .diagram-box {
+  background: #1e293b;
+  border-color: rgba(148, 163, 184, 0.25);
+}
+[data-theme="dark"] .diagram-box svg text {
+  fill: #e2e8f0 !important;
+}
+[data-theme="dark"] .diagram-box svg [fill="#334155"],
+[data-theme="dark"] .diagram-box svg [fill="#1e293b"],
+[data-theme="dark"] .diagram-box svg [fill="#0f172a"] {
+  fill: #e2e8f0 !important;
+}
+[data-theme="dark"] .diagram-box svg [stroke="#334155"] {
+  stroke: #94a3b8 !important;
+}
+
+/* Cards and structure remain visible */
+[data-theme="dark"] .card {
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+}
+[data-theme="dark"] .callout {
+  color: var(--text-secondary);
+}
+[data-theme="dark"] .callout-title {
+  color: var(--text-primary);
+}
+
+/* Inline code contrast */
+[data-theme="dark"] code {
+  background: #1e293b;
+  color: #93c5fd;
+}
