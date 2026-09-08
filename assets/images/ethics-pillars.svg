@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Analytics ethics pillars">
+  <rect width="640" height="260" fill="#0b1120" rx="12"/>
+  <text x="320" y="32" text-anchor="middle" fill="#f1f5f9" font-family="Inter,system-ui,sans-serif" font-size="16" font-weight="700">Responsible Analytics — Four Pillars</text>
+  <g font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="600">
+    <rect x="20" y="60" width="140" height="150" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+    <text x="90" y="100" text-anchor="middle" fill="#93c5fd" font-size="14">Fairness</text>
+    <text x="90" y="130" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="400">Bias checks</text>
+    <text x="90" y="148" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="400">Group metrics</text>
+    <rect x="175" y="60" width="140" height="150" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+    <text x="245" y="100" text-anchor="middle" fill="#6ee7b7" font-size="14">Privacy</text>
+    <text x="245" y="130" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="400">Minimize PII</text>
+    <text x="245" y="148" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="400">Consent · purpose</text>
+    <rect x="330" y="60" width="140" height="150" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+    <text x="400" y="100" text-anchor="middle" fill="#fcd34d" font-size="14">Transparency</text>
+    <text x="400" y="130" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="400">Document methods</text>
+    <text x="400" y="148" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="400">State limitations</text>
+    <rect x="485" y="60" width="140" height="150" rx="12" fill="#1e293b" stroke="#ef4444" stroke-width="2"/>
+    <text x="555" y="100" text-anchor="middle" fill="#fca5a5" font-size="14">Accountability</text>
+    <text x="555" y="130" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="400">Own decisions</text>
+    <text x="555" y="148" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="400">Ethics checklist</text>
+  </g>
+</svg>
