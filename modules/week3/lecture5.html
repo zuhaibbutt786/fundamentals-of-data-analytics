@@ -1,1 +1,197 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lecture 5: Data Quality & Profiling – completeness, consistency, validity, accuracy, MCAR/MAR/MNAR deep dive, deletion vs imputation decision framework." />
+  <title>Lecture 5: Data Quality & Profiling | Data Analytics Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
+    <div class="header-actions">
+      <button class="search-btn" id="searchBtn" title="Search" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+  <div class="reading-progress" id="readingProgress"></div>
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><input type="text" id="searchInput" placeholder="Search…" autocomplete="off" /><div class="search-results" id="searchResults"></div></div></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">Course Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="module-title">Module 2 · Cleaning & Prep</div>
+        <a href="lecture5.html" class="active" data-lecture-id="5"><span class="progress-ring"></span> L5 · Data Quality</a>
+        <a href="lecture6.html" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers & Noise</a>
+        <a href="../week4/lecture7.html" data-lecture-id="7"><span class="progress-ring"></span> L7 · Transformation</a>
+        <a href="../week4/lecture8.html" data-lecture-id="8"><span class="progress-ring"></span> L8 · Feature Engineering</a>
+        <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Splitting & Validation</a>
+        <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 2 › <span>Lecture 5</span></nav>
+      <div class="lecture-meta">
+        <span class="badge badge-intermediate">Intermediate</span>
+        <span class="badge badge-time">⏱ ~110 min</span>
+        <span class="badge">Module 2 · CLO-2</span>
+      </div>
+      <h1>Lecture 5: Data Quality & Profiling</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Completeness, consistency, validity, accuracy, missing-data mechanisms (MCAR / MAR / MNAR), deletion vs imputation decision framework, and practical profiling + imputation in Python.</p>
+
+      <section class="card" id="objectives">
+        <h2 style="margin-top:0">1. Learning Objectives</h2>
+        <ul class="objectives-list">
+          <li><span class="obj-num">1</span> Define completeness, consistency, validity, and accuracy with operational checks.</li>
+          <li><span class="obj-num">2</span> Profile a dataset using <code>.info()</code>, <code>.describe()</code>, and missing-value counts.</li>
+          <li><span class="obj-num">3</span> Distinguish MCAR, MAR, and MNAR and choose deletion vs imputation accordingly.</li>
+          <li><span class="obj-num">4</span> Apply mean / median / mode imputation and forward / backward fill in Pandas, and create “was_imputed” flags.</li>
+          <li><span class="obj-num">5</span> Document quality issues before any modeling or dashboard work.</li>
+        </ul>
+      </section>
+
+      <section id="motivation">
+        <h2>2. Motivation — Why Quality Before Analysis</h2>
+        <p>Garbage in, garbage out is not a slogan — it is a project failure mode. A beautiful dashboard built on incomplete, inconsistent, or invalid data will mislead decisions and destroy trust.</p>
+        <div class="callout callout-tip">
+          <div class="callout-title">💡 Key Insight</div>
+          Spend 20–30% of early project time on quality. It is cheaper than explaining wrong insights later in the viva or to a stakeholder.
+        </div>
+      </section>
+
+      <section id="missing">
+        <h2>8. Types of Missing Data (MCAR / MAR / MNAR) — Deep Dive</h2>
+        <p>Understanding <em>why</em> data is missing is more important than simply counting nulls. The mechanism determines whether deletion is safe and which imputation method is appropriate.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Type</th><th>Definition</th><th>Implication for analysis</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>MCAR</strong><br>Missing Completely At Random</td>
+                <td>Missingness is unrelated to any observed or unobserved variable. Pure chance.</td>
+                <td>Deletion is unbiased (but loses power). Simple mean/median imputation is acceptable.</td>
+              </tr>
+              <tr>
+                <td><strong>MAR</strong><br>Missing At Random</td>
+                <td>Missingness depends on <em>observed</em> variables, not on the missing value itself.</td>
+                <td>Impute using the observed predictors. Deletion can bias results.</td>
+              </tr>
+              <tr>
+                <td><strong>MNAR</strong><br>Missing Not At Random</td>
+                <td>Missingness depends on the unobserved value itself (or on unmeasured variables).</td>
+                <td>Hardest case. Requires domain knowledge, sensitivity analysis, or specialised models.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Easy examples</h3>
+        <ul>
+          <li><strong>MCAR:</strong> A sensor randomly drops packets — the missing temperature is unrelated to the true temperature or any other field.</li>
+          <li><strong>MAR:</strong> Older patients are less likely to report income; age is observed, so missingness depends on an observed variable.</li>
+          <li><strong>MNAR:</strong> People with very high income refuse to report income — missingness depends on the missing value itself.</li>
+        </ul>
+        <div class="callout callout-warning">
+          <div class="callout-title">Practice tip</div>
+          You rarely prove MCAR in real data. Always inspect missingness by group (region, severity, date, age band). High missing rates that differ systematically across groups are strong clues of MAR or MNAR.
+        </div>
+        <h3>How to diagnose the mechanism (practical checks)</h3>
+        <ol>
+          <li>Compute missing rate per column and overall.</li>
+          <li>Compare distributions of other variables for rows with vs without the missing value.</li>
+          <li>Plot a missingness matrix or heatmap of missing indicators.</li>
+          <li>Talk to the data owner — domain knowledge often reveals MNAR patterns that pure statistics cannot.</li>
+        </ol>
+      </section>
+
+      <section id="imputation">
+        <h2>9. Deletion vs Imputation — Decision Framework</h2>
+        <p>Once you understand the missingness mechanism, choose an action. There is no universal “best” method — the right choice depends on the amount of missing data, the mechanism, and the downstream use (dashboard vs predictive model).</p>
+        <h3>9.1 Decision rules of thumb</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Situation</th><th>Recommended action</th></tr></thead>
+            <tbody>
+              <tr><td>< 5 % missing and plausible MCAR</td><td>Listwise deletion is often fine</td></tr>
+              <tr><td>5–30 % missing, MAR, numeric</td><td>Median (skewed) or mean (symmetric) imputation + create an “was_imputed” flag</td></tr>
+              <tr><td>Categorical missing</td><td>Mode, or a new explicit category “Unknown”</td></tr>
+              <tr><td>Time-series / ordered data</td><td>Forward-fill / backward-fill (after sorting), or interpolation</td></tr>
+              <tr><td>> 40–50 % missing in a column</td><td>Strongly consider dropping the column (unless it is critical)</td></tr>
+              <tr><td>MNAR suspected</td><td>Domain model, sensitivity analysis, or specialised methods; document the risk</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>9.2 Common techniques</h3>
+        <ul>
+          <li><strong>Listwise deletion</strong> — drop any row that has a missing value in the variables you need. Simple, but reduces sample size and can bias results if data are not MCAR.</li>
+          <li><strong>Column drop</strong> — remove a variable that is mostly empty and low-value for the decision.</li>
+          <li><strong>Mean / Median / Mode</strong> — fast baseline. Prefer <strong>median</strong> for skewed numerics; <strong>mode</strong> for categoricals.</li>
+          <li><strong>Forward-fill / Backward-fill</strong> — for time-ordered data (use with care at the edges of each series).</li>
+          <li><strong>Model-based</strong> (later stage) — KNN, regression, multiple imputation. Document assumptions carefully.</li>
+        </ul>
+        <h3>9.3 Python — Syllabus methods + Titanic example</h3>
+        <p>Use the course sample or the classic Titanic dataset (Age is a classic missing-value example).</p>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>import pandas as pd
+import numpy as np
+
+# Option A — course dataset
+df = pd.read_csv("../../datasets/sample_accidents.csv")
+
+# Option B — Titanic (public)
+# df = pd.read_csv("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv")
+
+# 1. Profile missingness
+print(df.isna().sum().sort_values(ascending=False))
+print((df.isna().mean() * 100).round(1).sort_values(ascending=False))
+
+# 2. Median / mode imputation (baseline)
+df["casualties"] = df["casualties"].fillna(df["casualties"].median())
+df["weather"] = df["weather"].fillna(df["weather"].mode().iloc[0])
+
+# 3. Best practice — flag that a value was imputed
+df["casualties_was_missing"] = df["casualties"].isna()          # capture BEFORE fill
+df["casualties"] = df["casualties"].fillna(df["casualties"].median())
+</code></pre>
+        <div class="callout callout-tip">
+          <div class="callout-title">Industry tip</div>
+          Always record whether a value was imputed (create a boolean flag column). Downstream models, audits, and vivas need to know what was original versus filled.
+        </div>
+        <h3>9.4 Impact of the choice</h3>
+        <ul>
+          <li>Deletion reduces sample size → wider confidence intervals / less power.</li>
+          <li>Mean imputation reduces variance artificially and can distort correlations.</li>
+          <li>Median is more robust to outliers than mean.</li>
+          <li>Creating an “Unknown” category preserves information that the value was missing — often useful for models and dashboards.</li>
+        </ul>
+      </section>
+
+      <section id="summary">
+        <h2>Summary</h2>
+        <ul>
+          <li>Profile first: completeness, consistency, validity, accuracy.</li>
+          <li>Missingness type (MCAR / MAR / MNAR) guides deletion vs imputation.</li>
+          <li>Median, mode, and ffill/bfill are the syllabus baseline tools in Python.</li>
+          <li>Always create an “was_imputed” flag and document every quality decision.</li>
+        </ul>
+      </section>
+
+      <div class="lecture-nav">
+        <a href="../week2/lecture4.html" class="nav-btn">← Lecture 4</a>
+        <a href="lecture6.html" class="nav-btn primary" onclick="markLectureComplete(5)">Next: Lecture 6 →</a>
+      </div>
+      <footer class="site-footer"><p>Lecture 5 of 30 · Module 2 · Data Quality & Missing Values Deep Dive · CS-399 aligned</p></footer>
+    </main>
+  </div>
+  <script>
+    window.COURSE_SEARCH_INDEX = [
+      { title: "Lecture 5: Data Quality & Profiling", url: "modules/week3/lecture5.html", module: "Module 2", keywords: "missing mcar mar mnar imputation median mode deletion quality profiling", summary: "Data quality dimensions and deep missing-value handling" }
+    ];
+  </script>
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>
