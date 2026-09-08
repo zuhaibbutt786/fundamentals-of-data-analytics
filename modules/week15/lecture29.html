@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 29: Final Dashboard Completion – model, measures, pages, and polish for the capstone dashboard." />
+  <meta name="description" content="Lecture 29: Final Dashboard Completion – model, required measures, page blueprint, QA and deliverable for the Capstone." />
   <title>Lecture 29: Final Dashboard Completion | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,41 +26,40 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-section">Course Navigation</div>
       <nav class="sidebar-nav">
-        <div class="module-title">Module 6 · Capstone</div>
-        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Project Proposal</a>
+        <div class="module-title">Module 6 · Capstone & Ethics</div>
+        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Ethics</a>
         <a href="../week14/lecture28.html" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
         <a href="lecture29.html" class="active" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
-        <a href="lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation &amp; Viva</a>
+        <a href="lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation & Viva</a>
       </nav>
     </aside>
     <main class="main-content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 6 › <span>Lecture 29</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-advanced">Advanced</span>
-        <span class="badge badge-time">⏱ ~150 min</span>
-        <span class="badge">Module 6 · Dashboard</span>
+        <span class="badge badge-time">⏱ Build session</span>
+        <span class="badge">Module 6 · Capstone</span>
       </div>
       <h1>Lecture 29: Final Dashboard Completion</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Finish the Power BI (or equivalent) dashboard: star model, measures, pages, interactions, and performance polish — syllabus “Final Dashboard Completion.”</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Build the Power BI (or equivalent) model, required measures, and a stakeholder-ready multi-page dashboard. This is the synthesis of Modules 4–5 plus Capstone lab outputs.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
         <ul class="objectives-list">
-          <li><span class="obj-num">1</span> Load cleaned tables into a star-style model with correct relationships.</li>
-          <li><span class="obj-num">2</span> Implement proposal KPIs as explicit measures (including at least one comparison such as YoY or % of total).</li>
-          <li><span class="obj-num">3</span> Design 1–3 pages with clear visual hierarchy for the stakeholder.</li>
-          <li><span class="obj-num">4</span> Add slicers, cross-filtering, and readable titles.</li>
-          <li><span class="obj-num">5</span> Run a final QA pass (numbers, performance, accessibility basics).</li>
+          <li><span class="obj-num">1</span> Implement a clean star-schema model for your Capstone data.</li>
+          <li><span class="obj-num">2</span> Create the required measure set (totals, ratios, time intelligence where dates exist).</li>
+          <li><span class="obj-num">3</span> Design 2–4 coherent dashboard pages with a clear story flow.</li>
+          <li><span class="obj-num">4</span> Run a final QA checklist (quality, ethics, performance, accessibility).</li>
         </ul>
       </section>
 
       <section id="model">
         <h2>2. Model Build (Module 5)</h2>
         <ul>
-          <li>Fact table at the grain of your events/transactions</li>
-          <li>Dimensions: date (marked), entity, product/category, geography, etc.</li>
-          <li>1:* relationships; single filter direction unless justified</li>
-          <li>Hide technical keys; friendly names</li>
+          <li>Fact table(s) at the correct grain; dimension tables for entities you filter/group by.</li>
+          <li>Single-direction relationships; avoid unnecessary bidirectional filters.</li>
+          <li>Marked continuous date table if you use Time Intelligence.</li>
+          <li>Hide technical columns; keep only user-facing fields visible.</li>
         </ul>
       </section>
 
@@ -68,24 +67,25 @@
         <h2>3. Required Measure Set</h2>
         <div class="card">
           <ul>
-            <li>Base totals for each primary KPI</li>
-            <li>At least one time comparison (YTD, YoY, or prior period)</li>
-            <li>At least one ratio (rate, margin, average)</li>
-            <li>Optional: ranking or contribution % measures</li>
+            <li>Primary KPI total (e.g. Total Sales / Total Incidents / Total Cost)</li>
+            <li>At least one ratio or rate (e.g. Average Order Value, Incident Rate)</li>
+            <li>At least one comparison (Prior Period or % of Total)</li>
+            <li>If dates exist: YTD or Prior Year + YoY % (from L24)</li>
+            <li>Optional: running total or target variance</li>
           </ul>
-          <p>Use <code>DIVIDE</code>, <code>CALCULATE</code>, and <code>VAR</code> patterns from L23–L24. Name measures so viva questions are easy to answer.</p>
         </div>
       </section>
 
       <section id="pages">
-        <h2>4. Page Blueprint</h2>
+        <h2>4. Page Blueprint (Recommended)</h2>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Page</th><th>Purpose</th><th>Typical visuals</th></tr></thead>
+            <thead><tr><th>Page</th><th>Purpose</th></tr></thead>
             <tbody>
-              <tr><td><strong>Overview</strong></td><td>Answer the main decision at a glance</td><td>KPI cards, trend, top segments</td></tr>
-              <tr><td><strong>Deep dive</strong></td><td>Explain drivers</td><td>Breakdown bars, matrix, scatter</td></tr>
-              <tr><td><strong>Actions</strong> (optional)</td><td>Exceptions / next steps</td><td>Filtered table, conditional formatting</td></tr>
+              <tr><td>1 · Executive Overview</td><td>KPI cards + main trend + top insight callouts</td></tr>
+              <tr><td>2 · Deep Dive / Drivers</td><td>Breakdowns by category, region, segment; contribution analysis</td></tr>
+              <tr><td>3 · Time / Detail</td><td>Time intelligence, running totals, or operational detail table</td></tr>
+              <tr><td>4 · Ethics & Methods (optional but recommended)</td><td>Data sources, limitations, bias notes, definitions</td></tr>
             </tbody>
           </table>
         </div>
@@ -93,56 +93,45 @@
 
       <section id="qa">
         <h2>5. Final QA Checklist</h2>
-        <ul>
-          <li>☐ KPI totals match a known sample (Excel/Python check)</li>
-          <li>☐ Slicers filter all intended visuals</li>
-          <li>☐ No blank misleading totals from bad relationships</li>
-          <li>☐ Performance acceptable (remove unused columns if slow)</li>
-          <li>☐ Color contrast readable; title = insight</li>
-          <li>☐ Data refresh path documented</li>
-        </ul>
-      </section>
-
-      <section id="deliverable">
-        <h2>6. Deliverable</h2>
         <div class="card">
           <ol>
-            <li>Power BI file (.pbix) or equivalent interactive dashboard</li>
-            <li>One-page measure dictionary</li>
-            <li>Screenshot of model view (relationships)</li>
+            <li><strong>Numbers</strong> — spot-check totals against source or Python EDA.</li>
+            <li><strong>Filters</strong> — slicers behave correctly; no unexpected blank results.</li>
+            <li><strong>Performance</strong> — pages load in a few seconds on typical hardware.</li>
+            <li><strong>Accessibility</strong> — readable titles, sufficient contrast, tooltips where helpful.</li>
+            <li><strong>Ethics</strong> — no personal data; limitations visible; language non-causal.</li>
+            <li><strong>Story</strong> — a new viewer can understand the main message in under 2 minutes.</li>
           </ol>
         </div>
       </section>
 
-      <section id="quiz">
-        <h2>7. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — measures should implement the proposal KPIs with comparisons." data-fail="Dashboard measures map to approved KPIs.">
-          <p><strong>Q1.</strong> Capstone dashboard measures should primarily:</p>
-          <div class="quiz-option" data-value="a">A. Duplicate every raw column as a measure</div>
-          <div class="quiz-option" data-value="b">B. Implement proposal KPIs with clear comparisons</div>
-          <div class="quiz-option" data-value="c">C. Avoid any time intelligence</div>
-          <div class="quiz-option" data-value="d">D. Hide all slicers permanently</div>
-          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
-          <div class="quiz-feedback"></div>
-        </div>
+      <section id="deliverable">
+        <h2>6. Deliverable</h2>
+        <ul>
+          <li>Power BI file (.pbix) or equivalent interactive dashboard</li>
+          <li>One-page methods / data dictionary note</li>
+          <li>Ethics & Limitations section (in the file or a short PDF)</li>
+          <li>Export of key pages as PDF/images for the presentation</li>
+        </ul>
       </section>
 
       <section id="summary">
-        <h2>8. Summary</h2>
-        <ul>
-          <li>Model → measures → pages → QA.</li>
-          <li>Every visual should help the stakeholder decide.</li>
-        </ul>
+        <h2>7. Summary</h2>
+        <p>A Capstone dashboard is not a collection of charts — it is a decision-support product. Model cleanly, measure intentionally, design for the story, and document the limits.</p>
       </section>
 
       <div class="lecture-nav">
         <a href="../week14/lecture28.html" class="nav-btn">← Lecture 28</a>
         <a href="lecture30.html" class="nav-btn primary" onclick="markLectureComplete(29)">Next: Lecture 30 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 29 of 30 · Module 6 · Final Dashboard</p></footer>
+      <footer class="site-footer"><p>Lecture 29 of 30 · Module 6 · Final Dashboard Completion · CS-399 aligned</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 29: Final Dashboard Completion",url:"lecture29.html",module:"Module 6",keywords:"dashboard power bi measures kpi star schema",summary:"Capstone final dashboard"}];</script>
+  <script>
+    window.COURSE_SEARCH_INDEX = [
+      { title: "Lecture 29: Final Dashboard Completion", url: "modules/week15/lecture29.html", module: "Module 6", keywords: "capstone dashboard model measures qa ethics", summary: "Capstone final dashboard: model, measures, pages and QA" }
+    ];
+  </script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>
