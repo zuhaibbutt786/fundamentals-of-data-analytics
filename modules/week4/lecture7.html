@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 7: Data Transformation – Min-Max, Z-score standardization, log transform, categorical encoding." />
+  <meta name="description" content="Lecture 7: Data Transformation – Min-Max normalization, Z-score standardization, log transforms, categorical encoding with Python labs and industry examples." />
   <title>Lecture 7: Data Transformation | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,12 +26,12 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-section">Course Navigation</div>
       <nav class="sidebar-nav">
-        <div class="module-title">Module 2 · Cleaning &amp; Prep</div>
+        <div class="module-title">Module 2 · Cleaning & Prep</div>
         <a href="../week3/lecture5.html" data-lecture-id="5"><span class="progress-ring"></span> L5 · Data Quality</a>
-        <a href="../week3/lecture6.html" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers &amp; Noise</a>
+        <a href="../week3/lecture6.html" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers & Noise</a>
         <a href="lecture7.html" class="active" data-lecture-id="7"><span class="progress-ring"></span> L7 · Transformation</a>
         <a href="lecture8.html" data-lecture-id="8"><span class="progress-ring"></span> L8 · Feature Engineering</a>
-        <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Splitting &amp; Validation</a>
+        <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Splitting & Validation</a>
         <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
       </nav>
     </aside>
@@ -43,88 +43,167 @@
         <span class="badge">Module 2 · CLO-2</span>
       </div>
       <h1>Lecture 7: Data Transformation</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Min-Max normalization, Z-score standardization, log transformation, and categorical encoding — with Python scaling practice from the syllabus.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Min-Max normalization, Z-score standardization, log transformation, and categorical encoding — with Python labs, industry examples, and downloadable datasets aligned to the CS-399 outline.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
         <ul class="objectives-list">
-          <li><span class="obj-num">1</span> Apply Min-Max scaling to a [0, 1] range.</li>
-          <li><span class="obj-num">2</span> Standardize features with Z-score (mean 0, SD 1).</li>
-          <li><span class="obj-num">3</span> Use log transforms for right-skewed positive variables.</li>
-          <li><span class="obj-num">4</span> Encode categorical variables (label / one-hot) appropriately.</li>
-          <li><span class="obj-num">5</span> Know when scaling is required (distance-based methods) vs optional (tree models).</li>
+          <li><span class="obj-num">1</span> Apply Min-Max scaling to map features into a [0, 1] range and understand its sensitivity to outliers.</li>
+          <li><span class="obj-num">2</span> Standardize features with Z-score (mean 0, SD 1) and know when it is preferred over Min-Max.</li>
+          <li><span class="obj-num">3</span> Use log (and log1p) transforms for right-skewed positive variables and measure the impact on skewness.</li>
+          <li><span class="obj-num">4</span> Encode categorical variables correctly (label / one-hot / ordinal) and avoid common leakage mistakes.</li>
+          <li><span class="obj-num">5</span> Decide when scaling is required (distance/gradient methods) vs optional (tree-based models).</li>
         </ul>
       </section>
 
+      <section id="motivation">
+        <h2>2. Motivation — Why Transformation Matters</h2>
+        <p>Raw columns almost never arrive in a form that algorithms or even simple comparisons like. Salary in PKR, age in years, and number of claims sit on completely different scales. Distance-based methods (k-NN, k-means, SVM with RBF) and gradient-based optimizers treat the largest-scale feature as the most important. Transformation puts every variable on a fair footing and often stabilizes variance so that correlations and models behave sensibly.</p>
+        <div class="callout callout-tip">
+          <div class="callout-title">💡 Key Insight</div>
+          Transformation is not cosmetic. It is part of making the analysis reproducible and the model trustworthy. Always document which transform you applied and fit scalers only on the training portion of the data (preview of Lecture 9).
+        </div>
+      </section>
+
+      <section id="story">
+        <h2>3. Real-World Story</h2>
+        <div class="card">
+          <h3 style="margin-top:0">The Retail Pricing Model That Favoured Expensive Items</h3>
+          <p>A mid-size e-commerce team built a simple similarity engine to recommend “customers who bought this also bought…”. Because unit price was left in raw form (ranging from 50 PKR to 250 000 PKR) while quantity sat between 1–20, the distance metric was dominated by price. Cheap, high-volume accessories never appeared near expensive electronics even when the same customers bought both. After Min-Max scaling of price and a log transform of quantity, the recommendations became sensible and conversion on the “Frequently bought together” widget rose 11 %.</p>
+        </div>
+      </section>
+
       <section id="minmax">
-        <h2>2. Normalization (Min-Max)</h2>
+        <h2>4. Normalization (Min-Max)</h2>
+        <p>The classic formula maps any numeric column into the closed interval [0, 1]:</p>
         <p>\[
         x' = \frac{x - x_{\min}}{x_{\max} - x_{\min}}
-        \]
-        Maps values into [0, 1]. Sensitive to outliers (min/max can be extreme).</p>
+        \]</p>
+        <p><strong>When to use:</strong> neural networks, image pixel intensities, or any algorithm that expects bounded inputs. <strong>Caution:</strong> a single extreme outlier becomes the new max and compresses every other value toward zero. Always inspect the distribution (or clip outliers first — Lecture 6) before applying Min-Max.</p>
+        <div class="callout callout-info">
+          <div class="callout-title">Python (scikit-learn)</div>
+          <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+df[["price_mm"]] = scaler.fit_transform(df[["price"]])</code></pre>
+        </div>
       </section>
 
       <section id="zscore">
-        <h2>3. Standardization (Z-score)</h2>
+        <h2>5. Standardization (Z-score)</h2>
+        <p>Centers the variable at zero and scales it to unit variance:</p>
         <p>\[
         x' = \frac{x - \bar{x}}{s}
-        \]
-        Centers at 0 with unit variance. Preferred when features have different units (speed vs count).</p>
+        \]</p>
+        <p>where \(\bar{x}\) is the sample mean and \(s\) the sample standard deviation. Preferred when features have different units (age vs income vs number of visits) or when the algorithm assumes roughly Gaussian inputs (linear regression, logistic regression, PCA). Unlike Min-Max it is less sensitive to a single extreme value, although heavy tails still inflate \(s\).</p>
       </section>
 
       <section id="log">
-        <h2>4. Log Transformation</h2>
-        <p>For positive right-skewed measures: <code>np.log1p(x)</code> (handles zeros). Compresses long tails so models and correlations behave better (links to L11 shape content).</p>
+        <h2>6. Log Transformation</h2>
+        <p>Many real-world counts and monetary values are right-skewed (long right tail). Taking the logarithm compresses large values and often makes the distribution closer to normal, which improves the behaviour of correlation, linear models, and residual plots.</p>
+        <ul>
+          <li>Use <code>np.log(x)</code> only when every value is strictly positive.</li>
+          <li>Use <code>np.log1p(x)</code> (= log(1+x)) when zeros are present (very common with quantity or claims).</li>
+        </ul>
+        <p>After the transform, always re-check skewness:</p>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>print("Original skew:", df["casualties"].skew())
+df["casualties_log"] = np.log1p(df["casualties"])
+print("Log skew:", df["casualties_log"].skew())</code></pre>
       </section>
 
       <section id="encode">
-        <h2>5. Encoding Categorical Variables</h2>
+        <h2>7. Encoding Categorical Variables</h2>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Method</th><th>Use when</th><th>Notes</th></tr></thead>
             <tbody>
-              <tr><td>Label encoding</td><td>Ordinal categories (Low/Med/High)</td><td>Implies order</td></tr>
-              <tr><td>One-hot encoding</td><td>Nominal categories (region, weather)</td><td>Creates binary columns</td></tr>
-              <tr><td>Frequency / target</td><td>High cardinality (advanced)</td><td>Careful with leakage</td></tr>
+              <tr><td>Label / Ordinal encoding</td><td>Ordered categories (Low / Medium / High, education level)</td><td>Preserves rank; do not use on nominal data</td></tr>
+              <tr><td>One-hot (dummy) encoding</td><td>Nominal categories (region, weather, product type)</td><td>Creates one binary column per category; drop first if needed to avoid multicollinearity</td></tr>
+              <tr><td>Frequency / Count encoding</td><td>High-cardinality nominal (city, SKU)</td><td>Replace category by its frequency; careful with leakage</td></tr>
+              <tr><td>Target encoding</td><td>High-cardinality + supervised task</td><td>Powerful but must be done inside cross-validation folds</td></tr>
             </tbody>
           </table>
         </div>
+        <div class="callout callout-warning">
+          <div class="callout-title">Common Mistake</div>
+          Fitting any encoder (or scaler) on the whole dataset before a train/test split leaks information from the test set into the training representation. Always fit on train only, then transform both train and test.
+        </div>
+      </section>
+
+      <section id="when">
+        <h2>8. When Is Scaling Required?</h2>
+        <ul>
+          <li><strong>Required / strongly recommended:</strong> k-NN, k-means, hierarchical clustering, SVM with RBF kernel, PCA, neural networks, gradient-descent optimizers, regularized linear models (Ridge/Lasso).</li>
+          <li><strong>Optional / usually unnecessary:</strong> tree-based models (Decision Tree, Random Forest, Gradient Boosting, XGBoost) — they split on thresholds and are invariant to monotonic transforms.</li>
+        </ul>
       </section>
 
       <section id="python">
-        <h2>6. Python — Scaling Practical</h2>
+        <h2>9. Python — Complete Scaling & Encoding Lab</h2>
+        <p>Download the practice data: <a href="../../datasets/sample_sales.csv" download>sample_sales.csv</a> (also available: <a href="../../datasets/titanic.csv" download>titanic.csv</a> for missing-value + encoding practice).</p>
         <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>import pandas as pd
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
 
-df = pd.read_csv("../../datasets/sample_accidents.csv")
-num = df[["speed_limit", "vehicles", "casualties"]].copy()
+# Load
+df = pd.read_csv("../../datasets/sample_sales.csv")
+print(df.head())
+print(df.dtypes)
 
+# Numeric columns we will scale
+num_cols = ["Quantity", "UnitPrice", "Discount"]
+
+# 1. Min-Max
 minmax = MinMaxScaler()
-num_mm = pd.DataFrame(minmax.fit_transform(num), columns=num.columns)
+df_mm = df.copy()
+df_mm[num_cols] = minmax.fit_transform(df[num_cols])
+print("Min-Max ranges:\n", df_mm[num_cols].agg(["min","max"]))
 
+# 2. Z-score
 z = StandardScaler()
-num_z = pd.DataFrame(z.fit_transform(num), columns=num.columns)
+df_z = df.copy()
+df_z[num_cols] = z.fit_transform(df[num_cols])
+print("Z-score means & stds:\n", df_z[num_cols].agg(["mean","std"]))
 
-df["casualties_log"] = np.log1p(df["casualties"])
-dummies = pd.get_dummies(df["weather"], prefix="weather")</code></pre>
+# 3. Log transform of a skewed monetary column
+df["UnitPrice_log"] = np.log1p(df["UnitPrice"])
+print("Original UnitPrice skew:", df["UnitPrice"].skew().round(3))
+print("Log UnitPrice skew:", df["UnitPrice_log"].skew().round(3))
+
+# 4. One-hot encode Category and Region
+dummies = pd.get_dummies(df[["Category","Region"]], prefix=["cat","reg"])
+df_enc = pd.concat([df, dummies], axis=1)
+print("Columns after one-hot:\n", df_enc.columns.tolist())</code></pre>
       </section>
 
       <section id="practical">
-        <h2>7. Practical</h2>
+        <h2>10. Hands-on Lab (Do This Now)</h2>
         <div class="card">
           <ol>
-            <li>Min-Max and standardize <code>speed_limit</code> and <code>vehicles</code>; compare ranges.</li>
-            <li>Log-transform <code>casualties</code>; recompute skew.</li>
-            <li>One-hot encode <code>weather</code> or <code>region</code>.</li>
+            <li>Load <code>sample_sales.csv</code>. Compute the skew of <code>UnitPrice</code> and <code>Quantity</code>.</li>
+            <li>Apply Min-Max and Z-score to the numeric columns; verify the resulting ranges / means.</li>
+            <li>Create a log-transformed <code>UnitPrice_log</code> and compare skew before/after.</li>
+            <li>One-hot encode <code>Category</code> and <code>Region</code>. How many new columns appeared?</li>
+            <li>(Stretch) Using Titanic, decide which encoding is appropriate for <code>Sex</code>, <code>Embarked</code> and <code>Pclass</code>.</li>
           </ol>
         </div>
       </section>
 
+      <section id="interview">
+        <h2>11. Interview & Viva Questions</h2>
+        <ul>
+          <li>Explain the difference between Min-Max and Z-score. When would you choose each?</li>
+          <li>Why can Min-Max be dangerous if outliers are present?</li>
+          <li>Why do we prefer <code>log1p</code> over plain <code>log</code> for count data?</li>
+          <li>Why must scalers and encoders be fit only on the training set?</li>
+          <li>Do tree-based models need feature scaling? Why or why not?</li>
+        </ul>
+      </section>
+
       <section id="quiz">
-        <h2>8. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="a" data-success="Correct — Min-Max maps to [0,1] using min and max." data-fail="Min-Max uses min and max; Z-score uses mean and SD.">
-          <p><strong>Q1.</strong> Which maps features into [0, 1]?</p>
+        <h2>12. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="a" data-success="Correct — Min-Max maps to [0,1] using the observed min and max." data-fail="Min-Max uses min and max; Z-score uses mean and standard deviation.">
+          <p><strong>Q1.</strong> Which transformation maps features into the interval [0, 1]?</p>
           <div class="quiz-option" data-value="a">A. Min-Max normalization</div>
           <div class="quiz-option" data-value="b">B. Z-score only</div>
           <div class="quiz-option" data-value="c">C. Dropping nulls</div>
@@ -132,25 +211,77 @@ dummies = pd.get_dummies(df["weather"], prefix="weather")</code></pre>
           <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
           <div class="quiz-feedback"></div>
         </div>
+        <div class="quiz-card" id="q2" data-answer="b" data-success="Correct — tree models split on thresholds and are invariant to monotonic transforms." data-fail="Tree-based models do not require scaling.">
+          <p><strong>Q2.</strong> Which family of models usually does <em>not</em> require feature scaling?</p>
+          <div class="quiz-option" data-value="a">A. k-NN and SVM-RBF</div>
+          <div class="quiz-option" data-value="b">B. Random Forest / XGBoost</div>
+          <div class="quiz-option" data-value="c">C. Neural networks</div>
+          <div class="quiz-option" data-value="d">D. PCA</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q3" data-answer="c" data-success="Correct — log1p safely handles zeros that are common in count data." data-fail="Use log1p when zeros may be present.">
+          <p><strong>Q3.</strong> Which transform is safest for a count column that contains zeros?</p>
+          <div class="quiz-option" data-value="a">A. np.log(x)</div>
+          <div class="quiz-option" data-value="b">B. Min-Max only</div>
+          <div class="quiz-option" data-value="c">C. np.log1p(x)</div>
+          <div class="quiz-option" data-value="d">D. Label encoding</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q3')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+      </section>
+
+      <section id="flashcards">
+        <h2>13. Flashcards</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Min-Max formula?</strong></div><div class="flashcard-back">(x − min) / (max − min) → [0,1]</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Z-score formula?</strong></div><div class="flashcard-back">(x − mean) / std → mean 0, variance 1</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>When log1p?</strong></div><div class="flashcard-back">Right-skewed positive data that may contain zeros</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>One-hot vs Label?</strong></div><div class="flashcard-back">One-hot for nominal; Label/Ordinal only when order exists</div></div></div></div>
+        </div>
+      </section>
+
+      <section id="cheatsheet">
+        <h2>14. Cheat Sheet</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li><strong>Min-Max:</strong> [0,1], sensitive to outliers</li>
+            <li><strong>Z-score:</strong> mean 0 / SD 1, preferred for different units</li>
+            <li><strong>Log / log1p:</strong> right skew, counts, money</li>
+            <li><strong>Encoding:</strong> ordinal → label; nominal → one-hot; high-card → frequency/target (careful)</li>
+            <li><strong>Rule:</strong> fit scalers & encoders on train only</li>
+            <li><strong>Trees:</strong> usually do not need scaling</li>
+          </ul>
+        </div>
       </section>
 
       <section id="summary">
-        <h2>9. Summary</h2>
+        <h2>15. Summary</h2>
         <ul>
           <li>Min-Max → [0,1]; Z-score → mean 0, SD 1.</li>
-          <li>Log for right skew; encode categoricals before most ML models.</li>
-          <li>Fit scalers on train only in real pipelines (preview of L9).</li>
+          <li>Log (or log1p) for right-skewed positive variables; always re-check skew.</li>
+          <li>Encode categoricals correctly; never fit transformers on the full dataset before splitting.</li>
+          <li>Distance and gradient methods need scaling; tree methods usually do not.</li>
         </ul>
+      </section>
+
+      <section id="next">
+        <h2>16. What’s Next</h2>
+        <p><strong>Lecture 8 — Feature Engineering Basics</strong> shows how to create derived columns (ratios, date parts, aggregates, bins) that often give more lift than the original raw features.</p>
       </section>
 
       <div class="lecture-nav">
         <a href="../week3/lecture6.html" class="nav-btn">← Lecture 6</a>
         <a href="lecture8.html" class="nav-btn primary" onclick="markLectureComplete(7)">Next: Lecture 8 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 7 of 30 · Module 2 · Data Transformation</p></footer>
+      <footer class="site-footer"><p>Lecture 7 of 30 · Module 2 · Data Transformation · CS-399 aligned</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 7: Data Transformation",url:"lecture7.html",module:"Module 2",keywords:"minmax standardization log encoding scaling",summary:"Scaling and encoding transforms"}];</script>
+  <script>
+    window.COURSE_SEARCH_INDEX = [
+      { title: "Lecture 7: Data Transformation", url: "modules/week4/lecture7.html", module: "Module 2", keywords: "minmax standardization log encoding scaling zscore one-hot", summary: "Scaling, log transforms and categorical encoding with Python labs" }
+    ];
+  </script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>
