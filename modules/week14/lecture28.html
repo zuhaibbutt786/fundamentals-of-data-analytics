@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 28: Project Lab – cleaning, EDA, and visualization execution for the capstone." />
-  <title>Lecture 28: Project Lab | Data Analytics Course</title>
+  <meta name="description" content="Lecture 28: Capstone Project Lab – end-to-end cleaning, EDA, visualisation checklist and ethics integration." />
+  <title>Lecture 28: Capstone Project Lab | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -26,119 +26,137 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-section">Course Navigation</div>
       <nav class="sidebar-nav">
-        <div class="module-title">Module 6 · Capstone</div>
-        <a href="lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Project Proposal</a>
+        <div class="module-title">Module 6 · Capstone & Ethics</div>
+        <a href="lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Ethics</a>
         <a href="lecture28.html" class="active" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
         <a href="../week15/lecture29.html" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
-        <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation &amp; Viva</a>
+        <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation & Viva</a>
       </nav>
     </aside>
     <main class="main-content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 6 › <span>Lecture 28</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-advanced">Advanced</span>
-        <span class="badge badge-time">⏱ ~180 min lab</span>
-        <span class="badge">Module 6 · Lab</span>
+        <span class="badge badge-time">⏱ Lab session</span>
+        <span class="badge">Module 6 · Capstone</span>
       </div>
-      <h1>Lecture 28: Project Lab</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Execute cleaning, EDA, and visualization on your approved proposal dataset — syllabus lab focus for the capstone.</p>
+      <h1>Lecture 28: Capstone Project Lab</h1>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Turn your proposal into analysis-ready data and first insights. This lab integrates Modules 2–4 plus the Ethics checklist from L27.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
         <ul class="objectives-list">
-          <li><span class="obj-num">1</span> Clean the chosen dataset to a documented, analysis-ready state.</li>
-          <li><span class="obj-num">2</span> Complete descriptive, correlation, grouped, and time-based EDA linked to KPIs.</li>
-          <li><span class="obj-num">3</span> Produce a first set of decision-oriented charts (not decorative plots).</li>
-          <li><span class="obj-num">4</span> Log every major transformation for the viva.</li>
-          <li><span class="obj-num">5</span> Exit the lab with files ready for Power BI / dashboard modeling.</li>
+          <li><span class="obj-num">1</span> Execute a complete cleaning + profiling pass on your Capstone dataset.</li>
+          <li><span class="obj-num">2</span> Produce a short EDA that answers your problem statement.</li>
+          <li><span class="obj-num">3</span> Draft first visuals that support your KPIs.</li>
+          <li><span class="obj-num">4</span> Apply the Ethics checklist and document limitations early.</li>
         </ul>
       </section>
 
-      <section id="clean">
-        <h2>2. Cleaning Checklist (Module 2)</h2>
+      <section id="domain">
+        <h2>2. Recommended Domains (Syllabus)</h2>
         <ul>
-          <li>☐ Profile: <code>info</code>, missing rates, duplicates, key uniqueness</li>
-          <li>☐ Types &amp; dates parsed correctly</li>
-          <li>☐ Missing data strategy recorded (MCAR/MAR/MNAR thinking)</li>
-          <li>☐ Outliers reviewed (IQR/Z); keep true rare events with notes</li>
-          <li>☐ Scaling/encoding only where needed for later models</li>
-          <li>☐ Feature engineering: ratios, calendar fields, bins tied to KPIs</li>
+          <li>Retail / e-commerce sales performance</li>
+          <li>Healthcare operational or outcome metrics (de-identified)</li>
+          <li>Transport / accident or safety analysis (course sample_accidents.csv is available)</li>
+          <li>Banking / credit or transaction patterns (public or synthetic only)</li>
+          <li>Education or HR people analytics (strict privacy rules)</li>
         </ul>
+        <p>Prefer public or provided datasets. If using organisational data, obtain written permission and strip personal identifiers.</p>
       </section>
 
-      <section id="eda">
-        <h2>3. EDA Checklist (Module 3)</h2>
-        <ul>
-          <li>☐ Center, spread, skew, kurtosis for core measures</li>
-          <li>☐ Correlation / multicollinearity scan for numeric drivers</li>
-          <li>☐ Groupby / pivot by the segments in your proposal</li>
-          <li>☐ Time trend + moving average if dates exist</li>
-          <li>☐ Written findings: 5–8 bullets that answer KPI questions</li>
-        </ul>
-      </section>
-
-      <section id="viz">
-        <h2>4. Visualization Checklist (Module 4)</h2>
-        <ul>
-          <li>☐ One chart per major question (trend, rank, composition, relationship)</li>
-          <li>☐ Titles state the insight, not only the chart type</li>
-          <li>☐ Consistent colors; decluttered axes</li>
-          <li>☐ Export clean tables/CSVs for Power BI import</li>
-        </ul>
-      </section>
-
-      <section id="lab-output">
-        <h2>5. Lab Outputs to Keep</h2>
+      <section id="cleaning">
+        <h2>3. Cleaning Checklist (Module 2)</h2>
         <div class="card">
           <ol>
-            <li><code>cleaned_dataset.csv</code> (or partitioned tables)</li>
-            <li>Notebook or script with reproducible steps</li>
-            <li>EDA insight note (1–2 pages)</li>
-            <li>Chart pack or image exports</li>
-            <li>Open issues list for dashboard phase</li>
+            <li>Load data → <code>.info()</code>, <code>.describe()</code>, missing rates, duplicates.</li>
+            <li>Classify missingness (MCAR / MAR / MNAR) for key columns; decide delete vs impute; create “was_imputed” flags.</li>
+            <li>Handle outliers (document keep / cap / remove decisions).</li>
+            <li>Standardise types, categories, and date columns.</li>
+            <li>Engineer 2–4 high-value features that answer your question (L8).</li>
+            <li>Save a clean parquet/csv and a short data-dictionary note.</li>
           </ol>
         </div>
       </section>
 
-      <section id="timebox">
-        <h2>6. Suggested Timebox</h2>
-        <div class="timeline">
-          <div class="timeline-item"><h4>0–30 min</h4><p>Reload proposal; confirm grain and KPIs.</p></div>
-          <div class="timeline-item"><h4>30–90 min</h4><p>Cleaning + quality log.</p></div>
-          <div class="timeline-item"><h4>90–150 min</h4><p>EDA + insight bullets.</p></div>
-          <div class="timeline-item"><h4>150–180 min</h4><p>Core charts + export for dashboard.</p></div>
+      <section id="eda">
+        <h2>4. EDA Checklist (Module 3)</h2>
+        <div class="card">
+          <ol>
+            <li>Univariate distributions for every KPI-related variable.</li>
+            <li>Bivariate relationships (correlation, group comparisons) that test your hypotheses.</li>
+            <li>Time trends if dates exist (L14 patterns).</li>
+            <li>At least one “interesting but expected” finding and one “surprising” finding.</li>
+            <li>Note any bias or coverage issues discovered during EDA.</li>
+          </ol>
         </div>
       </section>
 
-      <section id="quiz">
-        <h2>7. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="c" data-success="Correct — lab work must be reproducible and tied to KPIs." data-fail="Documented, KPI-linked cleaning and EDA is the lab goal.">
-          <p><strong>Q1.</strong> Capstone lab success means:</p>
-          <div class="quiz-option" data-value="a">A. Random charts with no notes</div>
-          <div class="quiz-option" data-value="b">B. Deleting all outliers silently</div>
-          <div class="quiz-option" data-value="c">C. Clean data, KPI-linked EDA, and documented steps</div>
-          <div class="quiz-option" data-value="d">D. Skipping the proposal entirely</div>
-          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
-          <div class="quiz-feedback"></div>
+      <section id="viz">
+        <h2>5. Visualisation Checklist (Module 4)</h2>
+        <div class="card">
+          <ol>
+            <li>One clear KPI card / summary number for the primary metric.</li>
+            <li>One trend chart (time) if applicable.</li>
+            <li>One comparison chart (category / region / segment).</li>
+            <li>One relationship or distribution chart that supports a claim.</li>
+            <li>Titles, axis labels, and source note on every visual.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="ethics-lab">
+        <h2>6. Ethics Integration (from L27)</h2>
+        <ul>
+          <li>Write 5–8 bullet “Limitations & Ethics” notes (data gaps, possible bias, privacy steps taken).</li>
+          <li>Confirm no personal identifiers remain in the working file or screenshots.</li>
+          <li>Avoid causal language in any draft insight statements.</li>
+        </ul>
+      </section>
+
+      <section id="outputs">
+        <h2>7. Lab Outputs to Keep</h2>
+        <ul>
+          <li>Clean dataset + short data dictionary</li>
+          <li>EDA notebook or script with key plots</li>
+          <li>Draft insight list (3–5 bullets) linked to visuals</li>
+          <li>Ethics & Limitations draft</li>
+          <li>Time log (helps you plan L29)</li>
+        </ul>
+      </section>
+
+      <section id="timebox">
+        <h2>8. Suggested Timebox</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Activity</th><th>Suggested share</th></tr></thead>
+            <tbody>
+              <tr><td>Profiling + cleaning</td><td>30–35 %</td></tr>
+              <tr><td>Feature engineering + EDA</td><td>30–35 %</td></tr>
+              <tr><td>First visuals + insight drafting</td><td>20 %</td></tr>
+              <tr><td>Ethics notes + documentation</td><td>10–15 %</td></tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
       <section id="summary">
-        <h2>8. Summary</h2>
-        <ul>
-          <li>Lab = execute Modules 2–4 on <em>your</em> data.</li>
-          <li>Everything you change should be explainable in the viva.</li>
-        </ul>
+        <h2>9. Summary</h2>
+        <p>By the end of this lab you should have clean data, evidence-based insights, draft visuals, and an ethics note — ready for the modelling and dashboard work in L29.</p>
       </section>
 
       <div class="lecture-nav">
         <a href="lecture27.html" class="nav-btn">← Lecture 27</a>
         <a href="../week15/lecture29.html" class="nav-btn primary" onclick="markLectureComplete(28)">Next: Lecture 29 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 28 of 30 · Module 6 · Project Lab</p></footer>
+      <footer class="site-footer"><p>Lecture 28 of 30 · Module 6 · Capstone Project Lab · CS-399 aligned</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 28: Project Lab",url:"lecture28.html",module:"Module 6",keywords:"capstone lab cleaning eda visualization",summary:"Capstone project lab"}];</script>
+  <script>
+    window.COURSE_SEARCH_INDEX = [
+      { title: "Lecture 28: Capstone Project Lab", url: "modules/week14/lecture28.html", module: "Module 6", keywords: "capstone lab cleaning eda visualisation ethics", summary: "Capstone lab: cleaning, EDA, visuals and ethics integration" }
+    ];
+  </script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>
