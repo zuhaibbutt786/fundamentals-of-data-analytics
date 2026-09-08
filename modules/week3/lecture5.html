@@ -154,7 +154,7 @@ df["casualties"] = df["casualties"].fillna(df["casualties"].median())
 df["weather"] = df["weather"].fillna(df["weather"].mode().iloc[0])
 
 # 3. Best practice — flag that a value was imputed
-df["casualties_was_missing"] = df["casualties"].isna()          # capture BEFORE fill
+df["casualties_was_missing"] = df["casualties"].isna()
 df["casualties"] = df["casualties"].fillna(df["casualties"].median())
 </code></pre>
         <div class="callout callout-tip">
@@ -168,6 +168,18 @@ df["casualties"] = df["casualties"].fillna(df["casualties"].median())
           <li>Median is more robust to outliers than mean.</li>
           <li>Creating an “Unknown” category preserves information that the value was missing — often useful for models and dashboards.</li>
         </ul>
+      </section>
+
+      <section id="jupyter-lab" class="card">
+        <h2 style="margin-top:0">Download Jupyter Lab</h2>
+        <p>Practice this lecture hands-on with the official course notebook:</p>
+        <p>
+          <a class="nav-btn primary" href="../../labs/L5_Data_Quality_and_Profiling.ipynb" download>⬇ L5_Data_Quality_and_Profiling.ipynb</a>
+        </p>
+        <p style="margin-top:0.75rem;color:var(--text-muted);font-size:0.95rem">
+          Open in Jupyter Lab, VS Code, or <a href="https://colab.research.google.com/" target="_blank" rel="noopener">Google Colab</a>.
+          All labs are listed in the <a href="../../labs/README.md">labs index</a>.
+        </p>
       </section>
 
       <section id="summary">
@@ -189,7 +201,7 @@ df["casualties"] = df["casualties"].fillna(df["casualties"].median())
   </div>
   <script>
     window.COURSE_SEARCH_INDEX = [
-      { title: "Lecture 5: Data Quality & Profiling", url: "modules/week3/lecture5.html", module: "Module 2", keywords: "missing mcar mar mnar imputation median mode deletion quality profiling", summary: "Data quality dimensions and deep missing-value handling" }
+      { title: "Lecture 5: Data Quality & Profiling", url: "modules/week3/lecture5.html", module: "Module 2", keywords: "missing mcar mar mnar imputation median mode deletion quality profiling jupyter lab", summary: "Data quality dimensions and deep missing-value handling" }
     ];
   </script>
   <script src="../../assets/js/main.js"></script>
