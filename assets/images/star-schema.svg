@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 400" role="img" aria-label="Star schema fact and dimensions">
+  <rect width="560" height="400" fill="#0b1120" rx="12"/>
+  <text x="280" y="32" text-anchor="middle" fill="#f1f5f9" font-family="Inter,system-ui,sans-serif" font-size="16" font-weight="700">Star Schema (Analytical Model)</text>
+  <rect x="190" y="150" width="180" height="100" rx="12" fill="#1e3a5f" stroke="#3b82f6" stroke-width="3"/>
+  <text x="280" y="185" text-anchor="middle" fill="#93c5fd" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="700">FactSales</text>
+  <text x="280" y="205" text-anchor="middle" fill="#94a3b8" font-family="Inter,system-ui,sans-serif" font-size="11">OrderKey · DateKey · ProductKey</text>
+  <text x="280" y="222" text-anchor="middle" fill="#94a3b8" font-family="Inter,system-ui,sans-serif" font-size="11">RegionKey · Revenue · Qty</text>
+  <rect x="200" y="40" width="160" height="56" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="280" y="65" text-anchor="middle" fill="#c4b5fd" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600">DimDate</text>
+  <text x="280" y="82" text-anchor="middle" fill="#64748b" font-family="Inter,system-ui,sans-serif" font-size="10">DateKey · Year · Month · Qtr</text>
+  <line x1="280" y1="96" x2="280" y2="150" stroke="#64748b" stroke-width="2"/>
+  <rect x="20" y="165" width="140" height="56" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+  <text x="90" y="190" text-anchor="middle" fill="#6ee7b7" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600">DimProduct</text>
+  <text x="90" y="207" text-anchor="middle" fill="#64748b" font-family="Inter,system-ui,sans-serif" font-size="10">ProductKey · Name · Cat</text>
+  <line x1="160" y1="193" x2="190" y2="193" stroke="#64748b" stroke-width="2"/>
+  <rect x="400" y="165" width="140" height="56" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+  <text x="470" y="190" text-anchor="middle" fill="#fcd34d" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600">DimRegion</text>
+  <text x="470" y="207" text-anchor="middle" fill="#64748b" font-family="Inter,system-ui,sans-serif" font-size="10">RegionKey · Name · Country</text>
+  <line x1="370" y1="193" x2="400" y2="193" stroke="#64748b" stroke-width="2"/>
+  <rect x="200" y="300" width="160" height="56" rx="10" fill="#1e293b" stroke="#06b6d4" stroke-width="2"/>
+  <text x="280" y="325" text-anchor="middle" fill="#67e8f9" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600">DimCustomer</text>
+  <text x="280" y="342" text-anchor="middle" fill="#64748b" font-family="Inter,system-ui,sans-serif" font-size="10">CustomerKey · Segment</text>
+  <line x1="280" y1="250" x2="280" y2="300" stroke="#64748b" stroke-width="2"/>
+  <text x="280" y="385" text-anchor="middle" fill="#94a3b8" font-family="Inter,system-ui,sans-serif" font-size="11">Many-to-one: Fact → each Dimension · filter from dim to fact</text>
+</svg>
