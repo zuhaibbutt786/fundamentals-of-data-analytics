@@ -139,13 +139,19 @@ print("Log skew:", df["casualties_log"].skew())</code></pre>
 
       <section id="python">
         <h2>9. Python — Complete Scaling & Encoding Lab</h2>
-        <p>Download the practice data: <a href="../../datasets/sample_sales.csv" download>sample_sales.csv</a> (also available: <a href="../../datasets/titanic.csv" download>titanic.csv</a> for missing-value + encoding practice).</p>
+        <p>Download practice data from the course repo:</p>
+        <ul>
+          <li><a href="../../datasets/sample_sales.csv" download>sample_sales.csv</a> (recommended for this lecture)</li>
+          <li><a href="../../datasets/sample_accidents.csv" download>sample_accidents.csv</a></li>
+          <li><a href="../../datasets/README.md">Full datasets README</a> (includes Titanic, Gapminder, Electric Production & public raw links)</li>
+        </ul>
+        <p>Or load Titanic directly from the public raw URL (full dataset):</p>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>titanic = pd.read_csv("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv")</code></pre>
         <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>import pandas as pd
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler, StandardScaler, OneHotEncoder
-from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
-# Load
+# Load from course datasets
 df = pd.read_csv("../../datasets/sample_sales.csv")
 print(df.head())
 print(df.dtypes)
@@ -184,7 +190,7 @@ print("Columns after one-hot:\n", df_enc.columns.tolist())</code></pre>
             <li>Apply Min-Max and Z-score to the numeric columns; verify the resulting ranges / means.</li>
             <li>Create a log-transformed <code>UnitPrice_log</code> and compare skew before/after.</li>
             <li>One-hot encode <code>Category</code> and <code>Region</code>. How many new columns appeared?</li>
-            <li>(Stretch) Using Titanic, decide which encoding is appropriate for <code>Sex</code>, <code>Embarked</code> and <code>Pclass</code>.</li>
+            <li>(Stretch) Load Titanic from the public URL and decide which encoding is appropriate for <code>Sex</code>, <code>Embarked</code> and <code>Pclass</code>.</li>
           </ol>
         </div>
       </section>
