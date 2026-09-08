@@ -1,6 +1,6 @@
 /* =====================================================
    Fundamentals of Data Analytics - Core JS
-   Theme, Progress, Sidebar, Quiz, Search, Collapse + KaTeX
+   Theme, Progress, Sidebar, Quiz, Search, Collapse + KaTeX + dark fixes
    ===================================================== */
 
 (function () {
@@ -28,6 +28,21 @@
   }
   updateThemeIcon(savedTheme);
 
+  // Load dark-mode structure/formula visibility fixes
+  (function loadDarkFixes() {
+    if (document.getElementById('dark-mode-fixes-css')) return;
+    const link = document.createElement('link');
+    link.id = 'dark-mode-fixes-css';
+    link.rel = 'stylesheet';
+    const depth = (location.pathname.match(/\/modules\//) ? '../../' : '');
+    link.href = depth + 'assets/css/dark-mode-fixes.css';
+    link.onerror = function () {
+      this.onerror = null;
+      this.href = '/fundamentals-of-data-analytics/assets/css/dark-mode-fixes.css';
+    };
+    document.head.appendChild(link);
+  })();
+
   // ----- Reading Progress -----
   function updateProgress() {
     const bar = document.getElementById('readingProgress');
@@ -53,7 +68,7 @@
     });
   }
 
-  // ----- Collapsible Sections -----
+  // ----- Collapsible -----
   document.querySelectorAll('[data-collapse]').forEach(header => {
     header.addEventListener('click', () => {
       const target = document.getElementById(header.getAttribute('data-collapse'));
@@ -64,7 +79,7 @@
     });
   });
 
-  // ----- Quiz Engine -----
+  // ----- Quiz -----
   window.checkQuiz = function (quizId) {
     const quiz = document.getElementById(quizId);
     if (!quiz) return;
@@ -107,7 +122,7 @@
     card.addEventListener('click', () => card.classList.toggle('flipped'));
   });
 
-  // ----- Progress Tracker (localStorage) -----
+  // ----- Progress -----
   const PROGRESS_KEY = 'da-course-progress';
   function getProgress() {
     try { return JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}'); }
@@ -135,7 +150,7 @@
   }
   updateSidebarProgress();
 
-  // ----- Search (simple client-side) -----
+  // ----- Search -----
   const searchIndex = window.COURSE_SEARCH_INDEX || [];
   const searchOverlay = document.getElementById('searchOverlay');
   const searchInput = document.getElementById('searchInput');
@@ -188,10 +203,8 @@
     `).join('');
   });
 
-  // ----- Theme button -----
   document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
 
-  // ----- Animate on scroll (simple) -----
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) e.target.classList.add('animate-in');
@@ -202,7 +215,7 @@
     observer.observe(el);
   });
 
-  // ----- KaTeX: render LaTeX formulas (works in light + dark) -----
+  // ----- KaTeX -----
   function loadKaTeX() {
     if (window.katex && window.renderMathInElement) {
       renderMathInElement(document.body, {
@@ -254,7 +267,7 @@
           });
         }
       })
-      .catch(function () { /* KaTeX optional */ });
+      .catch(function () {});
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', loadKaTeX);
@@ -262,6 +275,5 @@
     loadKaTeX();
   }
 
-  // Expose helpers
   window.DA = { toggleTheme, markProgress, getProgress, openSearch, closeSearch };
 })();
