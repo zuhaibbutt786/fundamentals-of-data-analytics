@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 8: Feature Engineering Basics – derived columns, aggregation, datetime features, binning." />
+  <meta name="description" content="Lecture 8: Feature Engineering Basics – derived columns, aggregation features, date-time extraction, binning, and business-driven feature design." />
   <title>Lecture 8: Feature Engineering Basics | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,12 +26,12 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-section">Course Navigation</div>
       <nav class="sidebar-nav">
-        <div class="module-title">Module 2 · Cleaning &amp; Prep</div>
+        <div class="module-title">Module 2 · Cleaning & Prep</div>
         <a href="../week3/lecture5.html" data-lecture-id="5"><span class="progress-ring"></span> L5 · Data Quality</a>
-        <a href="../week3/lecture6.html" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers &amp; Noise</a>
+        <a href="../week3/lecture6.html" data-lecture-id="6"><span class="progress-ring"></span> L6 · Outliers & Noise</a>
         <a href="lecture7.html" data-lecture-id="7"><span class="progress-ring"></span> L7 · Transformation</a>
         <a href="lecture8.html" class="active" data-lecture-id="8"><span class="progress-ring"></span> L8 · Feature Engineering</a>
-        <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Splitting &amp; Validation</a>
+        <a href="../week5/lecture9.html" data-lecture-id="9"><span class="progress-ring"></span> L9 · Splitting & Validation</a>
         <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
       </nav>
     </aside>
@@ -43,103 +43,287 @@
         <span class="badge">Module 2 · CLO-2</span>
       </div>
       <h1>Lecture 8: Feature Engineering Basics</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Derived columns, aggregation, date-time extraction, and binning — syllabus practical: revenue, profit margin, monthly trends (and the same ideas on accident severity features).</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Create derived columns, aggregation features, date-time parts, and bins that answer real business questions — not just inflate the column count. Fully aligned with CS-399 and the Feature Engineering course materials.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
         <ul class="objectives-list">
-          <li><span class="obj-num">1</span> Create derived columns from existing fields (ratios, flags, interactions).</li>
-          <li><span class="obj-num">2</span> Aggregate to new grain when the question needs it.</li>
-          <li><span class="obj-num">3</span> Extract year, month, day-of-week, and similar from dates.</li>
-          <li><span class="obj-num">4</span> Bin continuous variables into meaningful bands.</li>
-          <li><span class="obj-num">5</span> Build features that answer a business question, not just inflate columns.</li>
+          <li><span class="obj-num">1</span> Create derived columns (ratios, differences, flags, interactions) from existing fields.</li>
+          <li><span class="obj-num">2</span> Build aggregation features at a coarser grain and join them back when needed.</li>
+          <li><span class="obj-num">3</span> Extract useful date-time components (year, month, day-of-week, lag, rolling).</li>
+          <li><span class="obj-num">4</span> Bin continuous variables into meaningful categories for analysis or modelling.</li>
+          <li><span class="obj-num">5</span> Design features that directly support a business question instead of “feature spam”.</li>
         </ul>
       </section>
 
-      <section id="derived">
-        <h2>2. Derived Columns</h2>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code># Sales-style (syllabus examples)
-df["revenue"] = df["qty"] * df["unit_price"]
-df["profit_margin"] = (df["revenue"] - df["cost"]) / df["revenue"]
+      <section id="motivation">
+        <h2>2. Motivation — Why Feature Engineering Wins</h2>
+        <p>Raw columns are rarely the most informative representation. A simple ratio (revenue / quantity), a flag (is_weekend), or a lagged value often gives more lift than a complex algorithm on the original data. Good feature engineering is the highest-ROI skill an analyst can develop.</p>
+        <div class="callout callout-tip">
+          <div class="callout-title">💡 Key Insight</div>
+          Feature engineering is applied domain knowledge. The best features come from understanding the business, not from blindly applying every possible transform.
+        </div>
+      </section>
 
-# Accident-style
-df["high_casualty"] = (df["casualties"] >= 2).astype(int)
-df["vehicles_per_casualty"] = df["vehicles"] / df["casualties"].replace(0, np.nan)</code></pre>
+      <section id="story">
+        <h2>3. Real-World Story</h2>
+        <div class="card">
+          <h3 style="margin-top:0">The Churn Model That Finally Worked</h3>
+          <p>A telecom team had dozens of raw usage columns (minutes, SMS, data). Predictive power stayed mediocre until an analyst engineered three features:</p>
+          <ul>
+            <li><code>avg_daily_data_last_7d / avg_daily_data_last_30d</code> (usage drop)</li>
+            <li><code>days_since_last_recharge</code></li>
+            <li><code>is_night_heavy_user</code> (binary flag from hour-of-day patterns)</li>
+          </ul>
+          <p>These three domain-inspired features outperformed the previous 40-column model and became the core of the production churn dashboard.</p>
+        </div>
+      </section>
+
+      <section id="derived">
+        <h2>4. Derived Columns</h2>
+        <p>New columns created by arithmetic or logical combinations of existing ones.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Type</th><th>Example</th><th>Business meaning</th></tr></thead>
+            <tbody>
+              <tr><td>Ratio</td><td>revenue = qty × unit_price</td><td>Total value of the line</td></tr>
+              <tr><td>Margin</td><td>(revenue − cost) / revenue</td><td>Profitability</td></tr>
+              <tr><td>Flag / Indicator</td><td>(casualties ≥ 2).astype(int)</td><td>High-severity incident</td></tr>
+              <tr><td>Difference</td><td>planned − actual</td><td>Variance / delay</td></tr>
+              <tr><td>Interaction</td><td>price × is_promoted</td><td>Effect of promotion on price sensitivity</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>import pandas as pd
+import numpy as np
+
+df = pd.read_csv("../../datasets/sample_sales.csv")
+
+# Derived columns
+df["revenue"] = df["Quantity"] * df["UnitPrice"]
+df["discounted_revenue"] = df["revenue"] * (1 - df["Discount"])
+df["high_value"] = (df["revenue"] > df["revenue"].median()).astype(int)
+df["is_electronics"] = (df["Category"] == "Electronics").astype(int)
+
+print(df[["Product","Quantity","UnitPrice","revenue","discounted_revenue"]].head())</code></pre>
       </section>
 
       <section id="agg">
-        <h2>3. Aggregation Features</h2>
-        <p>Roll events up to customer / region / month grain, then join back if needed:</p>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>region_stats = df.groupby("region").agg(
-    region_accidents=("accident_id", "count"),
-    region_casualties=("casualties", "sum"),
-)
-df = df.merge(region_stats, on="region", how="left")</code></pre>
+        <h2>5. Aggregation Features</h2>
+        <p>Sometimes the interesting signal lives at a coarser grain (customer, region, product, month). Aggregate first, then join the summary back to the original table if you still need row-level detail.</p>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code># Region-level aggregates
+region_stats = df.groupby("Region").agg(
+    region_orders=("OrderID", "count"),
+    region_revenue=("revenue", "sum"),
+    region_avg_discount=("Discount", "mean")
+).reset_index()
+
+df = df.merge(region_stats, on="Region", how="left")
+
+# Now each row knows how its region performs overall
+print(df[["Region","revenue","region_revenue","region_orders"]].head())</code></pre>
+        <div class="callout callout-warning">
+          <div class="callout-title">Leakage warning</div>
+          When building aggregates for predictive models, compute them only on past data (or inside cross-validation folds). Aggregating on the whole dataset including the target period leaks future information.
+        </div>
       </section>
 
       <section id="datetime">
-        <h2>4. Date-Time Feature Extraction</h2>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>df["date"] = pd.to_datetime(df["date"])
-df["year"] = df["date"].dt.year
-df["month"] = df["date"].dt.month
-df["month_name"] = df["date"].dt.month_name()
-df["dayofweek"] = df["date"].dt.dayofweek  # 0=Mon
-df["is_weekend"] = df["dayofweek"].isin([5, 6]).astype(int)</code></pre>
-        <p>Monthly trends (syllabus) often start here, then groupby month for charts (ties to L14).</p>
+        <h2>6. Date-Time Feature Extraction</h2>
+        <p>Dates hide rich structure. Extracting calendar parts and time-based lags is one of the highest-value engineering steps for any temporal dataset.</p>
+        <ul>
+          <li><strong>Calendar parts:</strong> year, month, day, day-of-week, quarter, is_weekend, is_month_end</li>
+          <li><strong>Lags:</strong> value from 1 / 7 / 30 periods ago</li>
+          <li><strong>Rolling windows:</strong> mean / sum / std over the last N periods</li>
+          <li><strong>Time since event:</strong> days since last purchase / last claim / last login</li>
+        </ul>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>df["OrderDate"] = pd.to_datetime(df["OrderDate"])
+
+df["year"]        = df["OrderDate"].dt.year
+df["month"]       = df["OrderDate"].dt.month
+df["day_of_week"] = df["OrderDate"].dt.dayofweek          # 0=Monday
+df["is_weekend"]  = df["day_of_week"].isin([5,6]).astype(int)
+df["quarter"]     = df["OrderDate"].dt.quarter
+
+# Example lag (requires sorted data)
+df = df.sort_values("OrderDate")
+df["prev_revenue"] = df.groupby("CustomerID")["revenue"].shift(1)</code></pre>
       </section>
 
       <section id="binning">
-        <h2>5. Binning</h2>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>df["speed_band"] = pd.cut(
-    df["speed_limit"],
-    bins=[0, 30, 50, 70, 200],
-    labels=["Low", "Medium", "High", "VeryHigh"],
-)</code></pre>
-        <p>Bins make continuous risk factors readable on dashboards and support stratified analysis.</p>
+        <h2>7. Binning Continuous Variables</h2>
+        <p>Turning a continuous variable into ordered categories can make patterns easier to communicate and sometimes improves model stability.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Method</th><th>When to use</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td>Equal-width</td><td>Uniform ranges desired</td><td>Age 0–20, 20–40, 40–60…</td></tr>
+              <tr><td>Equal-frequency (quantile)</td><td>Balanced group sizes</td><td>pd.qcut(…, q=4)</td></tr>
+              <tr><td>Domain / business bins</td><td>Meaningful thresholds exist</td><td>Age <18, 18–25, 26–40, 41–65, 65+</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code># Business-driven bins for UnitPrice
+df["price_band"] = pd.cut(
+    df["UnitPrice"],
+    bins=[0, 50, 200, 500, np.inf],
+    labels=["Budget", "Mid", "Premium", "Luxury"]
+)
+
+# Quantile bins
+df["revenue_quartile"] = pd.qcut(df["revenue"], q=4, labels=["Q1","Q2","Q3","Q4"])</code></pre>
+      </section>
+
+      <section id="principles">
+        <h2>8. Feature Engineering Principles</h2>
+        <ul>
+          <li><strong>Start from the question</strong> — every feature should help answer a specific business or analytical question.</li>
+          <li><strong>Prefer interpretable features</strong> — especially for dashboards and stakeholder communication.</li>
+          <li><strong>Watch leakage</strong> — never use information that would not be available at prediction time.</li>
+          <li><strong>Document the logic</strong> — future you (or a colleague) must understand why the column exists.</li>
+          <li><strong>Validate impact</strong> — compare model / insight quality before and after the new features.</li>
+        </ul>
+      </section>
+
+      <section id="python">
+        <h2>9. Complete Python Lab</h2>
+        <p>Use <a href="../../datasets/sample_sales.csv" download>sample_sales.csv</a> (and optionally Titanic or Electric Production from the <a href="../../datasets/README.md">datasets README</a>).</p>
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>import pandas as pd
+import numpy as np
+
+df = pd.read_csv("../../datasets/sample_sales.csv")
+df["OrderDate"] = pd.to_datetime(df["OrderDate"])
+
+# 1. Derived
+df["revenue"] = df["Quantity"] * df["UnitPrice"]
+df["discounted_revenue"] = df["revenue"] * (1 - df["Discount"])
+df["high_value_order"] = (df["revenue"] > 200).astype(int)
+
+# 2. Aggregation
+cat_stats = df.groupby("Category").agg(
+    cat_avg_price=("UnitPrice", "mean"),
+    cat_total_qty=("Quantity", "sum")
+).reset_index()
+df = df.merge(cat_stats, on="Category", how="left")
+
+# 3. Date-time
+df["month"] = df["OrderDate"].dt.month
+df["day_of_week"] = df["OrderDate"].dt.day_name()
+df["is_weekend"] = df["OrderDate"].dt.dayofweek.isin([5,6]).astype(int)
+
+# 4. Binning
+df["price_band"] = pd.cut(df["UnitPrice"], bins=[0,50,200,500,np.inf],
+                          labels=["Budget","Mid","Premium","Luxury"])
+
+print(df[["Product","revenue","price_band","cat_avg_price","is_weekend"]].head(8))
+print("\nValue counts of price_band:\n", df["price_band"].value_counts())</code></pre>
       </section>
 
       <section id="practical">
-        <h2>6. Practical (Syllabus)</h2>
+        <h2>10. Hands-on Lab</h2>
         <div class="card">
           <ol>
-            <li>Create <code>year</code>, <code>month</code>, <code>is_weekend</code> from <code>date</code>.</li>
-            <li>Bin <code>speed_limit</code> into bands; count accidents per band.</li>
-            <li>Create a severity flag or ratio feature; summarize by region.</li>
-            <li>(Sales track) If using a sales file: compute revenue and profit margin; monthly trend table.</li>
+            <li>Create <code>revenue</code> and <code>discounted_revenue</code> on sample_sales.</li>
+            <li>Build a region-level aggregate (total revenue and order count) and join it back.</li>
+            <li>Extract month and is_weekend from OrderDate.</li>
+            <li>Bin UnitPrice into at least three meaningful bands and count the rows in each band.</li>
+            <li>(Stretch) Using the Electric Production series, create a lag-1 and a 3-period rolling mean.</li>
           </ol>
         </div>
       </section>
 
+      <section id="interview">
+        <h2>11. Interview & Viva Questions</h2>
+        <ul>
+          <li>Give three examples of derived features you would create for a retail sales dataset.</li>
+          <li>Why can aggregation features cause data leakage? How do you prevent it?</li>
+          <li>When would you prefer business-defined bins over quantile bins?</li>
+          <li>What date-time features are most useful for a demand-forecasting problem?</li>
+          <li>How do you decide whether a new feature is actually useful?</li>
+        </ul>
+      </section>
+
       <section id="quiz">
-        <h2>7. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — datetime extraction creates analysis-ready calendar features." data-fail="Feature engineering includes datetime parts, ratios, bins, aggregates.">
-          <p><strong>Q1.</strong> Extracting month and day-of-week from a date column is:</p>
-          <div class="quiz-option" data-value="a">A. Only a visualization theme setting</div>
-          <div class="quiz-option" data-value="b">B. Date-time feature engineering</div>
-          <div class="quiz-option" data-value="c">C. Multicollinearity by definition</div>
-          <div class="quiz-option" data-value="d">D. A form of random deletion</div>
+        <h2>12. Knowledge Check</h2>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — a ratio or flag created from existing columns is a classic derived feature." data-fail="Derived features are calculated from existing columns (ratios, flags, interactions…).">
+          <p><strong>Q1.</strong> Creating <code>revenue = Quantity × UnitPrice</code> is an example of:</p>
+          <div class="quiz-option" data-value="a">A. Binning</div>
+          <div class="quiz-option" data-value="b">B. A derived column</div>
+          <div class="quiz-option" data-value="c">C. One-hot encoding</div>
+          <div class="quiz-option" data-value="d">D. Standardization</div>
           <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q2" data-answer="a" data-success="Correct — aggregation on the full dataset that includes the target period leaks future information." data-fail="Aggregates must be computed only on past / training data to avoid leakage.">
+          <p><strong>Q2.</strong> Why can group-by aggregates cause leakage in a predictive model?</p>
+          <div class="quiz-option" data-value="a">A. They may use information from the future or the target period</div>
+          <div class="quiz-option" data-value="b">B. They always create missing values</div>
+          <div class="quiz-option" data-value="c">C. They only work with categorical data</div>
+          <div class="quiz-option" data-value="d">D. They change the data type to string</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q2')">Check Answer</button>
+          <div class="quiz-feedback"></div>
+        </div>
+        <div class="quiz-card" id="q3" data-answer="c" data-success="Correct — business bins use domain knowledge for interpretable groups." data-fail="Domain / business bins use meaningful real-world thresholds.">
+          <p><strong>Q3.</strong> Which binning method is best when clear business thresholds exist (e.g., age groups)?</p>
+          <div class="quiz-option" data-value="a">A. Equal-width only</div>
+          <div class="quiz-option" data-value="b">B. Random bins</div>
+          <div class="quiz-option" data-value="c">C. Domain / business-defined bins</div>
+          <div class="quiz-option" data-value="d">D. One-hot encoding</div>
+          <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q3')">Check Answer</button>
           <div class="quiz-feedback"></div>
         </div>
       </section>
 
+      <section id="flashcards">
+        <h2>13. Flashcards</h2>
+        <div class="row g-3">
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Derived feature?</strong></div><div class="flashcard-back">New column calculated from existing ones (ratio, flag, interaction…)</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Aggregation feature risk?</strong></div><div class="flashcard-back">Data leakage if computed on future / target period data</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Useful date parts?</strong></div><div class="flashcard-back">year, month, day-of-week, is_weekend, lag, rolling mean</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Best binning when domain knowledge exists?</strong></div><div class="flashcard-back">Business / domain-defined bins</div></div></div></div>
+        </div>
+      </section>
+
+      <section id="cheatsheet">
+        <h2>14. Cheat Sheet</h2>
+        <div class="card">
+          <ul style="margin-bottom:0">
+            <li><strong>Derived:</strong> ratios, margins, flags, differences, interactions</li>
+            <li><strong>Aggregation:</strong> group-by → join back (watch leakage)</li>
+            <li><strong>Date-time:</strong> calendar parts + lags + rolling windows</li>
+            <li><strong>Binning:</strong> equal-width · quantile · business thresholds</li>
+            <li><strong>Rule:</strong> every feature must serve a clear question</li>
+          </ul>
+        </div>
+      </section>
+
       <section id="summary">
-        <h2>8. Summary</h2>
+        <h2>15. Summary</h2>
         <ul>
-          <li>Good features encode domain logic: ratios, flags, calendar parts, bins.</li>
-          <li>Aggregation changes grain — be explicit.</li>
-          <li>Syllabus examples: revenue, margin, monthly trends.</li>
+          <li>Feature engineering turns raw columns into signals that answer business questions.</li>
+          <li>Derived columns, aggregates, date parts and bins are the four everyday tools.</li>
+          <li>Always guard against leakage and document the logic behind each new feature.</li>
+          <li>Validate that the new features actually improve insight or model quality.</li>
         </ul>
+      </section>
+
+      <section id="next">
+        <h2>16. What’s Next</h2>
+        <p><strong>Lecture 9 — Data Splitting & Validation</strong> shows how to protect yourself from leakage when you evaluate the features and models you have just created.</p>
       </section>
 
       <div class="lecture-nav">
         <a href="lecture7.html" class="nav-btn">← Lecture 7</a>
         <a href="../week5/lecture9.html" class="nav-btn primary" onclick="markLectureComplete(8)">Next: Lecture 9 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 8 of 30 · Module 2 · Feature Engineering Basics</p></footer>
+      <footer class="site-footer"><p>Lecture 8 of 30 · Module 2 · Feature Engineering Basics · CS-399 aligned</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 8: Feature Engineering Basics",url:"lecture8.html",module:"Module 2",keywords:"feature engineering binning datetime derived aggregation",summary:"Feature engineering basics"}];</script>
+  <script>
+    window.COURSE_SEARCH_INDEX = [
+      { title: "Lecture 8: Feature Engineering Basics", url: "modules/week4/lecture8.html", module: "Module 2", keywords: "feature engineering derived aggregation datetime binning lag rolling", summary: "Derived columns, aggregates, date features and binning for analysts" }
+    ];
+  </script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>
