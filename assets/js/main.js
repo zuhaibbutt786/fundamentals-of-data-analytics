@@ -1,6 +1,6 @@
 /* =====================================================
    Fundamentals of Data Analytics - Core JS
-   Theme, Progress, Sidebar, Quiz, Search, Collapse
+   Theme, Progress, Sidebar, Quiz, Search, Collapse + KaTeX
    ===================================================== */
 
 (function () {
@@ -60,7 +60,7 @@
       if (!target) return;
       target.classList.toggle('open');
       const icon = header.querySelector('.collapse-icon');
-      if (icon) icon.textContent = target.classList.contains('open') ? '−' : '+';
+      if (icon) icon.textContent = target.classList.contains('open') ? '\u2212' : '+';
     });
   });
 
@@ -90,7 +90,6 @@
         ? (quiz.dataset.success || 'Correct! Well done.')
         : (quiz.dataset.fail || 'Not quite. Review the explanation and try again.');
     }
-    // Track progress
     markProgress(quizId, isCorrect);
   };
 
@@ -169,7 +168,7 @@
     const q = this.value.trim().toLowerCase();
     if (!searchResults) return;
     if (q.length < 2) {
-      searchResults.innerHTML = '<div class="search-result-item"><p>Type at least 2 characters…</p></div>';
+      searchResults.innerHTML = '<div class="search-result-item"><p>Type at least 2 characters\u2026</p></div>';
       return;
     }
     const hits = searchIndex.filter(item =>
@@ -184,7 +183,7 @@
     searchResults.innerHTML = hits.map(h => `
       <a href="${h.url}" class="search-result-item" style="display:block;text-decoration:none;color:inherit;">
         <h4>${h.title}</h4>
-        <p>${h.module || ''} · ${h.summary || ''}</p>
+        <p>${h.module || ''} \u00b7 ${h.summary || ''}</p>
       </a>
     `).join('');
   });
@@ -202,6 +201,66 @@
     el.style.opacity = '0';
     observer.observe(el);
   });
+
+  // ----- KaTeX: render LaTeX formulas (works in light + dark) -----
+  function loadKaTeX() {
+    if (window.katex && window.renderMathInElement) {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: '\\[', right: '\\]', display: true },
+          { left: '\\(', right: '\\)', display: false },
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+      });
+      return;
+    }
+    if (!document.getElementById('katex-css')) {
+      const link = document.createElement('link');
+      link.id = 'katex-css';
+      link.rel = 'stylesheet';
+      link.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css';
+      document.head.appendChild(link);
+    }
+    function loadScript(src, id) {
+      return new Promise((resolve, reject) => {
+        if (document.getElementById(id)) { resolve(); return; }
+        const s = document.createElement('script');
+        s.id = id;
+        s.src = src;
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+    loadScript('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js', 'katex-js')
+      .then(function () {
+        return loadScript(
+          'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js',
+          'katex-auto'
+        );
+      })
+      .then(function () {
+        if (window.renderMathInElement) {
+          renderMathInElement(document.body, {
+            delimiters: [
+              { left: '\\[', right: '\\]', display: true },
+              { left: '\\(', right: '\\)', display: false },
+              { left: '$$', right: '$$', display: true },
+              { left: '$', right: '$', display: false }
+            ],
+            throwOnError: false
+          });
+        }
+      })
+      .catch(function () { /* KaTeX optional */ });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadKaTeX);
+  } else {
+    loadKaTeX();
+  }
 
   // Expose helpers
   window.DA = { toggleTheme, markProgress, getProgress, openSearch, closeSearch };
