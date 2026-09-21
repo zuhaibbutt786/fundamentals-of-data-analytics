@@ -1,0 +1,5 @@
+I didn't just learn data analytics — I built a full free 30-lecture university course with quizzes, labs, Power BI, and a glassmorphism UI.
+
+100% free. Self-contained. Open source.
+
+https://zuhaibbutt786.github.io/fundamentals-of-data-analytics/

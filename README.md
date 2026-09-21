@@ -4,9 +4,21 @@
 
 ## Live Course
 
-Once GitHub Pages is enabled, the course will be available at:
-
 **https://zuhaibbutt786.github.io/fundamentals-of-data-analytics/**
+
+## Launch Video
+
+A polished 18-second launch video was generated with `/brag`.
+
+See the creative plan and share copy in the [`brag/`](brag/) folder.
+
+**Share copy ready to post:**
+
+> I didn't just learn data analytics — I built a full free 30-lecture university course with quizzes, labs, Power BI, and a glassmorphism UI.
+>
+> 100% free. Self-contained. Open source.
+>
+> https://zuhaibbutt786.github.io/fundamentals-of-data-analytics/
 
 ## What's Included
 
