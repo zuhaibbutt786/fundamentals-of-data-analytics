@@ -10,7 +10,9 @@
 
 A polished 18-second launch video was generated with `/brag`.
 
-See the creative plan and share copy in the [`brag/`](brag/) folder.
+The creative plan and share copy are in the [`brag/`](brag/) folder.
+
+**Video files (`brag.mp4` + `brag.jpg` poster) are ready** — download them from the conversation artifacts and drop them into the `brag/` folder (or attach them to a GitHub Release).
 
 **Share copy ready to post:**
 
