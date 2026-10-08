@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 13: Grouped Analysis – groupby, aggregations, pivot tables, sales/region practical from syllabus." />
+  <meta name="description" content="Lecture 13: Grouped Analysis – groupby, aggregations, pivot tables, sales/region practical from course." />
   <title>Lecture 13: Grouped Analysis | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -34,7 +35,7 @@
         <a href="../week8/lecture15.html" data-lecture-id="15"><span class="progress-ring"></span> L15 · EDA Case Study</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 3 › <span>Lecture 13</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
@@ -42,7 +43,7 @@
         <span class="badge">Module 3 · CLO-2</span>
       </div>
       <h1>Lecture 13: Grouped Analysis</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Group By operations, aggregations, and pivot tables — the syllabus path from raw rows to “sales by region / product category” style insights (and the same pattern for accidents by region / weather).</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Group By operations, aggregations, and pivot tables — the course path from raw rows to “sales by region / product category” style insights (and the same pattern for accidents by region / weather).</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
@@ -86,7 +87,7 @@ df.groupby("region").agg(
       </section>
 
       <section id="practical">
-        <h2>4. Practical (Syllabus: by region / category)</h2>
+        <h2>4. Practical (Course practice: by region / category)</h2>
         <div class="card">
           <p>On <code>sample_accidents.csv</code>:</p>
           <ol>
@@ -108,7 +109,19 @@ df.groupby("region").agg(
         </ul>
       </section>
 
-      <section id="quiz">
+      <section class="card" id="sql-worked"><h2>SQL: the same grouped question</h2><p>SQL is useful when source data live in relational tables. This SQLite query uses the tables created by the downloadable lab; it is not a standalone connection to an external database.</p><pre><code class="language-sql">WITH regional AS (
+ SELECT r.Region, SUM(s.NetRevenue) AS revenue,
+        COUNT(DISTINCT s.OrderID) AS orders
+ FROM sales AS s
+ JOIN regions AS r ON s.RegionKey = r.RegionKey
+ WHERE s.OrderDate &gt;= '2024-01-01'
+ GROUP BY r.Region
+ HAVING SUM(s.NetRevenue) &gt; 0
+)
+SELECT Region, revenue, orders, revenue/orders AS average_order_value,
+       RANK() OVER (ORDER BY revenue DESC) AS revenue_rank
+FROM regional
+ORDER BY revenue_rank;</code></pre><p><code>WHERE</code> filters input rows; <code>HAVING</code> filters grouped results. Here only positive-revenue region groups remain. A CTE names a query result, and the window rank keeps one result row per region. Nulls are checked with <code>IS NULL</code>; <code>COALESCE</code> substitutes a documented fallback.</p></section><section id="quiz">
         <h2>6. Knowledge Check</h2>
         <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — pivot_table reshapes group aggregations into a matrix." data-fail="Pivot tables cross-tabulate aggregations by row and column keys.">
           <p><strong>Q1.</strong> Best tool to show total casualties by region (rows) and weather (columns)?</p>
@@ -130,14 +143,27 @@ df.groupby("region").agg(
         </ul>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Learn SQL and aggregation together</h2>
+<p>Run SQLite SELECT, WHERE, JOIN, GROUP BY, HAVING, CASE, a CTE and a window function in the lab. Reconcile grouped totals against Pandas and a pivot table.</p><p><strong>Interpretation check:</strong> NULL comparisons use IS NULL, not = NULL. Joins can duplicate rows; check key cardinality and aggregation grain before interpreting totals.</p>
+<p><a href="../../labs/L13_SQL_and_Aggregation_Lab.ipynb" download>Download runnable/guided lab: L13 SQL and Aggregation Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Split, aggregate, and change layout</h2><a href="../../assets/visuals/l13-group-pivot.svg" aria-label="Open full-size editable diagram: Split, aggregate, and change layout"><img src="../../assets/visuals/l13-group-pivot.svg" alt="Synthetic six-row example. North=180, South=140; grand total=320. Pivot totals reconcile to raw revenue." loading="lazy"></a><figcaption>Synthetic six-row example. North=180, South=140; grand total=320. Pivot totals reconcile to raw revenue. <a href="../../assets/visuals/l13-group-pivot.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: What is the pivot grand total?</summary><p>320.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Region</li><li>Category</li><li>Revenue</li><li>North</li><li>A</li><li>100</li><li>North</li><li>B</li><li>50</li><li>South</li><li>A</li><li>80</li><li>South</li><li>B</li><li>20</li><li>North</li><li>A</li><li>30</li><li>South</li><li>B</li><li>40</li><li>Raw rows</li><li>Region</li><li>Revenue</li><li>North</li><li>180</li><li>South</li><li>140</li><li>Group totals</li><li>Region</li><li>A</li><li>B</li><li>All</li><li>North</li><li>130</li><li>50</li><li>180</li><li>South</li><li>80</li><li>60</li><li>140</li><li>All</li><li>210</li><li>110</li><li>320</li><li>Pivot layout</li><li>Split, aggregate, and change layout</li><li>Synthetic six-row example. North=180, South=140; grand total=320. Pivot totals reconcile to raw revenue.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="13"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="../week6/lecture12.html" class="nav-btn">← Lecture 12</a>
-        <a href="lecture14.html" class="nav-btn primary" onclick="markLectureComplete(13)">Next: Lecture 14 →</a>
+        <a href="lecture14.html" class="nav-btn primary">Next: Lecture 14 →</a>
       </div>
       <footer class="site-footer"><p>Lecture 13 of 30 · Module 3 · Group By, aggregations, pivot tables</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 13: Grouped Analysis",url:"lecture13.html",module:"Module 3",keywords:"groupby pivot aggregation region category",summary:"Grouped analysis and pivot tables"}];</script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

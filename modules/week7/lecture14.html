@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 14: Time Series Exploration – trend, seasonality, moving average, monthly visualization from syllabus." />
+  <meta name="description" content="Lecture 14: Time Series Exploration – trend, seasonality, moving average, monthly visualization from course." />
   <title>Lecture 14: Time Series Exploration | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -34,7 +35,7 @@
         <a href="../week8/lecture15.html" data-lecture-id="15"><span class="progress-ring"></span> L15 · EDA Case Study</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 3 › <span>Lecture 14</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
@@ -42,7 +43,7 @@
         <span class="badge">Module 3 · CLO-2</span>
       </div>
       <h1>Lecture 14: Time Series Exploration</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Trend, seasonality, moving averages, and monthly trend visualization — syllabus topics aligned with the course Time Series Trend &amp; Seasonality materials.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Trend, seasonality, moving averages, and monthly trend visualization — course topics aligned with the course Time Series Trend &amp; Seasonality materials.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
@@ -67,7 +68,7 @@
 
       <section id="resample">
         <h2>3. From Events to Series</h2>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>df = pd.read_csv("../../datasets/sample_accidents.csv", parse_dates=["date"])
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>df = pd.read_csv("datasets/accident_teaching.csv", parse_dates=["date"])
 df = df.set_index("date").sort_index()
 
 monthly = df.resample("MS").agg(
@@ -80,11 +81,11 @@ monthly.plot(title="Monthly casualties with 3-month MA")</code></pre>
 
       <section id="ma">
         <h2>4. Moving Average</h2>
-        <p>A trailing (or centered) average of the last \(k\) periods smooths noise so trend is visible. Choose \(k\) to match the decision cadence (e.g., 3 months for quarterly planning). Too large \(k\) lags real change; too small leaves noise.</p>
+        <p>A trailing average uses the last \(k\) periods smooths noise so trend is visible. Choose \(k\) to match the decision cadence (e.g., 3 months for quarterly planning). Too large \(k\) lags real change; too small leaves noise.</p>
       </section>
 
       <section id="practical">
-        <h2>5. Practical (Syllabus: Monthly Trend Visualization)</h2>
+        <h2>5. Practical (Course practice: Monthly Trend Visualization)</h2>
         <div class="card">
           <ol>
             <li>Parse dates; set datetime index.</li>
@@ -111,20 +112,32 @@ monthly.plot(title="Monthly casualties with 3-month MA")</code></pre>
       <section id="summary">
         <h2>7. Summary</h2>
         <ul>
-          <li>Trend · seasonality · noise structure every series.</li>
+          <li>Trend, seasonality, and noise are useful components; not every series has identifiable trend or seasonality.</li>
           <li>Resample events → regular periods before charting.</li>
-          <li>Moving averages and monthly plots are the syllabus deliverables.</li>
+          <li>Moving averages and monthly plots are the course deliverables.</li>
         </ul>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Respect temporal order</h2>
+<p>Use the 397-observation monthly electric-production series. Sort dates, verify monthly coverage, compute trailing 12-month means and 12-month change, and inspect the trend/seasonality example.</p><p><strong>Interpretation check:</strong> Trailing windows use past/current observations; centered windows and backward filling can expose future values. This lesson is descriptive; a forecast needs chronological validation and a naive baseline.</p>
+<p><a href="../../labs/L14_Time_Series_Lab.ipynb" download>Download runnable/guided lab: L14 Time Series Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Time-series components and smoothing</h2><a href="../../assets/visuals/l14-components.svg" aria-label="Open full-size editable diagram: Time-series components and smoothing"><img src="../../assets/visuals/l14-components.svg" alt="Synthetic 36 months, seed 14. Known construction: trend + annual seasonality + noise. This does not prove such components exist in arbitrary real data." loading="lazy"></a><figcaption>Synthetic 36 months, seed 14. Known construction: trend + annual seasonality + noise. This does not prove such components exist in arbitrary real data. <a href="../../assets/visuals/l14-components.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Why are the first two full-window averages absent?</summary><p>Three observations are required for a complete trailing window.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>0</li><li>5</li><li>10</li><li>15</li><li>20</li><li>25</li><li>30</li><li>35</li><li>100</li><li>120</li><li>Synthetic index units</li><li>Observed and trailing 3-month mean</li><li>Trailing 3 months</li><li>0</li><li>5</li><li>10</li><li>15</li><li>20</li><li>25</li><li>30</li><li>35</li><li>100</li><li>110</li><li>120</li><li>Synthetic index units</li><li>Known synthetic trend</li><li>0</li><li>5</li><li>10</li><li>15</li><li>20</li><li>25</li><li>30</li><li>35</li><li>−10</li><li>0</li><li>10</li><li>Synthetic index units</li><li>Known annual seasonal component</li><li>0</li><li>5</li><li>10</li><li>15</li><li>20</li><li>25</li><li>30</li><li>35</li><li>Month number</li><li>−5</li><li>0</li><li>5</li><li>Synthetic index units</li><li>Generated noise</li><li>Time-series components and smoothing</li><li>Synthetic 36 months, seed 14. Known construction: trend + annual seasonality + noise. This does not prove such</li><li>components exist in arbitrary real data.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="14"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="lecture13.html" class="nav-btn">← Lecture 13</a>
-        <a href="../week8/lecture15.html" class="nav-btn primary" onclick="markLectureComplete(14)">Next: Lecture 15 →</a>
+        <a href="../week8/lecture15.html" class="nav-btn primary">Next: Lecture 15 →</a>
       </div>
       <footer class="site-footer"><p>Lecture 14 of 30 · Module 3 · Trend, seasonality, moving average</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 14: Time Series Exploration",url:"lecture14.html",module:"Module 3",keywords:"trend seasonality moving average resample monthly",summary:"Time series EDA"}];</script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

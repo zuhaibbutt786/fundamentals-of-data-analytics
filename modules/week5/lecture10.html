@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -35,7 +36,7 @@
         <a href="lecture10.html" class="active" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 2 › <span>Lecture 10</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
@@ -43,7 +44,7 @@
         <span class="badge">Module 2 · CLO-2</span>
       </div>
       <h1>Lecture 10: ML Basics &amp; Insight Extraction</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Supervised vs unsupervised learning, overfitting, parameters vs hyperparameters, and turning cleaned data into decision-ready insights — syllabus bridge from prep into later analytics.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Supervised vs unsupervised learning, overfitting, parameters vs hyperparameters, and turning cleaned data into decision-ready insights — course bridge from prep into later analytics.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
@@ -70,7 +71,7 @@
         </div>
       </section>
 
-      <section id="overfit">
+      <section class="card" id="model-evaluation"><h2>Algorithms, baselines and evaluation</h2><div class="table-wrap"><table><thead><tr><th>Task</th><th>Baseline and examples</th><th>Useful metrics and cautions</th></tr></thead><tbody><tr><td>Regression</td><td>Predict the training mean; compare linear regression, regularized regression and trees.</td><td>MAE is in target units, MSE in squared units; R² can be negative on held-out data. Residual plots reveal missed patterns.</td></tr><tr><td>Classification</td><td>Predict the training majority class; compare logistic regression and trees.</td><td>Inspect a confusion matrix, precision, recall and F1 per class. Accuracy can conceal poor minority-class performance. Choose thresholds on validation data by error costs.</td></tr><tr><td>Clustering</td><td>Compare interpretable segment definitions with scaled-feature k-means.</td><td>Silhouette measures separation under the chosen distance; it is not proof that clusters are useful or natural. Examine stability and decision relevance.</td></tr></tbody></table></div><p>Underfitting means the model cannot capture important structure; overfitting means it captures noise or sample-specific detail. Adjust complexity and regularization using training-side validation. Report baseline comparisons and limitations alongside final held-out results.</p></section><section id="overfit">
         <h2>3. Overfitting</h2>
         <p>A model that fits training noise fails on new data. Signs: excellent train metrics, weak test metrics. Remedies (conceptual): simpler models, more data, regularization, proper validation (L9).</p>
       </section>
@@ -90,11 +91,11 @@
           <li>Confirm quality (L5) and sensible distributions (L6–L7).</li>
           <li>Engineer features that match decisions (L8).</li>
           <li>Segment and compare (groupby / EDA — Module 3).</li>
-          <li>Translate findings into actions with estimated impact (e.g., focus enforcement where high-casualty rates cluster).</li>
+          <li>Translate findings into actions with estimated impact (e.g., investigate a verified cost driver before proposing an intervention).</li>
         </ol>
         <div class="callout callout-tip">
           <div class="callout-title">Business framing</div>
-          “Profitability analysis” in the syllabus sense: link analytical findings to cost, risk, or revenue outcomes — not models for their own sake.
+          “Profitability analysis” in this course: link analytical findings to cost, risk, or revenue outcomes — not models for their own sake.
         </div>
       </section>
 
@@ -135,14 +136,27 @@
         </div>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Evaluate a full predictive recipe</h2>
+<p>Run the pipeline lab: imputation, polynomial features, scaling and regularized regression. Select settings using training-side folds and compare a baseline on the final held-out test.</p><p><strong>Interpretation check:</strong> Every learned preprocessing step must be fitted inside each training fold. The degree-1/2/15 chart is a prespecified capacity demonstration, not permission to tune on test errors.</p>
+<p><a href="../../labs/L10_Predictive_Pipeline_Lab.ipynb" download>Download runnable/guided lab: L10 Predictive Pipeline Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Underfitting, appropriate capacity and overfitting</h2><a href="../../assets/visuals/l9-10-C_regression_capacity.svg" aria-label="Open full-size editable diagram: Underfitting, appropriate capacity and overfitting"><img src="../../assets/visuals/l9-10-C_regression_capacity.svg" alt="Three panels show identical training points with linear, quadratic and degree-15 polynomial fits. Training MSE: 4.3248, 0.2815, 0.0829; held-out MSE: 4.1442, 0.4425, 0.6539. The quadratic generalizes best in this stated example." loading="lazy"></a><figcaption>Reproducible synthetic regression, seed 42: y=0.7x²−0.5x+1 plus noise SD 0.65. Prespecified polynomial degrees 1,2,15 share 24 training observations and 400 independent held-out observations. MSE values are calculated; extreme curve segments outside the stated axis are clipped. <a href="../../assets/visuals/l9-10-C_regression_capacity.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Why is the smallest training error not the strongest evidence of generalization?</summary><p>A flexible model can fit training noise. Here degree 15 reduces training MSE but has larger held-out MSE than degree 2.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>−2</li><li>0</li><li>2</li><li>4</li><li>6</li><li>8</li><li>10</li><li>12</li><li>Synthetic target y</li><li>Training MSE = 4.3248</li><li>Held-out MSE = 4.1442</li><li>Underfitting · linear model (degree 1)</li><li>Same 24 training observations</li><li>Known synthetic mean</li><li>Fitted model</li><li>−2</li><li>0</li><li>2</li><li>4</li><li>6</li><li>8</li><li>10</li><li>12</li><li>Synthetic target y</li><li>Training MSE = 0.2815</li><li>Held-out MSE = 0.4425</li><li>Appropriate capacity · quadratic (degree 2)</li><li>Same 24 training observations</li><li>Known synthetic mean</li><li>Fitted model</li><li>−3</li><li>−2</li><li>−1</li><li>0</li><li>1</li><li>2</li><li>3</li><li>Synthetic predictor x</li><li>−2</li><li>0</li><li>2</li><li>4</li><li>6</li><li>8</li><li>10</li><li>12</li><li>Synthetic target y</li><li>Training MSE = 0.0829</li><li>Held-out MSE = 0.6539</li><li>Overfitting · flexible polynomial (degree 15)</li><li>Same 24 training observations</li><li>Known synthetic mean</li><li>Fitted model</li><li>C · Model capacity and generalization</li><li>Seed 42 · y = 0.7x² − 0.5x + 1 + noise; noise SD = 0.65.</li><li>400 independent held-out observations; MSE = mean squared error (squared target units).</li><li>Degrees were specified before evaluation. This capacity demonstration is not a tuning procedure.</li><li>Displayed y-axis is fixed at [−2, 12]; extreme curve segments may extend outside it.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="10"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="lecture9.html" class="nav-btn">← Lecture 9</a>
-        <a href="../../index.html" class="nav-btn primary" onclick="markLectureComplete(10)">Module 2 complete · Home →</a>
+        <a href="../../index.html" class="nav-btn primary">Module 2 complete · Home →</a>
       </div>
       <footer class="site-footer"><p>Lecture 10 of 30 · Module 2 complete</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 10: ML Basics & Insight Extraction",url:"lecture10.html",module:"Module 2",keywords:"supervised unsupervised overfitting hyperparameters insight",summary:"ML basics and insight extraction"}];</script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

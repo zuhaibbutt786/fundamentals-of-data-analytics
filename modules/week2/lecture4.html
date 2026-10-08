@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -59,14 +60,14 @@
         <a href="../week13/lecture25.html" data-lecture-id="25"><span class="progress-ring"></span> L25 · Performance</a>
         <a href="../week13/lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
         <div class="module-title">Module 6 · Capstone</div>
-        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Project Proposal</a>
+        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Ethics &amp; Proposal</a>
         <a href="../week14/lecture28.html" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
         <a href="../week15/lecture29.html" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
         <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation &amp; Viva</a>
       </nav>
     </aside>
 
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 1</span> › <span>Lecture 4</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-beginner">Beginner</span>
@@ -474,23 +475,28 @@
         <p>Module 1 is complete. <strong>Module 2</strong> begins with <strong>Lecture 5 — Data Quality &amp; Profiling</strong>, where you learn to assess completeness, consistency, validity, and accuracy of the data you have framed and acquired.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Define a useful metric</h2>
+<p>Calculate regional margin for 2024 Q1 as sum(Profit)/sum(NetRevenue). Specify the audience and the action a low margin would trigger.</p><p><strong>Interpretation check:</strong> A ratio of totals weights transactions by revenue. An average of row margins answers a different question.</p>
+<p><a href="../../labs/L4_Analytical_Thinking_Practical_Lab.ipynb" download>Download runnable/guided lab: L4 Analytical Thinking Practical Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Business framing before analysis</h2><a href="../../assets/visuals/l4-decision-kpi.svg" aria-label="Open full-size editable diagram: Business framing before analysis"><img src="../../assets/visuals/l4-decision-kpi.svg" alt="Define metric, denominator, time window, stakeholder, and decision before choosing a chart." loading="lazy"></a><figcaption>Define metric, denominator, time window, stakeholder, and decision before choosing a chart. <a href="../../assets/visuals/l4-decision-kpi.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Why not average row margins?</summary><p>That weights small and large sales equally; portfolio margin is a ratio of totals.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Business framing before analysis</li><li>1. Problem</li><li>Regional profitability appears to be falling.</li><li>2. Decision</li><li>Which region needs investigation before next quarter’s planning?</li><li>3. Question and scope</li><li>Compare 2024 Q1 net revenue, profit, and margin by region.</li><li>4. Define KPI</li><li>Margin = sum(Profit) / sum(NetRevenue); units = fraction or percent.</li><li>5. Evidence and action</li><li>Investigate differences; do not infer causes solely from a grouped summary.</li><li>Define metric, denominator, time window, stakeholder, and decision before choosing a</li><li>chart.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="4"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="../week1/lecture3.html" class="nav-btn">← Lecture 3</a>
-        <a href="../week3/lecture5.html" class="nav-btn primary" onclick="markLectureComplete(4)">Next: Lecture 5 — Data Quality →</a>
+        <a href="../week3/lecture5.html" class="nav-btn primary">Next: Lecture 5 — Data Quality →</a>
       </div>
       <footer class="site-footer"><p>Lecture 4 of 30 · Module 1 · Fundamentals of Data Analytics · End of Module 1</p></footer>
     </main>
   </div>
 
-  <script>
-    window.COURSE_SEARCH_INDEX = [{
-      title: "Lecture 4: Analytical Thinking & Business Framing",
-      url: "lecture4.html",
-      module: "Module 1",
-      keywords: "kpi hypothesis business problem analytical question framing decision scope brief",
-      summary: "Convert business problems into analytics tasks with KPIs and hypotheses"
-    }];
-  </script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

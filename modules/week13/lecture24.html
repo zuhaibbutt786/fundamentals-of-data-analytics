@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -34,7 +35,7 @@
         <a href="lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 5 › <span>Lecture 24</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-advanced">Advanced</span>
@@ -58,19 +59,19 @@
       <section id="calculate-filters">
         <h2>2. CALCULATE Filter Arguments (Deeper)</h2>
         <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>// Force a specific category (replaces any existing Category filter)
-Sales Bikes :=
-CALCULATE ( [Total Sales], DimProduct[Category] = "Bikes" )
+Sales Electronics =
+CALCULATE ( [Total Sales], DimProduct[Category] = "Electronics" )
 
 // Remove the Region filter so we get a true “all regions” total
-Sales All Regions :=
-CALCULATE ( [Total Sales], REMOVEFILTERS ( DimGeography[Region] ) )
+Sales All Regions =
+CALCULATE ( [Total Sales], REMOVEFILTERS ( DimRegion[Region] ) )
 
 // Percentage of grand total
-Sales % of All :=
+Sales % of All =
 DIVIDE ( [Total Sales], [Sales All Regions] )
 
 // Keep current filters but clear the date filter (useful for “all-time” KPIs)
-Sales All Time :=
+Sales All Time =
 CALCULATE ( [Total Sales], REMOVEFILTERS ( DimDate ) )</code></pre>
         <p>Filter arguments inside CALCULATE either <strong>add</strong> a new filter or <strong>replace</strong> an existing filter on the same column. REMOVEFILTERS (or ALL) is the explicit way to clear filters.</p>
       </section>
@@ -79,7 +80,7 @@ CALCULATE ( [Total Sales], REMOVEFILTERS ( DimDate ) )</code></pre>
         <h2>3. The FILTER Function</h2>
         <p>When a simple Boolean filter argument is not enough (you need to filter on an expression or on a measure), use FILTER.</p>
         <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>// Sales only for products with UnitPrice > 100
-High Price Sales :=
+High Price Sales =
 CALCULATE (
     [Total Sales],
     FILTER ( DimProduct, DimProduct[UnitPrice] > 100 )
@@ -96,7 +97,7 @@ CALCULATE (
         <ol>
           <li>A dedicated <strong>DimDate</strong> table with one row per day (continuous, no gaps).</li>
           <li>A single column of type Date that is marked as the <strong>Date table</strong> in Power BI (Model view → Mark as date table).</li>
-          <li>A relationship from the fact table’s date column to DimDate[Date].</li>
+          <li>An active 1:* relationship filtering from DimDate[Date] to the fact table’s date column; use Date data types and one row per day.</li>
         </ol>
         <div class="callout callout-tip">
           <div class="callout-title">How to create DimDate quickly</div>
@@ -109,36 +110,36 @@ CALCULATE (
         <p>These are the measures every analyst is expected to deliver.</p>
 
         <h3>5.1 Year-to-Date / Month-to-Date / Quarter-to-Date</h3>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Sales YTD :=
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Sales YTD =
 TOTALYTD ( [Total Sales], DimDate[Date] )
 
-Sales MTD :=
+Sales MTD =
 TOTALMTD ( [Total Sales], DimDate[Date] )
 
-Sales QTD :=
+Sales QTD =
 TOTALQTD ( [Total Sales], DimDate[Date] )</code></pre>
 
         <h3>5.2 Prior Year and Year-over-Year</h3>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Sales Prior Year :=
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Sales Previous Year =
 CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( DimDate[Date] ) )
 
-Sales YoY Growth :=
-[Total Sales] - [Sales Prior Year]
+Sales YoY Growth =
+[Total Sales] - [Sales Previous Year]
 
-Sales YoY % :=
-DIVIDE ( [Total Sales] - [Sales Prior Year], [Sales Prior Year] )</code></pre>
+Sales YoY % =
+IF ( NOT ISBLANK ( [Total Sales] ) &amp;&amp; NOT ISBLANK ( [Sales Previous Year] ), DIVIDE ( [Total Sales] - [Sales Previous Year], [Sales Previous Year] ) )</code></pre>
 
         <h3>5.3 DATEADD — the flexible workhorse</h3>
         <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>// Same period last month
-Sales Prior Month :=
+Sales Prior Month =
 CALCULATE ( [Total Sales], DATEADD ( DimDate[Date], -1, MONTH ) )
 
 // Same period two years ago
-Sales Two Years Ago :=
+Sales Two Years Ago =
 CALCULATE ( [Total Sales], DATEADD ( DimDate[Date], -2, YEAR ) )
 
 // Prior quarter
-Sales Prior Quarter :=
+Sales Prior Quarter =
 CALCULATE ( [Total Sales], DATEADD ( DimDate[Date], -1, QUARTER ) )</code></pre>
 
         <h3>5.4 Other useful Time Intelligence functions</h3>
@@ -158,11 +159,11 @@ CALCULATE ( [Total Sales], DATEADD ( DimDate[Date], -1, QUARTER ) )</code></pre>
 
       <section id="running">
         <h2>6. Running Totals</h2>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Sales Running Total :=
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Sales Running Total =
 CALCULATE (
     [Total Sales],
     FILTER (
-        ALL ( DimDate[Date] ),
+        ALL ( DimDate ),
         DimDate[Date] <= MAX ( DimDate[Date] )
     )
 )</code></pre>
@@ -171,12 +172,12 @@ CALCULATE (
 
       <section id="var">
         <h2>7. VAR — Readable & Efficient Measures</h2>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Sales YoY % (readable) :=
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Sales YoY % (readable) =
 VAR CurrentSales = [Total Sales]
-VAR PriorSales   = [Sales Prior Year]
+VAR PriorSales   = [Sales Previous Year]
 VAR Diff         = CurrentSales - PriorSales
 RETURN
-    DIVIDE ( Diff, PriorSales )</code></pre>
+    IF ( NOT ISBLANK ( CurrentSales ) &amp;&amp; NOT ISBLANK ( PriorSales ), DIVIDE ( Diff, PriorSales ) )</code></pre>
         <p>VAR makes complex measures easier to read, debug, and sometimes faster (the variable is evaluated only once).</p>
       </section>
 
@@ -185,7 +186,7 @@ RETURN
         <div class="card">
           <ol>
             <li>Confirm you have a continuous DimDate marked as a date table and related to your fact table.</li>
-            <li>Create Sales YTD, Sales MTD, and Sales Prior Year measures.</li>
+            <li>Create Sales YTD, Sales MTD, and Sales Previous Year measures.</li>
             <li>Create Sales YoY % using DIVIDE and the Prior Year measure.</li>
             <li>Create a Sales Prior Month measure with DATEADD.</li>
             <li>Build a running total and put it on a line chart with Date on the axis.</li>
@@ -265,18 +266,26 @@ RETURN
         <p><strong>Lecture 25 — Performance, RLS & Deployment</strong> shows how to keep these measures fast and how to secure and publish the model.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Test time intelligence across years</h2>
+<p>Use the complete 2022–2024 dataset and marked date table. Compare YTD and previous-year totals, then contrast full-history and selected-period running totals with slicers.</p><p><strong>Interpretation check:</strong> Clear ALL(DimDate), not just its Date column, when a cumulative measure should ignore Year/Month filters. Prior-year comparisons require comparable periods and explicit leap-day/calendar semantics.</p>
+<p><a href="../../labs/L23_L24_PowerBI_DAX_Time_Intelligence_Lab.ipynb" download>Download runnable/guided lab: L23 L24 PowerBI DAX Time Intelligence Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Date sets control time intelligence</h2><a href="../../assets/visuals/l24-time-context.svg" aria-label="Open full-size editable diagram: Date sets control time intelligence"><img src="../../assets/visuals/l24-time-context.svg" alt="Classic date-column patterns require a suitable calendar and relationship. A missing prior-year fact period may correctly return BLANK." loading="lazy"></a><figcaption>Classic date-column patterns require a suitable calendar and relationship. A missing prior-year fact period may correctly return BLANK. <a href="../../assets/visuals/l24-time-context.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Why remove the whole date table for full-history totals?</summary><p>A remaining Year/Month filter could constrain the cumulative date set.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Date sets control time intelligence</li><li>1. Current selection</li><li>February 2024: February 1–29, within the complete 2022–2024 calendar.</li><li>2. Year to date</li><li>January 1–February 29, 2024; other dimension filters remain.</li><li>3. Prior-year period</li><li>February 2023 for a February-2024 comparison; document leap-day semantics.</li><li>4. Full-history cumulative</li><li>All calendar dates up to the selected cutoff; remove the whole DimDate context.</li><li>5. Selected-window cumulative</li><li>Only selected dates up to the cutoff; use ALLSELECTED and explain the window.</li><li>Classic date-column patterns require a suitable calendar and relationship. A missing</li><li>prior-year fact period may correctly return BLANK.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="24"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="../week12/lecture23.html" class="nav-btn">← Lecture 23</a>
-        <a href="lecture25.html" class="nav-btn primary" onclick="markLectureComplete(24)">Next: Lecture 25 →</a>
+        <a href="lecture25.html" class="nav-btn primary">Next: Lecture 25 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 24 of 30 · Module 5 · Advanced DAX & Time Intelligence · CS-399 aligned</p></footer>
+      <footer class="site-footer"><p>Lecture 24 of 30 · Module 5 · Advanced DAX & Time Intelligence · Course learning outcomes mapped</p></footer>
     </main>
   </div>
-  <script>
-    window.COURSE_SEARCH_INDEX = [
-      { title: "Lecture 24: Advanced DAX & Time Intelligence", url: "modules/week13/lecture24.html", module: "Module 5", keywords: "dax time intelligence totalytd sameperiodlastyear dateadd running total var calculate", summary: "Advanced DAX and complete Time Intelligence toolkit" }
-    ];
-  </script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

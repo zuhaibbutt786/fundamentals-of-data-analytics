@@ -1,0 +1,9 @@
+SaleID,Region,Quantity,UnitPriceUSD
+S01,North,2,50
+S02, north ,3,40
+S03,South,,30
+S04,East,-2,80
+S05,West,4,25
+S06,North,100,500
+S07,South,1,60
+S02, north ,3,40

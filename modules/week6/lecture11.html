@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -34,7 +35,7 @@
         <a href="../week8/lecture15.html" data-lecture-id="15"><span class="progress-ring"></span> L15 · EDA Case Study</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 3 · Advanced EDA › <span>Lecture 11</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
@@ -77,11 +78,11 @@
             </tbody>
           </table>
         </div>
-        <p><strong>Order rules (from course slides):</strong></p>
+        <p><strong>Common patterns for some unimodal distributions; not universal order rules:</strong></p>
         <ul>
-          <li><strong>Positive (right) skew:</strong> Mean &gt; Median &gt; Mode — e.g., household income, casualty counts with rare multi-fatality events.</li>
-          <li><strong>Negative (left) skew:</strong> Mean &lt; Median &lt; Mode — e.g., age at retirement, exam scores with a ceiling.</li>
-          <li><strong>Symmetric:</strong> Mean ≈ Median ≈ Mode.</li>
+          <li><strong>Positive (right) skew:</strong> Often Mean &gt; Median &gt; Mode — e.g., household income, casualty counts with rare multi-fatality events.</li>
+          <li><strong>Negative (left) skew:</strong> Often Mean &lt; Median &lt; Mode — e.g., age at retirement, exam scores with a ceiling.</li>
+          <li><strong>Symmetric:</strong> For a symmetric distribution with a finite mean, mean and central median coincide; modes can be multiple.</li>
         </ul>
       </section>
 
@@ -99,23 +100,24 @@
 
       <section id="skewness">
         <h2>5. Skewness (3rd Standardized Moment)</h2>
-        <p>Skewness measures asymmetry about the mean. Course formula (Adjusted Fisher–Pearson):</p>
+        <p>Skewness measures asymmetry about the mean. Unadjusted Fisher–Pearson coefficient:</p>
         <p>\[
         g_1 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i-\bar{x})^3}{\left(\frac{1}{n}\sum_{i=1}^{n}(x_i-\bar{x})^2\right)^{3/2}}
         \]</p>
-        <div class="table-wrap">
+        <p>Adjusted Fisher–Pearson sample skewness is \(G_1 = \frac{\sqrt{n(n-1)}}{n-2}g_1\) for n &gt; 2 and nonzero variance. Pandas skew and SciPy <code>skew(..., bias=False)</code> use this adjustment; the displayed moment formula is unadjusted.</p>
+<div class="table-wrap">
           <table>
             <thead><tr><th>Skewness range</th><th>Classification</th><th>Action</th></tr></thead>
             <tbody>
-              <tr><td>−0.5 to 0.5</td><td>Approximately symmetrical</td><td>Mean is usually fine</td></tr>
-              <tr><td>−1 to −0.5 or 0.5 to 1</td><td>Moderately skewed</td><td>Prefer median; consider transform for models</td></tr>
-              <tr><td>&lt; −1 or &gt; 1</td><td>Highly skewed</td><td>Transform or use robust methods; do not rely on mean alone</td></tr>
+              <tr><td>−0.5 to 0.5</td><td>Small third-moment skewness; inspect the plot</td><td>Choose mean or median by the analytical question</td></tr>
+              <tr><td>−1 to −0.5 or 0.5 to 1</td><td>Moderately skewed</td><td>Compare mean and median; transform only for a justified purpose</td></tr>
+              <tr><td>&lt; −1 or &gt; 1</td><td>Highly skewed</td><td>Inspect the distribution and method assumptions; consider robust summaries</td></tr>
             </tbody>
           </table>
         </div>
         <div class="callout callout-warning">
-          <div class="callout-title">Why skewness breaks models (course)</div>
-          Parametric models often assume symmetric errors; extreme right tails dominate squared-error losses; high-density regions get compressed. Solution: transform to stabilize shape before modeling.
+          <div class="callout-title">Skewness and model assumptions</div>
+          Check assumptions of the specific method. Skewed input features do not automatically invalidate a model. Squared-error losses emphasize extreme residuals; transformations can help some problems but change interpretation.
         </div>
       </section>
 
@@ -123,11 +125,11 @@
         <h2>6. Kurtosis (4th Moment — Tail Weight)</h2>
         <p>Kurtosis is primarily about <em>tail weight and outlier frequency</em>, not just “peakedness.”</p>
         <ul>
-          <li><strong>Mesokurtic:</strong> excess kurtosis ≈ 0 (like normal) — tails behave as expected.</li>
-          <li><strong>Leptokurtic:</strong> excess kurtosis &gt; 0 — heavier tails, more extreme events (critical for risk, accidents, finance).</li>
-          <li><strong>Platykurtic:</strong> excess kurtosis &lt; 0 — thinner tails than normal.</li>
+          <li><strong>Mesokurtic:</strong> excess kurtosis ≈ 0 — standardized fourth moment near the normal reference; this does not prove normality.</li>
+          <li><strong>Leptokurtic:</strong> excess kurtosis &gt; 0 — larger standardized fourth moment than normal; often associated with extreme observations.</li>
+          <li><strong>Platykurtic:</strong> excess kurtosis &lt; 0 — smaller standardized fourth moment than normal; this alone does not establish every tail probability.</li>
         </ul>
-        <p>In road safety data, high kurtosis on casualties signals that rare multi-casualty crashes occur more often than a normal model would predict — operational planning must account for that tail.</p>
+        <p>Sample kurtosis summarizes standardized fourth moments and is unstable in small samples. It alone cannot establish a particular tail probability or a road-safety policy. Inspect the distribution and relevant exposure data.</p>
       </section>
 
       <section id="transform">
@@ -152,7 +154,7 @@
 import numpy as np
 from scipy import stats
 
-df = pd.read_csv("../../datasets/sample_accidents.csv")
+df = pd.read_csv("datasets/sample_accidents.csv")
 # Central tendency &amp; dispersion
 df[["casualties", "vehicles", "speed_limit"]].describe()
 
@@ -166,7 +168,7 @@ stats.kurtosis(df["casualties"], bias=False)  # excess kurtosis
 # Optional: log1p for right-skewed counts
 df["casualties_log"] = np.log1p(df["casualties"])
 df[["casualties", "casualties_log"]].agg(["skew", "kurt"])</code></pre>
-        <p><strong>Expected interpretation:</strong> casualties often show positive skew and elevated kurtosis — report median and check tails before averaging for policy dashboards.</p>
+        <p><strong>Expected interpretation:</strong> calculate the observed summaries rather than assuming their direction; compare mean and median, inspect the distribution, and qualify the teaching data.</p>
       </section>
 
       <section id="practical">
@@ -175,7 +177,7 @@ df[["casualties", "casualties_log"]].agg(["skew", "kurt"])</code></pre>
           <ol>
             <li>Load <code>sample_accidents.csv</code>.</li>
             <li>Compute mean, median, std, skew, kurtosis for <code>casualties</code> and <code>vehicles</code>.</li>
-            <li>Classify skewness using the −0.5 / 0.5 / 1.0 bands.</li>
+            <li>Use the displayed bands as rough descriptive heuristics, not inferential thresholds or automatic transformation rules.</li>
             <li>Apply <code>log1p</code> to casualties and recompute skew.</li>
             <li>Write two sentences: (a) which center metric you would put on a KPI card and why; (b) what the tail implies for safety planning.</li>
           </ol>
@@ -194,11 +196,11 @@ df[["casualties", "casualties_log"]].agg(["skew", "kurt"])</code></pre>
 
       <section id="quiz">
         <h2>11. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — right skew pulls the mean above the median." data-fail="Positive skew: long right tail → Mean > Median.">
-          <p><strong>Q1.</strong> For a positively skewed income distribution, which is true?</p>
-          <div class="quiz-option" data-value="a">A. Mean &lt; Median</div>
-          <div class="quiz-option" data-value="b">B. Mean &gt; Median</div>
-          <div class="quiz-option" data-value="c">C. Mean always equals Mode</div>
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — the mean responds to extreme values more than the median." data-fail="Consider robustness, not a universal skewness order rule.">
+          <p><strong>Q1.</strong> Which statistic is generally more resistant to one extreme income value?</p>
+          <div class="quiz-option" data-value="a">A. Mean</div>
+          <div class="quiz-option" data-value="b">B. Median</div>
+          <div class="quiz-option" data-value="c">C. Maximum</div>
           <div class="quiz-option" data-value="d">D. Skewness must be zero</div>
           <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
           <div class="quiz-feedback"></div>
@@ -225,14 +227,28 @@ df[["casualties", "casualties_log"]].agg(["skew", "kurt"])</code></pre>
         </ul>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Report definitions and uncertainty</h2>
+<p>Compute sample versus population standard deviation, adjusted versus unadjusted skewness, excess kurtosis and a mean confidence interval on the notebook’s stated examples.</p><p><strong>Interpretation check:</strong> Common mean/median/mode orderings are heuristics, not theorems for every distribution. Zero skewness need not imply symmetry; kurtosis is about tail behavior, not simply peak height.</p>
+<p><a href="../../labs/L11_Descriptive_Statistics_Lab.ipynb" download>Download runnable/guided lab: L11 Descriptive Statistics Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Shape is more than mean and SD</h2><a href="../../assets/visuals/l11-distribution-shapes.svg" aria-label="Open full-size editable diagram: Shape is more than mean and SD"><img src="../../assets/visuals/l11-distribution-shapes.svg" alt="Synthetic samples, seed 11. Mean–median–mode ordering is not a universal theorem; a symmetric distribution can have two modes." loading="lazy"></a><figcaption>Synthetic samples, seed 11. Mean–median–mode ordering is not a universal theorem; a symmetric distribution can have two modes. <a href="../../assets/visuals/l11-distribution-shapes.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Does symmetry guarantee a unique mode?</summary><p>No. The bimodal example has two peaks.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>−3</li><li>−2</li><li>−1</li><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li><li>0.0</li><li>0.1</li><li>0.2</li><li>0.3</li><li>0.4</li><li>Density</li><li>Symmetric unimodal</li><li>Mean 0.02</li><li>Median 0.05</li><li>0</li><li>2</li><li>4</li><li>6</li><li>8</li><li>0.0</li><li>0.1</li><li>0.2</li><li>0.3</li><li>0.4</li><li>0.5</li><li>0.6</li><li>0.7</li><li>Density</li><li>Right-skewed</li><li>Mean 1.25</li><li>Median 1.01</li><li>−12</li><li>−10</li><li>−8</li><li>−6</li><li>−4</li><li>−2</li><li>0</li><li>0.0</li><li>0.1</li><li>0.2</li><li>0.3</li><li>0.4</li><li>0.5</li><li>0.6</li><li>0.7</li><li>Density</li><li>Left-skewed</li><li>Mean -1.24</li><li>Median -1.00</li><li>−3</li><li>−2</li><li>−1</li><li>0</li><li>1</li><li>2</li><li>3</li><li>0.0</li><li>0.1</li><li>0.2</li><li>0.3</li><li>0.4</li><li>0.5</li><li>Density</li><li>Symmetric bimodal</li><li>Mean -0.00</li><li>Median 0.13</li><li>Shape is more than mean and SD</li><li>Synthetic samples, seed 11. Mean–median–mode ordering is not a universal theorem; a symmetric distribution can</li><li>have two modes.</li></ul></details></figure>
+<figure class="teaching-figure"><h2>Same center, different spread</h2><a href="../../assets/visuals/l11-spread.svg" aria-label="Open full-size editable diagram: Same center, different spread"><img src="../../assets/visuals/l11-spread.svg" alt="Exact samples: narrow [-2,-1,0,1,2]; wide [-6,-3,0,3,6]. Population SD; linear-interpolated quartiles." loading="lazy"></a><figcaption>Exact samples: narrow [-2,-1,0,1,2]; wide [-6,-3,0,3,6]. Population SD; linear-interpolated quartiles. <a href="../../assets/visuals/l11-spread.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Can equal means imply equal variability?</summary><p>No.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>−6</li><li>−4</li><li>−2</li><li>0</li><li>2</li><li>4</li><li>6</li><li>Unitless value</li><li>Narrow</li><li>Wide</li><li>Narrow: mean=0, SD=1.414, IQR=2</li><li>Wide: mean=0, SD=4.243, IQR=6</li><li>Same center, different spread</li><li>Exact samples: narrow [-2,-1,0,1,2]; wide [-6,-3,0,3,6]. Population SD; linear-interpolated quartiles.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="11"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="../../index.html" class="nav-btn">← Home</a>
-        <a href="lecture12.html" class="nav-btn primary" onclick="markLectureComplete(11)">Next: Lecture 12 — Correlation →</a>
+        <a href="lecture12.html" class="nav-btn primary">Next: Lecture 12 — Correlation →</a>
       </div>
       <footer class="site-footer"><p>Lecture 11 of 30 · Module 3 · Advanced EDA · Content aligned to course Shape of Data &amp; EDA materials</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 11: Descriptive Statistics Deep Dive",url:"lecture11.html",module:"Module 3",keywords:"mean median skewness kurtosis dispersion log transform describe",summary:"Central tendency, dispersion, shape of data"}];</script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

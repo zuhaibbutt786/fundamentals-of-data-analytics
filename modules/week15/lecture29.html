@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -27,13 +28,13 @@
       <div class="sidebar-section">Course Navigation</div>
       <nav class="sidebar-nav">
         <div class="module-title">Module 6 · Capstone & Ethics</div>
-        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Ethics</a>
+        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Ethics &amp; Proposal</a>
         <a href="../week14/lecture28.html" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
         <a href="lecture29.html" class="active" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
         <a href="lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation & Viva</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 6 › <span>Lecture 29</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-advanced">Advanced</span>
@@ -120,18 +121,25 @@
         <p>A Capstone dashboard is not a collection of charts — it is a decision-support product. Model cleanly, measure intentionally, design for the story, and document the limits.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Perform QA before sharing</h2>
+<p>Test join counts, duplicate keys, totals, blanks, slicer reset, keyboard navigation, narrow-screen readability, refresh and access roles. Ask a peer to reproduce one KPI.</p><p><strong>Interpretation check:</strong> Technical correctness and usability are separate checks. Include uncertainty and source limitations in the report rather than concealing inconvenient exceptions.</p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Final dashboard quality checks</h2><a href="../../assets/visuals/l29-qa.svg" aria-label="Open full-size editable diagram: Final dashboard quality checks"><img src="../../assets/visuals/l29-qa.svg" alt="Example failures: multiplied join rows, order-line counts mislabeled as orders, stale refresh, or inaccessible color-only status." loading="lazy"></a><figcaption>Example failures: multiplied join rows, order-line counts mislabeled as orders, stale refresh, or inaccessible color-only status. <a href="../../assets/visuals/l29-qa.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: How can a plausible number still be wrong?</summary><p>Incorrect grain, joins or filter context can produce believable but invalid totals.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Final dashboard quality checks</li><li>1. Numbers</li><li>Match source/Python totals and distinct counts at the same grain.</li><li>2. Filters and dates</li><li>Test combinations, subtotals, date gaps, and legitimate no-data states.</li><li>3. Access and ethics</li><li>Test roles, remove unnecessary identifiers, expose limitations.</li><li>4. Performance and accessibility</li><li>Measure actual loads; test keyboard, contrast and labels.</li><li>5. Fix and retest</li><li>Trace a failure to data, measures or interactions; preserve a correction log.</li><li>Example failures: multiplied join rows, order-line counts mislabeled as orders, stale</li><li>refresh, or inaccessible color-only status.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="29"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="../week14/lecture28.html" class="nav-btn">← Lecture 28</a>
-        <a href="lecture30.html" class="nav-btn primary" onclick="markLectureComplete(29)">Next: Lecture 30 →</a>
+        <a href="lecture30.html" class="nav-btn primary">Next: Lecture 30 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 29 of 30 · Module 6 · Final Dashboard Completion · CS-399 aligned</p></footer>
+      <footer class="site-footer"><p>Lecture 29 of 30 · Module 6 · Final Dashboard Completion · Course learning outcomes mapped</p></footer>
     </main>
   </div>
-  <script>
-    window.COURSE_SEARCH_INDEX = [
-      { title: "Lecture 29: Final Dashboard Completion", url: "modules/week15/lecture29.html", module: "Module 6", keywords: "capstone dashboard model measures qa ethics", summary: "Capstone final dashboard: model, measures, pages and QA" }
-    ];
-  </script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

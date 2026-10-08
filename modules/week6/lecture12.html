@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -34,7 +35,7 @@
         <a href="../week8/lecture15.html" data-lecture-id="15"><span class="progress-ring"></span> L15 · EDA Case Study</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 3 › <span>Lecture 12</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
@@ -42,7 +43,7 @@
         <span class="badge">Module 3 · CLO-2</span>
       </div>
       <h1>Lecture 12: Correlation & Relationships</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Pearson & Spearman correlation, multicollinearity & VIF, and a practical guide to choosing the right statistical test — fully aligned with the CS-399 outline and the “Choosing the Right Statistical Test” slides.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Pearson & Spearman correlation, multicollinearity & VIF, and a practical guide to choosing the right statistical test — with worked examples and test assumptions.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
@@ -83,7 +84,7 @@
         <p>\[
         \rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}
         \]</p>
-        <p>where \( d_i \) is the difference between the ranks of each pair and \( n \) is the number of observations.</p>
+        <p>This shortcut assumes no tied ranks. With ties, assign average ranks and calculate Pearson correlation of the ranks; pandas and SciPy handle this.</p>
         <p><strong>When to prefer Spearman:</strong> outliers, ordinal scales, or clear non-linear but still monotonic patterns.</p>
       </section>
 
@@ -124,29 +125,29 @@
             <thead><tr><th>Objective</th><th>Variable types</th><th>Recommended test(s)</th></tr></thead>
             <tbody>
               <tr>
-                <td>Compare means of <strong>two independent groups</strong></td>
+                <td>Compare two independent groups; define mean versus distribution question</td>
                 <td>1 categorical (2 levels) + 1 continuous</td>
-                <td>Independent Samples t-test (normal)<br>Mann-Whitney U (non-normal)</td>
+                <td>Welch t-test: mean difference without equal-variance assumption.<br>Mann–Whitney U: distribution/rank comparison; location interpretation requires additional shape assumptions.</td>
               </tr>
               <tr>
-                <td>Compare means of <strong>paired / repeated measures</strong></td>
+                <td>Compare paired measurements</td>
                 <td>Same subjects measured twice</td>
-                <td>Paired t-test (normal)<br>Wilcoxon signed-rank (non-normal)</td>
+                <td>Paired t-test: differences approximately normal for small-sample inference.<br>Wilcoxon signed-rank: symmetry of differences matters.</td>
               </tr>
               <tr>
-                <td>Compare means of <strong>three or more groups</strong></td>
+                <td>Compare three or more independent groups</td>
                 <td>1 categorical (≥3 levels) + 1 continuous</td>
-                <td>One-way ANOVA (normal)<br>Kruskal-Wallis (non-normal)</td>
+                <td>ANOVA/Welch ANOVA: group means, with appropriate variance assumptions.<br>Kruskal–Wallis: rank/distribution comparison, not a general test of means.</td>
               </tr>
               <tr>
                 <td>Association between <strong>two categorical</strong> variables</td>
                 <td>Both categorical</td>
-                <td>Chi-square test of independence</td>
+                <td>Chi-square if expected counts support approximation; Fisher exact for a sparse 2×2 table.</td>
               </tr>
               <tr>
                 <td>Linear relationship between <strong>two continuous</strong> variables</td>
                 <td>Both continuous</td>
-                <td>Pearson correlation (normal / linear)<br>Spearman correlation (monotonic / ranks)</td>
+                <td>Pearson: linear association; calculation does not require normal input.<br>Spearman: rank-based monotonic association.</td>
               </tr>
               <tr>
                 <td>Predict continuous outcome from several predictors</td>
@@ -170,7 +171,7 @@
         <h3>6.3 Practical Decision Steps</h3>
         <ol>
           <li><strong>Identify your variables</strong> – categorical or quantitative? nominal / ordinal / continuous / discrete?</li>
-          <li><strong>Check the distribution</strong> – for quantitative variables use histograms, Q-Q plots or Shapiro-Wilk. This decides parametric vs non-parametric.</li>
+          <li><strong>Check the distribution</strong> – for quantitative variables use histograms, Q-Q plots or Shapiro-Wilk. Also inspect independence, pairing, sample size, variance, and outliers; a normality test alone should not choose the method.</li>
           <li><strong>State the objective clearly</strong> – comparing groups? testing association? modelling a relationship?</li>
           <li><strong>Select the test</strong> from the table above.</li>
           <li><strong>Check assumptions</strong> and report effect size, not only p-value.</li>
@@ -184,7 +185,7 @@
             <div class="card">
               <h3 style="margin-top:0">Example 1 – Weight loss across diets</h3>
               <p><strong>Variables:</strong> Diet (Keto / Mediterranean / Vegan) + Weight loss (kg)<br>
-              <strong>Test:</strong> ANOVA (if normal) or Kruskal-Wallis (if not)</p>
+              <strong>Test:</strong> ANOVA/Welch ANOVA for mean differences with suitable assumptions; Kruskal–Wallis for a rank/distribution question.</p>
             </div>
           </div>
           <div class="col-md-6">
@@ -198,14 +199,14 @@
             <div class="card">
               <h3 style="margin-top:0">Example 3 – Age vs Spending</h3>
               <p><strong>Variables:</strong> Age + Spending (both continuous)<br>
-              <strong>Test:</strong> Pearson (linear + normal) or Spearman (otherwise)</p>
+              <strong>Test:</strong> Pearson for linear association; Spearman for a monotonic rank relationship.</p>
             </div>
           </div>
           <div class="col-md-6">
             <div class="card">
               <h3 style="margin-top:0">Example 4 – Two teaching methods</h3>
               <p><strong>Variables:</strong> Method A vs B + Test scores<br>
-              <strong>Test:</strong> Independent t-test or Mann-Whitney U</p>
+              <strong>Test:</strong> Welch t-test for means or Mann–Whitney U for distributions, depending on the question.</p>
             </div>
           </div>
         </div>
@@ -220,7 +221,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy import stats
 
-df = pd.read_csv("../../datasets/sample_sales.csv")
+df = pd.read_csv("datasets/sample_sales.csv")
 
 # Pearson & Spearman between Quantity and UnitPrice
 print("Pearson :", df["Quantity"].corr(df["UnitPrice"]))
@@ -295,7 +296,7 @@ plt.show()
           <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Pearson vs Spearman?</strong></div><div class="flashcard-back">Pearson = linear continuous; Spearman = ranks / monotonic</div></div></div></div>
           <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>VIF formula?</strong></div><div class="flashcard-back">1 / (1 − R²) from regressing one predictor on the others</div></div></div></div>
           <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Two categorical vars?</strong></div><div class="flashcard-back">Chi-square test of independence</div></div></div></div>
-          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Two groups, continuous outcome?</strong></div><div class="flashcard-back">t-test (normal) or Mann-Whitney U (non-normal)</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Two groups, continuous outcome?</strong></div><div class="flashcard-back">Welch t-test for means; Mann–Whitney U for a rank/distribution question.</div></div></div></div>
         </div>
       </section>
 
@@ -328,18 +329,28 @@ plt.show()
         <p><strong>Lecture 13 — Grouped Analysis & Pivot Logic</strong> shows how to turn these relationships into actionable multi-dimensional summaries with group-by and pivot tables.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Choose the estimand before the test</h2>
+<p>Run Welch independent means, paired differences, Mann–Whitney, chi-square and Fisher examples. Report effect direction, magnitude, confidence interval where appropriate, sample size and p-value.</p><p><strong>Interpretation check:</strong> A p-value is not the probability the null is true. Rank tests compare distributions unless additional shift assumptions support a median interpretation; sparse counts may require exact methods.</p>
+<p><a href="../../labs/L12_Correlation_Lab.ipynb" download>Download runnable/guided lab: L12 Correlation Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Association depends on relationship shape</h2><a href="../../assets/visuals/l12-correlations.svg" aria-label="Open full-size editable diagram: Association depends on relationship shape"><img src="../../assets/visuals/l12-correlations.svg" alt="Synthetic examples, seed 12. A near-zero Pearson coefficient does not rule out a nonlinear association. Neither coefficient proves causation." loading="lazy"></a><figcaption>Synthetic examples, seed 12. A near-zero Pearson coefficient does not rule out a nonlinear association. Neither coefficient proves causation. <a href="../../assets/visuals/l12-correlations.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Why is the U-shape correlation weak?</summary><p>Positive and negative slopes cancel in a linear summary.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>−2</li><li>−1</li><li>0</li><li>1</li><li>2</li><li>x</li><li>−2</li><li>−1</li><li>0</li><li>1</li><li>2</li><li>y</li><li>Positive linear</li><li>Pearson=0.993; Spearman=0.993</li><li>−2</li><li>−1</li><li>0</li><li>1</li><li>2</li><li>x</li><li>−2</li><li>−1</li><li>0</li><li>1</li><li>2</li><li>y</li><li>Negative linear</li><li>Pearson=-0.992; Spearman=-0.992</li><li>−2</li><li>−1</li><li>0</li><li>1</li><li>2</li><li>x</li><li>−2</li><li>−1</li><li>0</li><li>1</li><li>2</li><li>y</li><li>No clear association</li><li>Pearson=0.092; Spearman=0.085</li><li>−2</li><li>−1</li><li>0</li><li>1</li><li>2</li><li>x</li><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li><li>y</li><li>U-shaped</li><li>Pearson=0.000; Spearman=0.013</li><li>−2</li><li>−1</li><li>0</li><li>1</li><li>2</li><li>x</li><li>0</li><li>2</li><li>4</li><li>6</li><li>y</li><li>Monotonic nonlinear</li><li>Pearson=0.896; Spearman=1.000</li><li>Association depends on relationship shape</li><li>Synthetic examples, seed 12. A near-zero Pearson coefficient does not rule out a nonlinear association.</li><li>Neither coefficient proves causation.</li></ul></details></figure>
+<figure class="teaching-figure"><h2>Choose the question before the test</h2><a href="../../assets/visuals/l12-test-selection.svg" aria-label="Open full-size editable diagram: Choose the question before the test"><img src="../../assets/visuals/l12-test-selection.svg" alt="A normality test alone does not choose the method. The design and estimand determine interpretation." loading="lazy"></a><figcaption>A normality test alone does not choose the method. The design and estimand determine interpretation. <a href="../../assets/visuals/l12-test-selection.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: What does Mann–Whitney generally compare?</summary><p>Distributions/ranks; a location interpretation needs additional assumptions.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Choose the question before the test</li><li>1. Independent numerical groups</li><li>Mean difference: Welch t-test for two; ANOVA/Welch ANOVA for three or more.</li><li>2. Paired numerical observations</li><li>Paired t-test on differences; Wilcoxon signed-rank needs suitable symmetry.</li><li>3. Rank / distribution comparison</li><li>Mann–Whitney U or Kruskal–Wallis; not general tests of means.</li><li>4. Categorical association</li><li>Chi-square: check expected counts; sparse 2×2 tables may use Fisher exact.</li><li>5. Numerical association</li><li>Pearson for linear; Spearman for monotonic ranks. Plot first.</li><li>6. Report and qualify</li><li>Independence, assumptions, effect size, confidence interval, p-value, multiplicity.</li><li>A normality test alone does not choose the method. The design and estimand determine</li><li>interpretation.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="12"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="lecture11.html" class="nav-btn">← Lecture 11</a>
-        <a href="../week7/lecture13.html" class="nav-btn primary" onclick="markLectureComplete(12)">Next: Lecture 13 →</a>
+        <a href="../week7/lecture13.html" class="nav-btn primary">Next: Lecture 13 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 12 of 30 · Module 3 · Correlation & Choosing the Right Statistical Test · CS-399 aligned</p></footer>
+      <footer class="site-footer"><p>Lecture 12 of 30 · Module 3 · Correlation & Choosing the Right Statistical Test · Course learning outcomes mapped</p></footer>
     </main>
   </div>
-  <script>
-    window.COURSE_SEARCH_INDEX = [
-      { title: "Lecture 12: Correlation & Relationships", url: "modules/week6/lecture12.html", module: "Module 3", keywords: "pearson spearman vif multicollinearity chi-square t-test anova choosing statistical test", summary: "Correlation, VIF and decision framework for statistical tests" }
-    ];
-  </script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

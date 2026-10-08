@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="628.2pt" height="709.502319pt" viewBox="0 0 628.2 709.502319" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-08T17:09:49.360341</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 709.502319
+L 628.2 709.502319
+L 628.2 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="table_1">
+    <g id="patch_2">
+     <path d="M 7.2 125.864231
+L 191.34 125.864231
+L 191.34 94.817831
+L 7.2 94.817831
+z
+" style="fill: #eef2f7; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_1">
+     <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #183153" x="99.27" y="113.376344" transform="rotate(-0 99.27 113.376344)">Raw field</text>
+    </g>
+    <g id="patch_3">
+     <path d="M 191.34 125.864231
+L 590.31 125.864231
+L 590.31 94.817831
+L 191.34 94.817831
+z
+" style="fill: #eef2f7; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_2">
+     <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #183153" x="390.825" y="113.376344" transform="rotate(-0 390.825 113.376344)">Value</text>
+    </g>
+    <g id="patch_4">
+     <path d="M 7.2 156.910631
+L 191.34 156.910631
+L 191.34 125.864231
+L 7.2 125.864231
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_3">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="99.27" y="144.422744" transform="rotate(-0 99.27 144.422744)">Quantity</text>
+    </g>
+    <g id="patch_5">
+     <path d="M 191.34 156.910631
+L 590.31 156.910631
+L 590.31 125.864231
+L 191.34 125.864231
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_4">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="390.825" y="144.422744" transform="rotate(-0 390.825 144.422744)">3</text>
+    </g>
+    <g id="patch_6">
+     <path d="M 7.2 187.957031
+L 191.34 187.957031
+L 191.34 156.910631
+L 7.2 156.910631
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_5">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="99.27" y="175.469144" transform="rotate(-0 99.27 175.469144)">UnitPrice</text>
+    </g>
+    <g id="patch_7">
+     <path d="M 191.34 187.957031
+L 590.31 187.957031
+L 590.31 156.910631
+L 191.34 156.910631
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_6">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="390.825" y="175.469144" transform="rotate(-0 390.825 175.469144)">200 USD/unit</text>
+    </g>
+    <g id="patch_8">
+     <path d="M 7.2 219.003431
+L 191.34 219.003431
+L 191.34 187.957031
+L 7.2 187.957031
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_7">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="99.27" y="206.515544" transform="rotate(-0 99.27 206.515544)">Discount</text>
+    </g>
+    <g id="patch_9">
+     <path d="M 191.34 219.003431
+L 590.31 219.003431
+L 590.31 187.957031
+L 191.34 187.957031
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_8">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="390.825" y="206.515544" transform="rotate(-0 390.825 206.515544)">0.10 (10%)</text>
+    </g>
+    <g id="patch_10">
+     <path d="M 7.2 250.049831
+L 191.34 250.049831
+L 191.34 219.003431
+L 7.2 219.003431
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_9">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="99.27" y="237.561944" transform="rotate(-0 99.27 237.561944)">UnitCost</text>
+    </g>
+    <g id="patch_11">
+     <path d="M 191.34 250.049831
+L 590.31 250.049831
+L 590.31 219.003431
+L 191.34 219.003431
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_10">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="390.825" y="237.561944" transform="rotate(-0 390.825 237.561944)">120 USD/unit</text>
+    </g>
+    <g id="patch_12">
+     <path d="M 7.2 281.096231
+L 191.34 281.096231
+L 191.34 250.049831
+L 7.2 250.049831
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_11">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="99.27" y="268.608344" transform="rotate(-0 99.27 268.608344)">OrderDate</text>
+    </g>
+    <g id="patch_13">
+     <path d="M 191.34 281.096231
+L 590.31 281.096231
+L 590.31 250.049831
+L 191.34 250.049831
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_12">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="390.825" y="268.608344" transform="rotate(-0 390.825 268.608344)">2024-01-08 (assumed example)</text>
+    </g>
+   </g>
+   <g id="table_2">
+    <g id="patch_14">
+     <path d="M 7.2 398.351831
+L 148.374 398.351831
+L 148.374 367.582631
+L 7.2 367.582631
+z
+" style="fill: #eef2f7; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_13">
+     <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #183153" x="77.787" y="386.002544" transform="rotate(-0 77.787 386.002544)">Feature</text>
+    </g>
+    <g id="patch_15">
+     <path d="M 148.374 398.351831
+L 442.998 398.351831
+L 442.998 367.582631
+L 148.374 367.582631
+z
+" style="fill: #eef2f7; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_14">
+     <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #183153" x="295.686" y="386.002544" transform="rotate(-0 295.686 386.002544)">Formula</text>
+    </g>
+    <g id="patch_16">
+     <path d="M 442.998 398.351831
+L 621 398.351831
+L 621 367.582631
+L 442.998 367.582631
+z
+" style="fill: #eef2f7; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_15">
+     <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #183153" x="531.999" y="386.002544" transform="rotate(-0 531.999 386.002544)">Result</text>
+    </g>
+    <g id="patch_17">
+     <path d="M 7.2 429.121031
+L 148.374 429.121031
+L 148.374 398.351831
+L 7.2 398.351831
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_16">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="77.787" y="416.771744" transform="rotate(-0 77.787 416.771744)">Gross revenue</text>
+    </g>
+    <g id="patch_18">
+     <path d="M 148.374 429.121031
+L 442.998 429.121031
+L 442.998 398.351831
+L 148.374 398.351831
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_17">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="295.686" y="416.771744" transform="rotate(-0 295.686 416.771744)">Quantity × UnitPrice</text>
+    </g>
+    <g id="patch_19">
+     <path d="M 442.998 429.121031
+L 621 429.121031
+L 621 398.351831
+L 442.998 398.351831
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_18">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="531.999" y="416.771744" transform="rotate(-0 531.999 416.771744)">600 USD</text>
+    </g>
+    <g id="patch_20">
+     <path d="M 7.2 459.890231
+L 148.374 459.890231
+L 148.374 429.121031
+L 7.2 429.121031
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_19">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="77.787" y="447.540944" transform="rotate(-0 77.787 447.540944)">Net revenue</text>
+    </g>
+    <g id="patch_21">
+     <path d="M 148.374 459.890231
+L 442.998 459.890231
+L 442.998 429.121031
+L 148.374 429.121031
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_20">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="295.686" y="447.540944" transform="rotate(-0 295.686 447.540944)">Gross revenue × (1 − Discount)</text>
+    </g>
+    <g id="patch_22">
+     <path d="M 442.998 459.890231
+L 621 459.890231
+L 621 429.121031
+L 442.998 429.121031
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_21">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="531.999" y="447.540944" transform="rotate(-0 531.999 447.540944)">540 USD</text>
+    </g>
+    <g id="patch_23">
+     <path d="M 7.2 490.659431
+L 148.374 490.659431
+L 148.374 459.890231
+L 7.2 459.890231
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_22">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="77.787" y="478.310144" transform="rotate(-0 77.787 478.310144)">Total cost</text>
+    </g>
+    <g id="patch_24">
+     <path d="M 148.374 490.659431
+L 442.998 490.659431
+L 442.998 459.890231
+L 148.374 459.890231
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_23">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="295.686" y="478.310144" transform="rotate(-0 295.686 478.310144)">Quantity × UnitCost</text>
+    </g>
+    <g id="patch_25">
+     <path d="M 442.998 490.659431
+L 621 490.659431
+L 621 459.890231
+L 442.998 459.890231
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_24">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="531.999" y="478.310144" transform="rotate(-0 531.999 478.310144)">360 USD</text>
+    </g>
+    <g id="patch_26">
+     <path d="M 7.2 521.428631
+L 148.374 521.428631
+L 148.374 490.659431
+L 7.2 490.659431
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_25">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="77.787" y="509.079344" transform="rotate(-0 77.787 509.079344)">Profit</text>
+    </g>
+    <g id="patch_27">
+     <path d="M 148.374 521.428631
+L 442.998 521.428631
+L 442.998 490.659431
+L 148.374 490.659431
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_26">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="295.686" y="509.079344" transform="rotate(-0 295.686 509.079344)">Net revenue − Total cost</text>
+    </g>
+    <g id="patch_28">
+     <path d="M 442.998 521.428631
+L 621 521.428631
+L 621 490.659431
+L 442.998 490.659431
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_27">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="531.999" y="509.079344" transform="rotate(-0 531.999 509.079344)">180 USD</text>
+    </g>
+    <g id="patch_29">
+     <path d="M 7.2 552.197831
+L 148.374 552.197831
+L 148.374 521.428631
+L 7.2 521.428631
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_28">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="77.787" y="539.848544" transform="rotate(-0 77.787 539.848544)">Profit margin</text>
+    </g>
+    <g id="patch_30">
+     <path d="M 148.374 552.197831
+L 442.998 552.197831
+L 442.998 521.428631
+L 148.374 521.428631
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_29">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="295.686" y="539.848544" transform="rotate(-0 295.686 539.848544)">Profit / Net revenue</text>
+    </g>
+    <g id="patch_31">
+     <path d="M 442.998 552.197831
+L 621 552.197831
+L 621 521.428631
+L 442.998 521.428631
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_30">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="531.999" y="539.848544" transform="rotate(-0 531.999 539.848544)">1/3 = 33⅓%</text>
+    </g>
+    <g id="patch_32">
+     <path d="M 7.2 582.967031
+L 148.374 582.967031
+L 148.374 552.197831
+L 7.2 552.197831
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_31">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="77.787" y="570.617744" transform="rotate(-0 77.787 570.617744)">Month</text>
+    </g>
+    <g id="patch_33">
+     <path d="M 148.374 582.967031
+L 442.998 582.967031
+L 442.998 552.197831
+L 148.374 552.197831
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_32">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="295.686" y="570.617744" transform="rotate(-0 295.686 570.617744)">OrderDate.month</text>
+    </g>
+    <g id="patch_34">
+     <path d="M 442.998 582.967031
+L 621 582.967031
+L 621 552.197831
+L 442.998 552.197831
+z
+" style="fill: #ffffff; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_33">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="531.999" y="570.617744" transform="rotate(-0 531.999 570.617744)">1 (January)</text>
+    </g>
+    <g id="patch_35">
+     <path d="M 7.2 613.736231
+L 148.374 613.736231
+L 148.374 582.967031
+L 7.2 582.967031
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_34">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="77.787" y="601.386944" transform="rotate(-0 77.787 601.386944)">Weekday</text>
+    </g>
+    <g id="patch_36">
+     <path d="M 148.374 613.736231
+L 442.998 613.736231
+L 442.998 582.967031
+L 148.374 582.967031
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_35">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="295.686" y="601.386944" transform="rotate(-0 295.686 601.386944)">OrderDate.weekday()</text>
+    </g>
+    <g id="patch_37">
+     <path d="M 442.998 613.736231
+L 621 613.736231
+L 621 582.967031
+L 442.998 582.967031
+z
+" style="fill: #f7fafc; stroke: #d5dee8; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_36">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle" x="531.999" y="601.386944" transform="rotate(-0 531.999 601.386944)">0 (Monday)</text>
+    </g>
+   </g>
+   <g id="text_37">
+    <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183153" x="7.2" y="21.637031" transform="rotate(-0 7.2 21.637031)">D · A transaction becomes useful features</text>
+   </g>
+   <g id="text_38">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #526174" x="7.2" y="51.574631" transform="rotate(-0 7.2 51.574631)">Synthetic sale · currency: USD · Discount is a fraction of gross revenue</text>
+   </g>
+   <g id="patch_38">
+    <path d="M 298.755 296.400838
+Q 298.755 324.337476 298.755 350.038046
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 300.955 345.638046
+L 298.755 350.038046
+L 296.555 345.638046
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="text_39">
+    <g id="patch_39">
+     <path d="M 205.458906 316.113519
+L 392.051094 316.113519
+L 392.051094 300.435394
+L 205.458906 300.435394
+z
+" style="fill: #ffffff"/>
+    </g>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #183153" x="298.755" y="311.033831" transform="rotate(-0 298.755 311.033831)">Apply documented feature formulas</text>
+   </g>
+   <g id="text_40">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183153" x="7.2" y="643.673831" transform="rotate(-0 7.2 643.673831)">Assumptions: all units sold; no returns, tax, shipping, or other costs are included.</text>
+   </g>
+   <g id="text_41">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b7791f" x="7.2" y="673.611431" transform="rotate(-0 7.2 673.611431)">Prediction-time caution: use only information available when the prediction is made.</text>
+   </g>
+   <g id="text_42">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b7791f" x="7.2" y="700.222631" transform="rotate(-0 7.2 700.222631)">Final profit, future sales, and later returns must not become inputs to an earlier prediction.</text>
+   </g>
+  </g>
+ </g>
+</svg>

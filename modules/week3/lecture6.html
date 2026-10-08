@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -59,14 +60,14 @@
         <a href="../week13/lecture25.html" data-lecture-id="25"><span class="progress-ring"></span> L25 · Performance</a>
         <a href="../week13/lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
         <div class="module-title">Module 6 · Capstone</div>
-        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Project Proposal</a>
+        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Ethics &amp; Proposal</a>
         <a href="../week14/lecture28.html" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
         <a href="../week15/lecture29.html" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
         <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation &amp; Viva</a>
       </nav>
     </aside>
 
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 2</span> › <span>Lecture 6</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
@@ -75,7 +76,7 @@
       </div>
 
       <h1>Lecture 6: Outliers &amp; Noise Handling</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Detect outliers with Z-score and IQR, understand their impact on analytics, choose treatment strategies, and practice boxplot-based detection in Python — as specified in the syllabus.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Detect outliers with Z-score and IQR, understand their impact on analytics, choose treatment strategies, and practice boxplot-based detection in Python — in this course.</p>
 
       <!-- 1. Learning Objectives -->
       <section class="card" id="objectives">
@@ -148,7 +149,7 @@
 
       <!-- 6. Detection Methods -->
       <section id="detect">
-        <h2>6. Detection Methods (Syllabus)</h2>
+        <h2>6. Detection Methods (Course practice)</h2>
 
         <h3>Z-score</h3>
         <p>Measures how many standard deviations a point is from the mean:</p>
@@ -268,7 +269,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("../../datasets/sample_accidents.csv")
+df = pd.read_csv("datasets/sample_accidents.csv")
 s = df["casualties"]
 
 # --- IQR fences ---
@@ -287,7 +288,7 @@ print("Z&gt;3 outliers:", flags_z.sum())
 # --- Compare mean vs median (impact check) ---
 print("Mean:", s.mean(), "Median:", s.median())
 
-# --- Boxplot (syllabus practical) ---
+# --- Boxplot (course practical) ---
 df.boxplot(column="casualties", by="region")
 plt.suptitle("")
 plt.title("Casualties by region — boxplot")
@@ -439,23 +440,28 @@ df["casualty_outlier_iqr"] = flags_iqr</code></pre>
         <p><strong>Lecture 7 — Data Transformation</strong> covers normalization (Min-Max), standardization (Z-score), log transforms, and encoding categorical variables — the next stage after quality and outlier handling.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Flag rather than automatically delete</h2>
+<p>Compare the six-value example with the original five values and state the percentile convention. Identify the fences and observed whisker endpoints.</p><p><strong>Interpretation check:</strong> For [10,12,13,14,15,100], linear Q1=12.25 and Q3=14.75; fences 8.5 and 18.5; whiskers 10 and 15. Statistical unusualness does not prove a data error.</p>
+<p><a href="../../labs/L6_Outliers_and_Noise_Lab.ipynb" download>Download runnable/guided lab: L6 Outliers and Noise Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Mean, median, fences and whiskers</h2><a href="../../assets/visuals/l5-6-C_mean_median_boxplot.svg" aria-label="Open full-size editable diagram: Mean, median, fences and whiskers"><img src="../../assets/visuals/l5-6-C_mean_median_boxplot.svg" alt="Mean/median comparison shows mean 12.8 then 27.3333 and median 13 then 13.5. Augmented boxplot has Q1 12.25, Q3 14.75, fences 8.5/18.5, actual whiskers 10/15, and outlier 100." loading="lazy"></a><figcaption>Exact synthetic values: [10,12,13,14,15], then append 100. Mean changes from 12.8 to 82/3; median from 13 to 13.5. Quartiles use linear percentiles; the fence thresholds are not whisker endpoints. <a href="../../assets/visuals/l5-6-C_mean_median_boxplot.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Does the upper whisker end at 18.5?</summary><p>No. 18.5 is the upper fence; the whisker ends at the largest observed value inside it, 15.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>0</li><li>20</li><li>40</li><li>60</li><li>80</li><li>100</li><li>Value (unitless)</li><li>Original: [10, 12, 13, 14, 15]</li><li>Observations</li><li>Mean = 64/5 = 12.8</li><li>Median = 13</li><li>0</li><li>20</li><li>40</li><li>60</li><li>80</li><li>100</li><li>Value (unitless)</li><li>Append 100: [10, 12, 13, 14, 15, 100]</li><li>Observations</li><li>Mean = 164/6 = 82/3 = 27⅓</li><li>Median = (13 + 14)/2 = 13.5</li><li>0</li><li>20</li><li>40</li><li>60</li><li>80</li><li>100</li><li>Value (unitless)</li><li>Q1 = 12.25; median = 13.5; Q3 = 14.75; IQR = 2.5</li><li>Actual whisker endpoints: 10 and 15. Outlier: 100.</li><li>Separate boxplot · augmented data</li><li>Lower fence 8.5</li><li>Upper fence 18.5</li><li>C · One extreme observation shifts the mean</li><li>Convention: NumPy linear percentiles (Hyndman–Fan type 7).</li><li>Fences = Q1 − 1.5×IQR and Q3 + 1.5×IQR; whiskers end at observed values within fences.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="6"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="lecture5.html" class="nav-btn">← Lecture 5</a>
-        <a href="../week4/lecture7.html" class="nav-btn primary" onclick="markLectureComplete(6)">Next: Lecture 7 — Transformation →</a>
+        <a href="../week4/lecture7.html" class="nav-btn primary">Next: Lecture 7 — Transformation →</a>
       </div>
       <footer class="site-footer"><p>Lecture 6 of 30 · Module 2 · Outliers &amp; Noise</p></footer>
     </main>
   </div>
 
-  <script>
-    window.COURSE_SEARCH_INDEX = [{
-      title: "Lecture 6: Outliers & Noise Handling",
-      url: "lecture6.html",
-      module: "Module 2",
-      keywords: "outlier z-score iqr boxplot noise treatment winsorize skew mean median",
-      summary: "Outlier detection (Z-score, IQR), impact, and treatment strategies"
-    }];
-  </script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lecture 15: Mini Case Study – complete EDA on accident-style dataset: clean, analyze, present findings (syllabus + road accident course materials)." />
+  <meta name="description" content="Lecture 15: Mini Case Study – complete EDA on accident-style dataset: clean, analyze, present findings (course + road accident course materials)." />
   <title>Lecture 15: Mini Case Study (EDA) | Data Analytics Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -34,7 +35,7 @@
         <a href="lecture15.html" class="active" data-lecture-id="15"><span class="progress-ring"></span> L15 · EDA Case Study</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 3 › <span>Lecture 15</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
@@ -76,7 +77,7 @@
           <li><strong>Fact-like:</strong> casualties, vehicles, speed_limit (measures / event attributes).</li>
           <li><strong>Dimension-like:</strong> region, weather, road_type, severity, date parts.</li>
         </ul>
-        <p>For larger files (course mentions 300K+ row road datasets), profile volume before Power BI import; here we use <code>datasets/sample_accidents.csv</code> for a complete pipeline.</p>
+        <p>For larger files (course mentions 300K+ row road datasets), profile volume before Power BI import; here we use <code>datasets/accident_teaching.csv</code> for a complete pipeline.</p>
       </section>
 
       <section id="workflow">
@@ -99,7 +100,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("../../datasets/sample_accidents.csv", parse_dates=["date"])
+df = pd.read_csv("datasets/accident_teaching.csv", parse_dates=["date"])
 assert df["accident_id"].is_unique
 
 print(df.shape)
@@ -150,22 +151,34 @@ plt.show()</code></pre>
         <ul>
           <li>L11–L14 skills combine into one narrative EDA.</li>
           <li>Start from grain and questions; end with evidence-based actions.</li>
-          <li>Dataset path: <code>datasets/sample_accidents.csv</code>.</li>
+          <li>Dataset path: <code>datasets/accident_teaching.csv</code>.</li>
         </ul>
         <div class="callout callout-success">
           <div class="callout-title">Module 3 complete</div>
-          Next modules already on site: Module 4 (Viz) · Module 5 (Modeling &amp; DAX). Remaining: Module 2 (Cleaning) and Module 6 (Capstone).
+          Continue to Module 4 for visualization and storytelling; Modules 5 and 6 develop modeling and the capstone.
         </div>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Complete an EDA narrative</h2>
+<p>Use accident_teaching.csv to inspect schema, missingness, duplicates, region/month counts and severity distribution. Deliver three observations with units and limitations.</p><p><strong>Interpretation check:</strong> The 1800 records are generated for teaching. More incidents do not establish greater risk without exposure denominators such as traffic volume or distance traveled; association is not causation.</p>
+<p><a href="../../labs/L15_EDA_Case_Study.ipynb" download>Download runnable/guided lab: L15 EDA Case Study</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>EDA answers questions with limitations</h2><a href="../../assets/visuals/l15-eda.svg" aria-label="Open full-size editable diagram: EDA answers questions with limitations"><img src="../../assets/visuals/l15-eda.svg" alt="Generated synthetic accidents, seed 399. Counts lack traffic exposure and reporting denominators, so they do not establish real-world road risk." loading="lazy"></a><figcaption>Generated synthetic accidents, seed 399. Counts lack traffic exposure and reporting denominators, so they do not establish real-world road risk. <a href="../../assets/visuals/l15-eda.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Does the highest casualty count identify the most dangerous region?</summary><p>No. Exposure and reporting coverage must be considered.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>East</li><li>North</li><li>South</li><li>West</li><li>0</li><li>100</li><li>200</li><li>300</li><li>400</li><li>500</li><li>600</li><li>Casualties (count)</li><li>Count by region; exposure unknown</li><li>2022-01</li><li>2022-05</li><li>2022-09</li><li>2023-01</li><li>2023-05</li><li>2023-09</li><li>2024-01</li><li>2024-05</li><li>2024-09</li><li>2025-01</li><li>30</li><li>40</li><li>50</li><li>60</li><li>70</li><li>80</li><li>90</li><li>Casualties (count)</li><li>Monthly recorded casualties</li><li>EDA answers questions with limitations</li><li>Generated synthetic accidents, seed 399. Counts lack traffic exposure and reporting denominators, so they do</li><li>not establish real-world road risk.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="15"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="../week7/lecture14.html" class="nav-btn">← Lecture 14</a>
-        <a href="../../index.html" class="nav-btn primary" onclick="markLectureComplete(15)">Module 3 complete · Home →</a>
+        <a href="../../index.html" class="nav-btn primary">Module 3 complete · Home →</a>
       </div>
       <footer class="site-footer"><p>Lecture 15 of 30 · Module 3 complete · Road accident case framing from course slides</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 15: Mini Case Study EDA",url:"lecture15.html",module:"Module 3",keywords:"case study accidents eda clean analyze present",summary:"Complete EDA mini case study"}];</script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

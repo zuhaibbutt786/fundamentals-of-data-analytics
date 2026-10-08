@@ -1,0 +1,91 @@
+{
+  "dataset": "sales_multiyear.csv",
+  "grain": "one order line",
+  "currency": "USD",
+  "synthetic": true,
+  "seed": 399,
+  "all": {
+    "lines": 4420,
+    "orders": 2192,
+    "customers": 80,
+    "net_revenue_usd": 3523690.75,
+    "total_cost_usd": 2355588.0,
+    "profit_usd": 1168102.75,
+    "profit_margin": 0.3314997918021041,
+    "average_order_value_usd": 1607.5231523722628
+  },
+  "by_year": {
+    "2022": {
+      "lines": 1461,
+      "orders": 730,
+      "customers": 80,
+      "net_revenue_usd": 1181551.75,
+      "total_cost_usd": 790658.0,
+      "profit_usd": 390893.75,
+      "profit_margin": 0.33083083326650736,
+      "average_order_value_usd": 1618.5640410958904
+    },
+    "2023": {
+      "lines": 1441,
+      "orders": 730,
+      "customers": 80,
+      "net_revenue_usd": 1120753.25,
+      "total_cost_usd": 750922.0,
+      "profit_usd": 369831.25,
+      "profit_margin": 0.32998454387707554,
+      "average_order_value_usd": 1535.2784246575343
+    },
+    "2024": {
+      "lines": 1518,
+      "orders": 732,
+      "customers": 80,
+      "net_revenue_usd": 1221385.75,
+      "total_cost_usd": 814008.0,
+      "profit_usd": 407377.75,
+      "profit_margin": 0.33353733658674173,
+      "average_order_value_usd": 1668.5597677595629
+    }
+  },
+  "by_region": {
+    "East": {
+      "lines": 1192,
+      "orders": 601,
+      "customers": 80,
+      "net_revenue_usd": 967555.75,
+      "total_cost_usd": 644566.0,
+      "profit_usd": 322989.75,
+      "profit_margin": 0.3338202992437387,
+      "average_order_value_usd": 1609.9097337770384
+    },
+    "North": {
+      "lines": 1046,
+      "orders": 520,
+      "customers": 80,
+      "net_revenue_usd": 856400.0,
+      "total_cost_usd": 576062.0,
+      "profit_usd": 280338.0,
+      "profit_margin": 0.32734469873890704,
+      "average_order_value_usd": 1646.923076923077
+    },
+    "South": {
+      "lines": 1123,
+      "orders": 547,
+      "customers": 80,
+      "net_revenue_usd": 892678.5,
+      "total_cost_usd": 595088.0,
+      "profit_usd": 297590.5,
+      "profit_margin": 0.3333680602815011,
+      "average_order_value_usd": 1631.953382084095
+    },
+    "West": {
+      "lines": 1059,
+      "orders": 524,
+      "customers": 80,
+      "net_revenue_usd": 807056.5,
+      "total_cost_usd": 539872.0,
+      "profit_usd": 267184.5,
+      "profit_margin": 0.3310604647877813,
+      "average_order_value_usd": 1540.1841603053435
+    }
+  }
+}

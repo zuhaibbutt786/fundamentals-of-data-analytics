@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="604.8pt" height="492.759687pt" viewBox="0 0 604.8 492.759687" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-08T17:19:55.644715</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M -0 492.759687
+L 604.8 492.759687
+L 604.8 0
+L -0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 50.76 128.16
+L 586.44 128.16
+L 586.44 92.88
+L 50.76 92.88
+L 50.76 128.16
+z
+" clip-path="url(#p709e6acb98)" style="fill: none; stroke: #183153; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 50.76 188.136
+L 218.16 188.136
+L 218.16 145.8
+L 50.76 145.8
+L 50.76 188.136
+z
+" clip-path="url(#p709e6acb98)" style="fill: none; stroke: #183153; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 234.9 188.136
+L 402.3 188.136
+L 402.3 145.8
+L 234.9 145.8
+L 234.9 188.136
+z
+" clip-path="url(#p709e6acb98)" style="fill: none; stroke: #183153; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 419.04 188.136
+L 586.44 188.136
+L 586.44 145.8
+L 419.04 145.8
+L 419.04 188.136
+z
+" clip-path="url(#p709e6acb98)" style="fill: none; stroke: #183153; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 50.76 346.896
+L 385.56 346.896
+L 385.56 212.832
+L 50.76 212.832
+L 50.76 346.896
+z
+" clip-path="url(#p709e6acb98)" style="fill: none; stroke: #183153; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 407.88 346.896
+L 586.44 346.896
+L 586.44 212.832
+L 407.88 212.832
+L 407.88 346.896
+z
+" clip-path="url(#p709e6acb98)" style="fill: none; stroke: #183153; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 50.76 399.816
+L 586.44 399.816
+L 586.44 364.536
+L 50.76 364.536
+L 50.76 399.816
+z
+" clip-path="url(#p709e6acb98)" style="fill: none; stroke: #183153; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #183153" x="318.6" y="113.279375" transform="rotate(-0 318.6 113.279375)">Decision: which region needs investigation?</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(103.326406 164.128469)">Revenue KPI</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(86.952187 175.326281)">Definition + period</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(286.3375 164.128469)">Profit margin</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(283.730469 175.326281)">Ratio of totals</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(466.141563 164.128469)">Distinct orders</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(468.764219 175.326281)">OrderID grain</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(183.22875 277.024469)">Monthly trend</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(170.117031 288.222281)">Context for change</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(449.259219 277.024469)">Region comparison</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(449.652188 288.222281)">Identify exceptions</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #183153" x="318.6" y="384.935375" transform="rotate(-0 318.6 384.935375)">Filters: Year / Region · Source, units, definitions, limitations</text>
+   </g>
+  </g>
+  <g id="text_8">
+   <text style="font-weight: 700; font-size: 17px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183153" x="7.2" y="20.117344" transform="rotate(-0 7.2 20.117344)">A dashboard organized around a decision</text>
+  </g>
+  <g id="text_9">
+   <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(7.2 472.282187)">Conceptual wireframe, not a software screenshot. KPI definitions and filter context make numbers</text>
+   <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(7.2 483.48)">interpretable.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p709e6acb98">
+   <rect x="39.6" y="57.6" width="558" height="352.8"/>
+  </clipPath>
+ </defs>
+</svg>

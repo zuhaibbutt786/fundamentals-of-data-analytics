@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -35,7 +36,7 @@
         <a href="lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 2 › <span>Lecture 9</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
@@ -43,7 +44,7 @@
         <span class="badge">Module 2 · CLO-2</span>
       </div>
       <h1>Lecture 9: Data Splitting &amp; Validation</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Train-test split (conceptual), cross-validation intro, bias-variance at a high level — syllabus practical: split a dataset and compare descriptive stats.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Train-test split (conceptual), cross-validation intro, bias-variance at a high level — course practical: split a dataset and compare descriptive stats.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
@@ -63,10 +64,13 @@
 
       <section id="split">
         <h2>3. Train-Test Split</h2>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>from sklearn.model_selection import train_test_split
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>import pandas as pd
+from sklearn.model_selection import train_test_split
+
+df = pd.read_csv("datasets/accident_teaching.csv")
 
 train, test = train_test_split(df, test_size=0.2, random_state=42)
-# Compare descriptive stats (syllabus practical)
+# Compare descriptive stats (course practical)
 print(train[["casualties", "vehicles"]].describe())
 print(test[["casualties", "vehicles"]].describe())</code></pre>
         <p>For classification, use <code>stratify=y</code> so class rates stay similar. For time series, split by time — not random rows.</p>
@@ -90,7 +94,7 @@ print(test[["casualties", "vehicles"]].describe())</code></pre>
         <h2>6. Practical</h2>
         <div class="card">
           <ol>
-            <li>80/20 split on <code>sample_accidents.csv</code>.</li>
+            <li>80/20 split on <code>accident_teaching.csv</code>.</li>
             <li>Compare mean/median casualties train vs test.</li>
             <li>Note one leakage risk if you min-max scaled before splitting.</li>
           </ol>
@@ -99,7 +103,7 @@ print(test[["casualties", "vehicles"]].describe())</code></pre>
 
       <section id="quiz">
         <h2>7. Knowledge Check</h2>
-        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — test data must not influence fit or preprocessing fitted parameters." data-fail="Hold-out test is for unbiased evaluation.">
+        <div class="quiz-card" id="q1" data-answer="b" data-success="Correct — test data must not influence fit or preprocessing fitted parameters." data-fail="Held-out data assess generalization under the chosen sampling assumptions.">
           <p><strong>Q1.</strong> The test set should be:</p>
           <div class="quiz-option" data-value="a">A. Used to fit every coefficient</div>
           <div class="quiz-option" data-value="b">B. Held out from training and fit-time preprocessing</div>
@@ -119,14 +123,28 @@ print(test[["casualties", "vehicles"]].describe())</code></pre>
         </ul>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Match validation to the data structure</h2>
+<p>Use stratification for independent class records, group splitting for repeated patients, and forward validation for dates. Verify groups do not overlap.</p><p><strong>Interpretation check:</strong> A random split is unsuitable for evaluating future forecasting or new-patient generalization when related records cross partitions. Stratification alone does not solve these issues.</p>
+<p><a href="../../labs/L9_Splitting_and_Validation_Lab.ipynb" download>Download runnable/guided lab: L9 Splitting and Validation Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Choose a split for the data structure</h2><a href="../../assets/visuals/l9-10-A_split_comparison.svg" aria-label="Open full-size editable diagram: Choose a split for the data structure"><img src="../../assets/visuals/l9-10-A_split_comparison.svg" alt="Four labeled split patterns: random record assignment, class-proportion preserving assignment, all three records of patient P4 held out, and October–December held out after January–September training. Color and hatching identify partitions." loading="lazy"></a><figcaption>Synthetic 12-record schematics use nine training and three test records. Random suits independent records; stratification approximates class proportions; grouping isolates patients; chronological splitting holds out later dates. <a href="../../assets/visuals/l9-10-A_split_comparison.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Does stratification prevent repeated-patient leakage?</summary><p>No. Group splitting is needed to keep a patient entirely in one partition.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Random · independent records</li><li>R1</li><li>R2</li><li>R3</li><li>R4</li><li>R5</li><li>R6</li><li>R7</li><li>R8</li><li>R9</li><li>R10</li><li>R11</li><li>R12</li><li>Random assignment is appropriate only when records are independent.</li><li>Stratified · preserve class proportions</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>Example: train 6 class-0 + 3 class-1; test 2 class-0 + 1 class-1.</li><li>Grouped · keep patients separate</li><li>P1</li><li>P1</li><li>P1</li><li>P2</li><li>P2</li><li>P2</li><li>P3</li><li>P3</li><li>P3</li><li>P4</li><li>P4</li><li>P4</li><li>All records from a patient remain in one split; group sizes can differ.</li><li>Chronological · past predicts future</li><li>Jan</li><li>Feb</li><li>Mar</li><li>Apr</li><li>May</li><li>Jun</li><li>Jul</li><li>Aug</li><li>Sep</li><li>Oct</li><li>Nov</li><li>Dec</li><li>Train on earlier dates; evaluate later. Prevent look-ahead in features.</li><li>A · Match the split to the data structure</li><li>Blue = TRAIN · Teal = HELD-OUT TEST. Synthetic schematic; examples use 9 training and 3 test records.</li><li>Stratification does not prevent patient leakage or future-information leakage.</li></ul></details></figure>
+<figure class="teaching-figure"><h2>A safe predictive workflow</h2><a href="../../assets/visuals/l9-10-B_safe_workflow.svg" aria-label="Open full-size editable diagram: A safe predictive workflow"><img src="../../assets/visuals/l9-10-B_safe_workflow.svg" alt="Training-side validation loop selects preprocessing/model settings before final refitting. Test remains untouched until final transformation/evaluation. Red dashed arrows mark test-data fitting and future-derived features as leakage." loading="lazy"></a><figcaption>Split first. During tuning, fit preprocessing within each training fold; transform its validation fold separately. Select the recipe, refit on all training data, transform test with training-fitted preprocessing and evaluate once. <a href="../../assets/visuals/l9-10-B_safe_workflow.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: When must a scaler be fitted during cross-validation?</summary><p>Inside each fold using only that fold’s training partition; final refitting uses all training data after recipe selection.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>B · A safe predictive workflow</li><li>Split using the correct strategy</li><li>Training partition</li><li>Held-out test</li><li>Keep untouched</li><li>Training-side validation loop</li><li>Fit preprocessing on fold-training only</li><li>Transform fold-training and validation</li><li>Train and compare candidates</li><li>Choose recipe using validation</li><li>Refit preprocessing on all training data</li><li>Transform training → train final model</li><li>Transform held-out test</li><li>using final training-fitted preprocessing</li><li>Predict and evaluate once</li><li>Report held-out error and limitations</li><li>LEAKAGE</li><li>Fit on test data</li><li>Do not use test values to fit</li><li>imputers, scalers, or encoders.</li><li>LEAKAGE: features built from future outcomes or later observations.</li><li>Solid arrows = approved workflow. Red dashed arrow = prohibited leakage path.</li><li>Future-derived features are excluded before any training or evaluation.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="9"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="../week4/lecture8.html" class="nav-btn">← Lecture 8</a>
-        <a href="lecture10.html" class="nav-btn primary" onclick="markLectureComplete(9)">Next: Lecture 10 →</a>
+        <a href="lecture10.html" class="nav-btn primary">Next: Lecture 10 →</a>
       </div>
       <footer class="site-footer"><p>Lecture 9 of 30 · Module 2 · Splitting &amp; Validation</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 9: Data Splitting & Validation",url:"lecture9.html",module:"Module 2",keywords:"train test split cross validation bias variance",summary:"Train-test split and validation concepts"}];</script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>
