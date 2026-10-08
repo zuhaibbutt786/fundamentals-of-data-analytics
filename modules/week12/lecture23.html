@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -34,7 +35,7 @@
         <a href="../week13/lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 5 › <span>Lecture 23</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
@@ -42,7 +43,7 @@
         <span class="badge">Module 5 · CLO-3</span>
       </div>
       <h1>Lecture 23: DAX Basics</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Calculated columns vs measures, filter context, CALCULATE, and the core aggregation patterns every Power BI analyst must master. Fully aligned with CS-399 and the Power BI / DAX course materials.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Calculated columns vs measures, filter context, CALCULATE, and the core aggregation patterns every Power BI analyst must master. Includes practical examples and guided exercises.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
@@ -73,7 +74,7 @@
               <tr><td><strong>When evaluated</strong></td><td>At data refresh (row by row)</td><td>At query time (depends on filter context)</td></tr>
               <tr><td><strong>Storage</strong></td><td>Stored in the model (uses memory)</td><td>Not stored — calculated on the fly</td></tr>
               <tr><td><strong>Use when</strong></td><td>You need a value per row that can be used for filtering, grouping or relationships</td><td>You need an aggregation or KPI that responds to slicers and visual filters</td></tr>
-              <tr><td><strong>Example</strong></td><td><code>Margin = Sales[Revenue] - Sales[Cost]</code></td><td><code>Total Sales = SUM(Sales[Revenue])</code></td></tr>
+              <tr><td><strong>Example</strong></td><td><code>Margin = Sales[NetRevenue] - Sales[TotalCost]</code></td><td><code>Total Sales = SUM(Sales[NetRevenue])</code></td></tr>
             </tbody>
           </table>
         </div>
@@ -85,20 +86,20 @@
 
       <section id="core-agg">
         <h2>4. Core Aggregation Patterns</h2>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Total Sales :=
-SUM ( Sales[Revenue] )
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>Total Sales =
+SUM ( Sales[NetRevenue] )
 
-Order Count :=
-COUNTROWS ( Sales )
+Order Count =
+DISTINCTCOUNT ( Sales[OrderID] )
 
-Distinct Customers :=
-DISTINCTCOUNT ( Sales[CustomerID] )
+Distinct Customers =
+DISTINCTCOUNT ( Sales[CustomerKey] )
 
-Average Order Value :=
+Average Order Value =
 DIVIDE ( [Total Sales], [Order Count] )
 
 // Safe division — never returns Infinity
-Profit Margin % :=
+Profit Margin % =
 DIVIDE ( [Total Profit], [Total Sales] )</code></pre>
         <p>Always prefer <code>DIVIDE</code> over the <code>/</code> operator when the denominator might be zero.</p>
       </section>
@@ -118,20 +119,20 @@ DIVIDE ( [Total Profit], [Total Sales] )</code></pre>
       <section id="calculate">
         <h2>6. First CALCULATE Patterns</h2>
         <p><code>CALCULATE</code> evaluates an expression under a modified filter context. It is the engine that lets you create comparisons, ratios, and “all” benchmarks.</p>
-        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>// Sales for Bikes only
-Sales Bikes :=
-CALCULATE ( [Total Sales], DimProduct[Category] = "Bikes" )
+        <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>// Sales for Electronics only
+Sales Electronics =
+CALCULATE ( [Total Sales], DimProduct[Category] = "Electronics" )
 
 // Ignore the Region slicer — create an “all regions” benchmark
-Sales All Regions :=
-CALCULATE ( [Total Sales], REMOVEFILTERS ( DimGeography[Region] ) )
+Sales All Regions =
+CALCULATE ( [Total Sales], REMOVEFILTERS ( DimRegion[Region] ) )
 
 // Percentage of all regions
-Sales % of All Regions :=
+Sales % of All Regions =
 DIVIDE ( [Total Sales], [Sales All Regions] )
 
 // Keep the current filters but force a specific year
-Sales 2024 :=
+Sales 2024 =
 CALCULATE ( [Total Sales], DimDate[Year] = 2024 )</code></pre>
         <div class="callout callout-info">
           <div class="callout-title">Mental model</div>
@@ -145,7 +146,7 @@ CALCULATE ( [Total Sales], DimDate[Year] = 2024 )</code></pre>
           <ol>
             <li>Create a basic <code>Total Sales</code> measure using SUM.</li>
             <li>Create <code>Order Count</code> and <code>Average Order Value</code> (use DIVIDE).</li>
-            <li>Create a <code>Sales Bikes</code> measure with CALCULATE that filters one product category.</li>
+            <li>Create a <code>Sales Electronics</code> measure with CALCULATE that filters one product category.</li>
             <li>Create an “All Regions” benchmark and a % of total measure.</li>
             <li>Put the measures in a matrix with Region on rows and check that the % of total behaves correctly.</li>
           </ol>
@@ -222,18 +223,26 @@ CALCULATE ( [Total Sales], DimDate[Year] = 2024 )</code></pre>
         <p><strong>Lecture 24 — Advanced DAX & Time Intelligence</strong> builds on CALCULATE to deliver YTD, YoY, running totals, and the rest of the time-intelligence toolkit.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Observe filter context</h2>
+<p>Create the measures in resources/powerbi-measures.dax separately. Compare totals, category filters, KEEPFILTERS, REMOVEFILTERS and ALLSELECTED under region/category slicers.</p><p><strong>Interpretation check:</strong> The four-line visual has sales 500 USD and 3 orders; North has 150 USD and 1 order. Measures respond to filter context; a calculated column is evaluated per row during model processing.</p>
+<p><a href="../../labs/L23_L24_PowerBI_DAX_Time_Intelligence_Lab.ipynb" download>Download runnable/guided lab: L23 L24 PowerBI DAX Time Intelligence Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Row context and filter context</h2><a href="../../assets/visuals/l23-context.svg" aria-label="Open full-size editable diagram: Row context and filter context"><img src="../../assets/visuals/l23-context.svg" alt="Synthetic example. COUNTROWS measures lines; DISTINCTCOUNT(OrderID) measures orders." loading="lazy"></a><figcaption>Synthetic example. COUNTROWS measures lines; DISTINCTCOUNT(OrderID) measures orders. <a href="../../assets/visuals/l23-context.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: What is AOV if you divide total by four lines?</summary><p>125 USD is average line revenue, not average order value.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Row context and filter context</li><li>1. Four lines, three orders</li><li>North: O1/L1=100, O1/L2=50. South: O2/L1=200, O3/L1=150 USD.</li><li>2. Row-level calculation</li><li>Quantity × UnitPrice × (1 − Discount) evaluates a value for each line.</li><li>3. No region filter</li><li>Total=500; Line Count=4; Order Count=3; AOV=500/3 USD.</li><li>4. North filter context</li><li>Total=150; Line Count=2; Order Count=1; AOV=150 USD.</li><li>5. Context transition</li><li>CALCULATE can convert row context into filter context; use keys to identify rows.</li><li>Synthetic example. COUNTROWS measures lines; DISTINCTCOUNT(OrderID) measures orders.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="23"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="lecture22.html" class="nav-btn">← Lecture 22</a>
-        <a href="../week13/lecture24.html" class="nav-btn primary" onclick="markLectureComplete(23)">Next: Lecture 24 →</a>
+        <a href="../week13/lecture24.html" class="nav-btn primary">Next: Lecture 24 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 23 of 30 · Module 5 · DAX Basics · CS-399 aligned</p></footer>
+      <footer class="site-footer"><p>Lecture 23 of 30 · Module 5 · DAX Basics · Course learning outcomes mapped</p></footer>
     </main>
   </div>
-  <script>
-    window.COURSE_SEARCH_INDEX = [
-      { title: "Lecture 23: DAX Basics", url: "modules/week12/lecture23.html", module: "Module 5", keywords: "dax calculate measure filter context sum divide", summary: "DAX fundamentals: columns vs measures, filter context, CALCULATE" }
-    ];
-  </script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

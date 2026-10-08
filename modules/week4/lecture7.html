@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -35,7 +36,7 @@
         <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 2 › <span>Lecture 7</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
@@ -43,7 +44,7 @@
         <span class="badge">Module 2 · CLO-2</span>
       </div>
       <h1>Lecture 7: Data Transformation</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Min-Max normalization, Z-score standardization, log transformation, and categorical encoding — with Python labs, industry examples, and downloadable datasets aligned to the CS-399 outline.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Min-Max normalization, Z-score standardization, log transformation, and categorical encoding — with Python labs, industry examples, and downloadable datasets aligned to the course sequence.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
@@ -75,7 +76,7 @@
 
       <section id="minmax">
         <h2>4. Normalization (Min-Max)</h2>
-        <p>The classic formula maps any numeric column into the closed interval [0, 1]:</p>
+        <p>The fitted training minimum and maximum map the training range into [0, 1]. Unseen values can fall outside that range unless clipping is enabled:</p>
         <p>\[
         x' = \frac{x - x_{\min}}{x_{\max} - x_{\min}}
         \]</p>
@@ -94,7 +95,7 @@ df[["price_mm"]] = scaler.fit_transform(df[["price"]])</code></pre>
         <p>\[
         x' = \frac{x - \bar{x}}{s}
         \]</p>
-        <p>where \(\bar{x}\) is the sample mean and \(s\) the sample standard deviation. Preferred when features have different units (age vs income vs number of visits) or when the algorithm assumes roughly Gaussian inputs (linear regression, logistic regression, PCA). Unlike Min-Max it is less sensitive to a single extreme value, although heavy tails still inflate \(s\).</p>
+        <p>Here the scale must use the chosen variance convention. StandardScaler uses population variance (ddof=0). Scaling supports distance calculations, regularization, PCA variance comparisons, and optimization. Linear regression, logistic regression, and PCA do not generally require Gaussian input features. Standardization preserves shape and remains sensitive to outliers.</p>
       </section>
 
       <section id="log">
@@ -116,7 +117,7 @@ print("Log skew:", df["casualties_log"].skew())</code></pre>
           <table>
             <thead><tr><th>Method</th><th>Use when</th><th>Notes</th></tr></thead>
             <tbody>
-              <tr><td>Label / Ordinal encoding</td><td>Ordered categories (Low / Medium / High, education level)</td><td>Preserves rank; do not use on nominal data</td></tr>
+              <tr><td>Ordinal encoding</td><td>Ordered categories (Low / Medium / High, education level)</td><td>Preserves rank; do not use on nominal data</td></tr>
               <tr><td>One-hot (dummy) encoding</td><td>Nominal categories (region, weather, product type)</td><td>Creates one binary column per category; drop first if needed to avoid multicollinearity</td></tr>
               <tr><td>Frequency / Count encoding</td><td>High-cardinality nominal (city, SKU)</td><td>Replace category by its frequency; careful with leakage</td></tr>
               <tr><td>Target encoding</td><td>High-cardinality + supervised task</td><td>Powerful but must be done inside cross-validation folds</td></tr>
@@ -133,7 +134,7 @@ print("Log skew:", df["casualties_log"].skew())</code></pre>
         <h2>8. When Is Scaling Required?</h2>
         <ul>
           <li><strong>Required / strongly recommended:</strong> k-NN, k-means, hierarchical clustering, SVM with RBF kernel, PCA, neural networks, gradient-descent optimizers, regularized linear models (Ridge/Lasso).</li>
-          <li><strong>Optional / usually unnecessary:</strong> tree-based models (Decision Tree, Random Forest, Gradient Boosting, XGBoost) — they split on thresholds and are invariant to monotonic transforms.</li>
+          <li><strong>Optional / usually unnecessary:</strong> tree-based models (Decision Tree, Random Forest, Gradient Boosting, XGBoost) — they split on thresholds and are generally insensitive to positive affine scaling; nonlinear transforms can alter fitted split thresholds.</li>
         </ul>
       </section>
 
@@ -152,13 +153,15 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 # Load from course datasets
-df = pd.read_csv("../../datasets/sample_sales.csv")
+df = pd.read_csv("datasets/sample_sales.csv")
 print(df.head())
 print(df.dtypes)
 
 # Numeric columns we will scale
 num_cols = ["Quantity", "UnitPrice", "Discount"]
 
+# Descriptive demonstration only: no held-out prediction is evaluated here.
+# For predictive evaluation, use the training-only pipeline in L9–L10.
 # 1. Min-Max
 minmax = MinMaxScaler()
 df_mm = df.copy()
@@ -169,7 +172,7 @@ print("Min-Max ranges:\n", df_mm[num_cols].agg(["min","max"]))
 z = StandardScaler()
 df_z = df.copy()
 df_z[num_cols] = z.fit_transform(df[num_cols])
-print("Z-score means & stds:\n", df_z[num_cols].agg(["mean","std"]))
+print("Z-score means & stds:\n", df_z[num_cols].agg(["mean", lambda x: x.std(ddof=0)]))
 
 # 3. Log transform of a skewed monetary column
 df["UnitPrice_log"] = np.log1p(df["UnitPrice"])
@@ -217,7 +220,7 @@ print("Columns after one-hot:\n", df_enc.columns.tolist())</code></pre>
           <button class="nav-btn" style="margin-top:0.75rem" onclick="checkQuiz('q1')">Check Answer</button>
           <div class="quiz-feedback"></div>
         </div>
-        <div class="quiz-card" id="q2" data-answer="b" data-success="Correct — tree models split on thresholds and are invariant to monotonic transforms." data-fail="Tree-based models do not require scaling.">
+        <div class="quiz-card" id="q2" data-answer="b" data-success="Correct — tree models split on thresholds and are generally insensitive to positive affine scaling; nonlinear transforms can alter fitted split thresholds." data-fail="Tree-based models do not require scaling.">
           <p><strong>Q2.</strong> Which family of models usually does <em>not</em> require feature scaling?</p>
           <div class="quiz-option" data-value="a">A. k-NN and SVM-RBF</div>
           <div class="quiz-option" data-value="b">B. Random Forest / XGBoost</div>
@@ -243,7 +246,7 @@ print("Columns after one-hot:\n", df_enc.columns.tolist())</code></pre>
           <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Min-Max formula?</strong></div><div class="flashcard-back">(x − min) / (max − min) → [0,1]</div></div></div></div>
           <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>Z-score formula?</strong></div><div class="flashcard-back">(x − mean) / std → mean 0, variance 1</div></div></div></div>
           <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>When log1p?</strong></div><div class="flashcard-back">Right-skewed positive data that may contain zeros</div></div></div></div>
-          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>One-hot vs Label?</strong></div><div class="flashcard-back">One-hot for nominal; Label/Ordinal only when order exists</div></div></div></div>
+          <div class="col-md-6"><div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><strong>One-hot vs Label?</strong></div><div class="flashcard-back">One-hot for nominal inputs; OrdinalEncoder with explicit ordering for ordinal inputs; LabelEncoder for target labels.</div></div></div></div>
         </div>
       </section>
 
@@ -254,7 +257,7 @@ print("Columns after one-hot:\n", df_enc.columns.tolist())</code></pre>
             <li><strong>Min-Max:</strong> [0,1], sensitive to outliers</li>
             <li><strong>Z-score:</strong> mean 0 / SD 1, preferred for different units</li>
             <li><strong>Log / log1p:</strong> right skew, counts, money</li>
-            <li><strong>Encoding:</strong> ordinal → label; nominal → one-hot; high-card → frequency/target (careful)</li>
+            <li><strong>Encoding:</strong> ordinal → explicit ordered codes; nominal → one-hot; high-card → frequency/target (careful)</li>
             <li><strong>Rule:</strong> fit scalers & encoders on train only</li>
             <li><strong>Trees:</strong> usually do not need scaling</li>
           </ul>
@@ -276,18 +279,29 @@ print("Columns after one-hot:\n", df_enc.columns.tolist())</code></pre>
         <p><strong>Lecture 8 — Feature Engineering Basics</strong> shows how to create derived columns (ratios, date parts, aggregates, bins) that often give more lift than the original raw features.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Separate fitting from transforming</h2>
+<p>Reproduce all transformations of [10,20,30,40,100]. Fit the min–max scaler only once, then transform 120 without clipping.</p><p><strong>Interpretation check:</strong> Population mean=40 and SD=10√10. The unseen scaled value is 11/9. Standardization changes location and scale, preserving shape rather than making a distribution normal.</p>
+<p><a href="../../labs/L7_Data_Transformation_Lab.ipynb" download>Download runnable/guided lab: L7 Data Transformation Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Scaling and transforming the same values</h2><a href="../../assets/visuals/l7-8-A_transformations.svg" aria-label="Open full-size editable diagram: Scaling and transforming the same values"><img src="../../assets/visuals/l7-8-A_transformations.svg" alt="Table maps five original values to exact min–max fractions, standardized multiples of 1/√10 and natural logs of x+1. Aligned dot plots show standardization preserves relative spacing and distribution shape." loading="lazy"></a><figcaption>Exact values [10,20,30,40,100]. Min–max uses 10 and 100; standardization uses mean 40 and population SD 10√10 (ddof=0); log1p uses natural logarithms. Decimals are rounded to six places beside exact expressions. <a href="../../assets/visuals/l7-8-A_transformations.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Does standardization make the data normally distributed?</summary><p>No. It shifts and rescales values using a positive affine transformation, preserving shape.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Original x</li><li>Min–max</li><li>Standardized z</li><li>log1p(x)</li><li>10</li><li>0</li><li>≈ 0.000000</li><li>−3/√10</li><li>≈ -0.948683</li><li>ln(11)</li><li>≈ 2.397895</li><li>20</li><li>1/9</li><li>≈ 0.111111</li><li>−2/√10</li><li>≈ -0.632456</li><li>ln(21)</li><li>≈ 3.044522</li><li>30</li><li>2/9</li><li>≈ 0.222222</li><li>−1/√10</li><li>≈ -0.316228</li><li>ln(31)</li><li>≈ 3.433987</li><li>40</li><li>1/3</li><li>≈ 0.333333</li><li>0</li><li>≈ 0.000000</li><li>ln(41)</li><li>≈ 3.713572</li><li>100</li><li>1</li><li>≈ 1.000000</li><li>6/√10</li><li>≈ 1.897367</li><li>ln(101)</li><li>≈ 4.615121</li><li>A · Same observations, different representations</li><li>Synthetic unitless values · standard deviation uses ddof = 0</li><li>Computed parameters</li><li>Mean = 40; population variance = 1000; SD = √1000 = 10√10.</li><li>Min–max = (x − 10)/90     z = (x − 40)/(10√10)     log1p(x) = ln(1 + x)</li><li>Original</li><li>10</li><li>20</li><li>30</li><li>40</li><li>100</li><li>Standardized</li><li>−3/√10</li><li>−2/√10</li><li>−1/√10</li><li>0</li><li>6/√10</li><li>Aligned relative spacing: standardization changes the origin and scale, not shape.</li><li>Standardized mean = 0 and variance = 1. Standardization does not make data normal.</li></ul></details></figure>
+<figure class="teaching-figure"><h2>An unseen scaled value can exceed one</h2><a href="../../assets/visuals/l7-8-B_unseen_minmax.svg" aria-label="Open full-size editable diagram: An unseen scaled value can exceed one"><img src="../../assets/visuals/l7-8-B_unseen_minmax.svg" alt="Training minimum 10 and maximum 100 define (x−10)/90. An arrow applies this fixed formula to unseen x=120, yielding 11/9 greater than one; refitting on test values is marked leakage." loading="lazy"></a><figcaption>Fit min–max on training values from 10 to 100, then transform 120 unchanged. The result is (120−10)/90 = 11/9, approximately 1.222222. Clipping is disabled. <a href="../../assets/visuals/l7-8-B_unseen_minmax.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Should the scaler be refitted to force 120 into the unit interval?</summary><p>No. Preserve the training-fitted parameters. Optional clipping hides the extent beyond the fitted range.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Training minimum</li><li>Training maximum</li><li>Fitted transformation</li><li>10</li><li>100</li><li>(x − 10)/90</li><li>Unseen x</li><li>Exact transformed value</li><li>Decimal representation</li><li>120</li><li>(120 − 10)/90 = 11/9</li><li>1.222222…</li><li>B · An unseen value can exceed the fitted range</li><li>Fit on training values [10, 20, 30, 40, 100]; clipping is disabled</li><li>Apply unchanged to unseen data</li><li>120 is greater than the training maximum of 100, so its scaled value exceeds 1.</li><li>Do not refit using the test observation. That would leak test information.</li><li>Optional clipping gives 1, but hides how far the observation lies beyond the training range.</li></ul></details></figure>
+<figure class="teaching-figure"><h2>Ordered severity and unordered regions</h2><a href="../../assets/visuals/l7-8-C_encoding.svg" aria-label="Open full-size editable diagram: Ordered severity and unordered regions"><img src="../../assets/visuals/l7-8-C_encoding.svg" alt="Two connected tables encode Low/Medium/High as 0/1/2 and North/South/East/West as one-hot membership rows. Arbitrary region integers can introduce an unintended order or distance." loading="lazy"></a><figcaption>Severity explicitly maps Low &lt; Medium &lt; High to 0,1,2. Region membership is represented by four one-hot columns. Ordinal rank does not establish equal distances between severity levels. <a href="../../assets/visuals/l7-8-C_encoding.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Why can North=0, South=1, East=2, West=3 be misleading?</summary><p>A model may interpret numerical order or distance although the regions are unordered.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Severity</li><li>Low</li><li>Medium</li><li>High</li><li>Category</li><li>Ordinal code</li><li>Low</li><li>0</li><li>Medium</li><li>1</li><li>High</li><li>2</li><li>Region</li><li>North</li><li>South</li><li>East</li><li>West</li><li>Region</li><li>North</li><li>South</li><li>East</li><li>West</li><li>North</li><li>1</li><li>0</li><li>0</li><li>0</li><li>South</li><li>0</li><li>1</li><li>0</li><li>0</li><li>East</li><li>0</li><li>0</li><li>1</li><li>0</li><li>West</li><li>0</li><li>0</li><li>0</li><li>1</li><li>C · Ordered categories versus unordered regions</li><li>Use explicit category meaning; integer codes do not create meaningful distances</li><li>Ordered severity: Low &lt; Medium &lt; High</li><li>Explicit mapping</li><li>Codes preserve rank; equal severity gaps are not established by the coding.</li><li>Unordered regions: North, South, East, West</li><li>Arbitrary North=0, South=1, East=2, West=3 may imply order or distance to a model.</li><li>One-hot columns indicate membership. Handle unseen regions explicitly at inference.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="7"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="../week3/lecture6.html" class="nav-btn">← Lecture 6</a>
-        <a href="lecture8.html" class="nav-btn primary" onclick="markLectureComplete(7)">Next: Lecture 8 →</a>
+        <a href="lecture8.html" class="nav-btn primary">Next: Lecture 8 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 7 of 30 · Module 2 · Data Transformation · CS-399 aligned</p></footer>
+      <footer class="site-footer"><p>Lecture 7 of 30 · Module 2 · Data Transformation · Course learning outcomes mapped</p></footer>
     </main>
   </div>
-  <script>
-    window.COURSE_SEARCH_INDEX = [
-      { title: "Lecture 7: Data Transformation", url: "modules/week4/lecture7.html", module: "Module 2", keywords: "minmax standardization log encoding scaling zscore one-hot", summary: "Scaling, log transforms and categorical encoding with Python labs" }
-    ];
-  </script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

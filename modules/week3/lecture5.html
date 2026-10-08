@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -35,7 +36,7 @@
         <a href="../week5/lecture10.html" data-lecture-id="10"><span class="progress-ring"></span> L10 · ML Basics</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 2 › <span>Lecture 5</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
@@ -61,12 +62,12 @@
         <p>Garbage in, garbage out is not a slogan — it is a project failure mode. A beautiful dashboard built on incomplete, inconsistent, or invalid data will mislead decisions and destroy trust.</p>
         <div class="callout callout-tip">
           <div class="callout-title">💡 Key Insight</div>
-          Spend 20–30% of early project time on quality. It is cheaper than explaining wrong insights later in the viva or to a stakeholder.
+          Allocate time for profiling and validation according to the sources and downstream risk; there is no universal percentage.
         </div>
       </section>
 
-      <section id="missing">
-        <h2>8. Types of Missing Data (MCAR / MAR / MNAR) — Deep Dive</h2>
+      <section class="card" id="quality-dimensions"><h2>Operational data-quality dimensions</h2><div class="table-wrap"><table><thead><tr><th scope="col">Dimension</th><th scope="col">Check on the sales case</th></tr></thead><tbody><tr><td>Completeness</td><td>Count missing Quantity; report a denominator and retained flags.</td></tr><tr><td>Validity</td><td>Parse dates; require positive Quantity under the no-returns assumption and Discount between 0 and 1.</td></tr><tr><td>Consistency</td><td>Normalize region labels; verify NetRevenue agrees with Quantity × UnitPrice × (1−Discount).</td></tr><tr><td>Uniqueness</td><td>Check the OrderID + LineID key; an exact duplicate is different from repeated OrderID across lines.</td></tr><tr><td>Accuracy</td><td>Reconcile to a trusted source. Passing format/range checks cannot prove a value is correct.</td></tr><tr><td>Timeliness</td><td>Check the extract timestamp and whether data are current enough for the decision.</td></tr></tbody></table></div></section><section id="missing">
+        <h2>3. Types of Missing Data (MCAR / MAR / MNAR) — Deep Dive</h2>
         <p>Understanding <em>why</em> data is missing is more important than simply counting nulls. The mechanism determines whether deletion is safe and which imputation method is appropriate.</p>
         <div class="table-wrap">
           <table>
@@ -75,11 +76,11 @@
               <tr>
                 <td><strong>MCAR</strong><br>Missing Completely At Random</td>
                 <td>Missingness is unrelated to any observed or unobserved variable. Pure chance.</td>
-                <td>Deletion is unbiased (but loses power). Simple mean/median imputation is acceptable.</td>
+                <td>Deletion is unbiased (but loses power). Single-value imputation is a baseline that distorts variability and can affect inference.</td>
               </tr>
               <tr>
                 <td><strong>MAR</strong><br>Missing At Random</td>
-                <td>Missingness depends on <em>observed</em> variables, not on the missing value itself.</td>
+                <td>Conditional on relevant observed variables, missingness does not depend on the missing values.</td>
                 <td>Impute using the observed predictors. Deletion can bias results.</td>
               </tr>
               <tr>
@@ -93,12 +94,12 @@
         <h3>Easy examples</h3>
         <ul>
           <li><strong>MCAR:</strong> A sensor randomly drops packets — the missing temperature is unrelated to the true temperature or any other field.</li>
-          <li><strong>MAR:</strong> Older patients are less likely to report income; age is observed, so missingness depends on an observed variable.</li>
-          <li><strong>MNAR:</strong> People with very high income refuse to report income — missingness depends on the missing value itself.</li>
+          <li><strong>MAR:</strong> Older patients are less likely to report income; conditional on observed age, reporting does not depend on income in this illustrative MAR mechanism.</li>
+          <li><strong>MNAR:</strong> Reporting depends on unreported income even after conditioning on observed information in this illustrative MNAR mechanism.</li>
         </ul>
         <div class="callout callout-warning">
           <div class="callout-title">Practice tip</div>
-          You rarely prove MCAR in real data. Always inspect missingness by group (region, severity, date, age band). High missing rates that differ systematically across groups are strong clues of MAR or MNAR.
+          You rarely prove MCAR in real data. Always inspect missingness by group (region, severity, date, age band). Observed differences can contradict an MCAR assumption, but cannot distinguish MAR from MNAR without assumptions about unobserved values.
         </div>
         <h3>How to diagnose the mechanism (practical checks)</h3>
         <ol>
@@ -110,23 +111,23 @@
       </section>
 
       <section id="imputation">
-        <h2>9. Deletion vs Imputation — Decision Framework</h2>
+        <h2>4. Deletion vs Imputation — Decision Framework</h2>
         <p>Once you understand the missingness mechanism, choose an action. There is no universal “best” method — the right choice depends on the amount of missing data, the mechanism, and the downstream use (dashboard vs predictive model).</p>
-        <h3>9.1 Decision rules of thumb</h3>
+        <h3>4.1 Decisions require context</h3>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Situation</th><th>Recommended action</th></tr></thead>
             <tbody>
-              <tr><td>< 5 % missing and plausible MCAR</td><td>Listwise deletion is often fine</td></tr>
-              <tr><td>5–30 % missing, MAR, numeric</td><td>Median (skewed) or mean (symmetric) imputation + create an “was_imputed” flag</td></tr>
+              <tr><td>Low missingness with plausible MCAR</td><td>Consider deletion if assumptions and loss of precision are acceptable</td></tr>
+              <tr><td>Numeric missingness with a plausible MAR model</td><td>Consider methods using observed predictors; global median/mean is only a baseline, not a general MAR solution.</td></tr>
               <tr><td>Categorical missing</td><td>Mode, or a new explicit category “Unknown”</td></tr>
-              <tr><td>Time-series / ordered data</td><td>Forward-fill / backward-fill (after sorting), or interpolation</td></tr>
-              <tr><td>> 40–50 % missing in a column</td><td>Strongly consider dropping the column (unless it is critical)</td></tr>
+              <tr><td>Time-series / ordered data</td><td>Sort within each entity; choose a justified method. Backward fill and centered interpolation can leak future information.</td></tr>
+              <tr><td>High missingness in a column</td><td>Assess utility, missingness mechanism, and available alternatives; do not drop solely by percentage</td></tr>
               <tr><td>MNAR suspected</td><td>Domain model, sensitivity analysis, or specialised methods; document the risk</td></tr>
             </tbody>
           </table>
         </div>
-        <h3>9.2 Common techniques</h3>
+        <h3>4.2 Common techniques</h3>
         <ul>
           <li><strong>Listwise deletion</strong> — drop any row that has a missing value in the variables you need. Simple, but reduces sample size and can bias results if data are not MCAR.</li>
           <li><strong>Column drop</strong> — remove a variable that is mostly empty and low-value for the decision.</li>
@@ -134,13 +135,13 @@
           <li><strong>Forward-fill / Backward-fill</strong> — for time-ordered data (use with care at the edges of each series).</li>
           <li><strong>Model-based</strong> (later stage) — KNN, regression, multiple imputation. Document assumptions carefully.</li>
         </ul>
-        <h3>9.3 Python — Syllabus methods + Titanic example</h3>
+        <h3>4.3 Python — Syllabus methods + Titanic example</h3>
         <p>Use the course sample or the classic Titanic dataset (Age is a classic missing-value example).</p>
         <pre style="background:var(--surface-2);padding:1rem;border-radius:8px;overflow:auto;font-family:var(--font-mono);font-size:0.85rem"><code>import pandas as pd
 import numpy as np
 
 # Option A — course dataset
-df = pd.read_csv("../../datasets/sample_accidents.csv")
+df = pd.read_csv("datasets/sample_accidents.csv")
 
 # Option B — Titanic (public)
 # df = pd.read_csv("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv")
@@ -149,19 +150,20 @@ df = pd.read_csv("../../datasets/sample_accidents.csv")
 print(df.isna().sum().sort_values(ascending=False))
 print((df.isna().mean() * 100).round(1).sort_values(ascending=False))
 
-# 2. Median / mode imputation (baseline)
+# 2. Preserve missingness before imputation
+df["casualties_was_missing"] = df["casualties"].isna()
+
+# Median / mode imputation (descriptive baseline)
 df["casualties"] = df["casualties"].fillna(df["casualties"].median())
 df["weather"] = df["weather"].fillna(df["weather"].mode().iloc[0])
 
-# 3. Best practice — flag that a value was imputed
-df["casualties_was_missing"] = df["casualties"].isna()
-df["casualties"] = df["casualties"].fillna(df["casualties"].median())
+# Flag remains unchanged after filling.
 </code></pre>
         <div class="callout callout-tip">
           <div class="callout-title">Industry tip</div>
           Always record whether a value was imputed (create a boolean flag column). Downstream models, audits, and vivas need to know what was original versus filled.
         </div>
-        <h3>9.4 Impact of the choice</h3>
+        <h3>4.4 Impact of the choice</h3>
         <ul>
           <li>Deletion reduces sample size → wider confidence intervals / less power.</li>
           <li>Mean imputation reduces variance artificially and can distort correlations.</li>
@@ -187,23 +189,103 @@ df["casualties"] = df["casualties"].fillna(df["casualties"].median())
         <ul>
           <li>Profile first: completeness, consistency, validity, accuracy.</li>
           <li>Missingness type (MCAR / MAR / MNAR) guides deletion vs imputation.</li>
-          <li>Median, mode, and ffill/bfill are the syllabus baseline tools in Python.</li>
+          <li>Median, mode, and ffill/bfill are the teaching baseline tools in Python.</li>
           <li>Always create an “was_imputed” flag and document every quality decision.</li>
         </ul>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Keep a cleaning decision log</h2>
+<p>Profile dirty_sales.csv; remove exact duplicates, standardize region strings, coerce dates, quarantine impossible quantities/dates, and flag missing quantity before imputation.</p><p><strong>Interpretation check:</strong> Keep raw inputs. The median baseline does not restore missing-data uncertainty. Compare results including and excluding imputed rows; predictive imputation must be fitted on training data.</p>
+<p><a href="../../labs/L5_Data_Quality_and_Profiling.ipynb" download>Download runnable/guided lab: L5 Data Quality and Profiling</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Before and after data cleaning</h2><a href="../../assets/visuals/l5-6-A_data_cleaning.svg" aria-label="Open full-size editable diagram: Before and after data cleaning"><img src="../../assets/visuals/l5-6-A_data_cleaning.svg" alt="Before table flags duplicate row 8, missing quantity in row 3, North spelling in row 2, and negative quantity in row 4. Clean table retains six transactions and a True missing flag for S03; the decision log explains each choice." loading="lazy"></a><figcaption>Eight synthetic raw records become six accepted transactions. The exact duplicate is removed, negative quantity quarantined, missing quantity imputed to 3 with its indicator retained, and the verified 50,000 USD sale kept. <a href="../../assets/visuals/l5-6-A_data_cleaning.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Why is S06 retained despite its unusually large revenue?</summary><p>Its quantity and price were verified as valid. A statistical extreme alone is not an error.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Row</li><li>Sale ID</li><li>Region (raw)</li><li>Qty</li><li>Unit price</li><li>Issue flag</li><li>1</li><li>S01</li><li>&#x27;North&#x27;</li><li>2</li><li>50</li><li>OK</li><li>2</li><li>S02</li><li>&#x27; north &#x27;</li><li>3</li><li>40</li><li>Normalize region</li><li>3</li><li>S03</li><li>&#x27;South&#x27;</li><li>Missing</li><li>30</li><li>Quantity missing</li><li>4</li><li>S04</li><li>&#x27;East&#x27;</li><li>-2</li><li>80</li><li>Invalid quantity</li><li>5</li><li>S05</li><li>&#x27;West&#x27;</li><li>4</li><li>25</li><li>OK</li><li>6</li><li>S06</li><li>&#x27;North&#x27;</li><li>100</li><li>500</li><li>Large; verified valid</li><li>7</li><li>S07</li><li>&#x27;South&#x27;</li><li>1</li><li>60</li><li>OK</li><li>8</li><li>S02</li><li>&#x27; north &#x27;</li><li>3</li><li>40</li><li>Exact duplicate of row 2</li><li>Synthetic sales · currency: USD · one row per transaction</li><li>A · Before and after data cleaning</li><li>Sale ID</li><li>Region</li><li>Qty</li><li>Unit price</li><li>Revenue</li><li>Qty was missing</li><li>S01</li><li>North</li><li>2</li><li>50</li><li>100</li><li>False</li><li>S02</li><li>North</li><li>3</li><li>40</li><li>120</li><li>False</li><li>S03</li><li>South</li><li>3</li><li>30</li><li>90</li><li>True</li><li>S05</li><li>West</li><li>4</li><li>25</li><li>100</li><li>False</li><li>S06</li><li>North</li><li>100</li><li>500</li><li>50000</li><li>False</li><li>S07</li><li>South</li><li>1</li><li>60</li><li>60</li><li>False</li><li>Cleaned analytical result · 6 accepted transactions</li><li>Decision log</li><li>Row 8: remove the exact duplicate; retain original row 2.</li><li>Rows 2 / 8: trim whitespace and normalize region to North.</li><li>Row 4: quarantine negative quantity; no verified correction is available.</li><li>Row 3: impute quantity = 3; preserve Qty was missing = True.</li><li>Median donors: accepted, unique observed quantities [2, 3, 4, 100, 1].</li><li>
+      R
+      o
+      w
+
+      6
+      :
+
+      r
+      e
+      t
+      a
+      i
+      n
+
+      v
+      e
+      r
+      i
+      f
+      i
+      e
+      d
+
+      l
+      a
+      r
+      g
+      e
+
+      t
+      r
+      a
+      n
+      s
+      a
+      c
+      t
+      i
+      o
+      n
+      ;
+
+      r
+      e
+      v
+      e
+      n
+      u
+      e
+
+      =
+
+      1
+      0
+      0
+
+      ×
+
+      5
+      0
+      0
+      =
+      5
+      0
+      ,
+      0
+      0
+      0
+      .
+     </li><li>Preserve the eight raw records and this decision log for auditability.</li><li>Assumption: median imputation is a teaching baseline, not a universal remedy for missing data.</li></ul></details></figure>
+<figure class="teaching-figure"><h2>MCAR, MAR and MNAR income reporting</h2><a href="../../assets/visuals/l5-6-B_missingness_mechanisms.svg" aria-label="Open full-size editable diagram: MCAR, MAR and MNAR income reporting"><img src="../../assets/visuals/l5-6-B_missingness_mechanisms.svg" alt="Three reporting diagrams: random loss causes missing income; observed age predicts reporting under MAR; true unreported income predicts reporting under MNAR even after observed age is accounted for. A heatmap cannot prove MAR versus MNAR." loading="lazy"></a><figcaption>Illustrative patient-income mechanisms, not diagnoses. MCAR is random loss independent of age/income; MAR depends on observed age and not income conditional on age; MNAR still depends on unreported income after conditioning. <a href="../../assets/visuals/l5-6-B_missingness_mechanisms.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Does missingness varying by age prove MAR?</summary><p>No. It can contradict MCAR, but MNAR may remain possible because unreported income is unobserved.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Illustrative mechanisms · arrows show reporting dependence</li><li>MCAR · Random loss</li><li>Random record loss</li><li>Income not reported</li><li>Loss is unrelated to observed age and true income.</li><li>Example: a random transmission failure removes income entries.</li><li>B · Why patient income is missing</li><li>MAR · Depends on observed age</li><li>Observed age</li><li>Income reporting</li><li>Example: older patients report income less often.</li><li>Within a fixed age, reporting probability does not depend on income.</li><li>MNAR · Depends on unreported income</li><li>True income</li><li>(unobserved if missing)</li><li>Income reporting</li><li>Example: high-income patients report income less often,</li><li>even after accounting for observed age.</li><li>A heatmap shows missingness patterns; it cannot establish MAR versus MNAR.</li><li>These examples specify mechanisms rather than diagnose a real dataset.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="5"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="../week2/lecture4.html" class="nav-btn">← Lecture 4</a>
-        <a href="lecture6.html" class="nav-btn primary" onclick="markLectureComplete(5)">Next: Lecture 6 →</a>
+        <a href="lecture6.html" class="nav-btn primary">Next: Lecture 6 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 5 of 30 · Module 2 · Data Quality & Missing Values Deep Dive · CS-399 aligned</p></footer>
+      <footer class="site-footer"><p>Lecture 5 of 30 · Module 2 · Data Quality & Missing Values Deep Dive · Course learning outcomes mapped</p></footer>
     </main>
   </div>
-  <script>
-    window.COURSE_SEARCH_INDEX = [
-      { title: "Lecture 5: Data Quality & Profiling", url: "modules/week3/lecture5.html", module: "Module 2", keywords: "missing mcar mar mnar imputation median mode deletion quality profiling jupyter lab", summary: "Data quality dimensions and deep missing-value handling" }
-    ];
-  </script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,432 @@
+[
+  {
+    "file": "l1-analytics-types.svg",
+    "title": "One question, four analytical approaches",
+    "caption": "Illustrative retail scenario. Observational diagnostics alone do not establish causation.",
+    "alt": "Illustrative retail scenario. Observational diagnostics alone do not establish causation.",
+    "lectures": [
+      1
+    ],
+    "question": "Can an association prove why orders fell?",
+    "answer": "No. A causal claim requires a suitable design and assumptions."
+  },
+  {
+    "file": "l2-retail-pipeline.svg",
+    "title": "Retail analytics pipeline",
+    "caption": "Immutable raw records support traceability; validated facts and dimensions feed the semantic model. Failed records are reviewed.",
+    "alt": "Three sources feed ingestion, immutable storage, transformation, curated tables, Power BI and a report; a quarantine branch reprocesses corrections.",
+    "lectures": [
+      2
+    ],
+    "question": "Why keep the raw layer?",
+    "answer": "To preserve provenance and enable reproducible reprocessing."
+  },
+  {
+    "file": "l2-etl-elt.svg",
+    "title": "ETL versus ELT: transformation location",
+    "caption": "Same retail operational database and analytics warehouse in both. ETL transforms before loading; ELT loads raw then transforms inside the target. Both require governance and can retain raw history.",
+    "alt": "Two parallel data paths: ETL extraction, staging transformation outside the warehouse, and curated load; ELT extraction, raw warehouse load, and transformation within the warehouse. Amber and location labels identify transformation.",
+    "lectures": [
+      2
+    ],
+    "question": "Can ETL retain raw history?",
+    "answer": "Yes. It can archive extracts before transformation; neither approach is universally superior."
+  },
+  {
+    "file": "l3-record-formats.svg",
+    "title": "One order in three representations",
+    "caption": "Representation affects parsing; CSV does not provide native types or a relational constraint system.",
+    "alt": "Representation affects parsing; CSV does not provide native types or a relational constraint system.",
+    "lectures": [
+      3
+    ],
+    "question": "Does CSV enforce a unique key?",
+    "answer": "No. The reader must validate uniqueness."
+  },
+  {
+    "file": "l4-decision-kpi.svg",
+    "title": "Business framing before analysis",
+    "caption": "Define metric, denominator, time window, stakeholder, and decision before choosing a chart.",
+    "alt": "Define metric, denominator, time window, stakeholder, and decision before choosing a chart.",
+    "lectures": [
+      4
+    ],
+    "question": "Why not average row margins?",
+    "answer": "That weights small and large sales equally; portfolio margin is a ratio of totals."
+  },
+  {
+    "file": "l5-6-A_data_cleaning.svg",
+    "title": "Before and after data cleaning",
+    "caption": "Eight synthetic raw records become six accepted transactions. The exact duplicate is removed, negative quantity quarantined, missing quantity imputed to 3 with its indicator retained, and the verified 50,000 USD sale kept.",
+    "alt": "Before table flags duplicate row 8, missing quantity in row 3, North spelling in row 2, and negative quantity in row 4. Clean table retains six transactions and a True missing flag for S03; the decision log explains each choice.",
+    "lectures": [
+      5
+    ],
+    "question": "Why is S06 retained despite its unusually large revenue?",
+    "answer": "Its quantity and price were verified as valid. A statistical extreme alone is not an error."
+  },
+  {
+    "file": "l5-6-B_missingness_mechanisms.svg",
+    "title": "MCAR, MAR and MNAR income reporting",
+    "caption": "Illustrative patient-income mechanisms, not diagnoses. MCAR is random loss independent of age/income; MAR depends on observed age and not income conditional on age; MNAR still depends on unreported income after conditioning.",
+    "alt": "Three reporting diagrams: random loss causes missing income; observed age predicts reporting under MAR; true unreported income predicts reporting under MNAR even after observed age is accounted for. A heatmap cannot prove MAR versus MNAR.",
+    "lectures": [
+      5
+    ],
+    "question": "Does missingness varying by age prove MAR?",
+    "answer": "No. It can contradict MCAR, but MNAR may remain possible because unreported income is unobserved."
+  },
+  {
+    "file": "l5-6-C_mean_median_boxplot.svg",
+    "title": "Mean, median, fences and whiskers",
+    "caption": "Exact synthetic values: [10,12,13,14,15], then append 100. Mean changes from 12.8 to 82/3; median from 13 to 13.5. Quartiles use linear percentiles; the fence thresholds are not whisker endpoints.",
+    "alt": "Mean/median comparison shows mean 12.8 then 27.3333 and median 13 then 13.5. Augmented boxplot has Q1 12.25, Q3 14.75, fences 8.5/18.5, actual whiskers 10/15, and outlier 100.",
+    "lectures": [
+      6
+    ],
+    "question": "Does the upper whisker end at 18.5?",
+    "answer": "No. 18.5 is the upper fence; the whisker ends at the largest observed value inside it, 15."
+  },
+  {
+    "file": "l7-8-A_transformations.svg",
+    "title": "Scaling and transforming the same values",
+    "caption": "Exact values [10,20,30,40,100]. Min\u2013max uses 10 and 100; standardization uses mean 40 and population SD 10\u221a10 (ddof=0); log1p uses natural logarithms. Decimals are rounded to six places beside exact expressions.",
+    "alt": "Table maps five original values to exact min\u2013max fractions, standardized multiples of 1/\u221a10 and natural logs of x+1. Aligned dot plots show standardization preserves relative spacing and distribution shape.",
+    "lectures": [
+      7
+    ],
+    "question": "Does standardization make the data normally distributed?",
+    "answer": "No. It shifts and rescales values using a positive affine transformation, preserving shape."
+  },
+  {
+    "file": "l7-8-B_unseen_minmax.svg",
+    "title": "An unseen scaled value can exceed one",
+    "caption": "Fit min\u2013max on training values from 10 to 100, then transform 120 unchanged. The result is (120\u221210)/90 = 11/9, approximately 1.222222. Clipping is disabled.",
+    "alt": "Training minimum 10 and maximum 100 define (x\u221210)/90. An arrow applies this fixed formula to unseen x=120, yielding 11/9 greater than one; refitting on test values is marked leakage.",
+    "lectures": [
+      7
+    ],
+    "question": "Should the scaler be refitted to force 120 into the unit interval?",
+    "answer": "No. Preserve the training-fitted parameters. Optional clipping hides the extent beyond the fitted range."
+  },
+  {
+    "file": "l7-8-C_encoding.svg",
+    "title": "Ordered severity and unordered regions",
+    "caption": "Severity explicitly maps Low < Medium < High to 0,1,2. Region membership is represented by four one-hot columns. Ordinal rank does not establish equal distances between severity levels.",
+    "alt": "Two connected tables encode Low/Medium/High as 0/1/2 and North/South/East/West as one-hot membership rows. Arbitrary region integers can introduce an unintended order or distance.",
+    "lectures": [
+      7
+    ],
+    "question": "Why can North=0, South=1, East=2, West=3 be misleading?",
+    "answer": "A model may interpret numerical order or distance although the regions are unordered."
+  },
+  {
+    "file": "l7-8-D_feature_engineering.svg",
+    "title": "A transaction becomes useful features",
+    "caption": "Synthetic transaction: quantity 3, price 200 USD/unit, discount 0.10, cost 120 USD/unit; assumed date 2024-01-08. Gross 600 USD, net 540, cost 360, profit 180, margin 1/3; month 1 and weekday 0 (Monday).",
+    "alt": "Raw-field table points to formula/result table computing revenue, cost, profit, margin and date features. A caution excludes final profit, future sales and later returns from earlier predictions.",
+    "lectures": [
+      8
+    ],
+    "question": "Can final realized profit predict an outcome before the sale is complete?",
+    "answer": "Only if it was actually available at that prediction time; otherwise it is a future-derived leakage feature."
+  },
+  {
+    "file": "l9-10-A_split_comparison.svg",
+    "title": "Choose a split for the data structure",
+    "caption": "Synthetic 12-record schematics use nine training and three test records. Random suits independent records; stratification approximates class proportions; grouping isolates patients; chronological splitting holds out later dates.",
+    "alt": "Four labeled split patterns: random record assignment, class-proportion preserving assignment, all three records of patient P4 held out, and October\u2013December held out after January\u2013September training. Color and hatching identify partitions.",
+    "lectures": [
+      9
+    ],
+    "question": "Does stratification prevent repeated-patient leakage?",
+    "answer": "No. Group splitting is needed to keep a patient entirely in one partition."
+  },
+  {
+    "file": "l9-10-B_safe_workflow.svg",
+    "title": "A safe predictive workflow",
+    "caption": "Split first. During tuning, fit preprocessing within each training fold; transform its validation fold separately. Select the recipe, refit on all training data, transform test with training-fitted preprocessing and evaluate once.",
+    "alt": "Training-side validation loop selects preprocessing/model settings before final refitting. Test remains untouched until final transformation/evaluation. Red dashed arrows mark test-data fitting and future-derived features as leakage.",
+    "lectures": [
+      9
+    ],
+    "question": "When must a scaler be fitted during cross-validation?",
+    "answer": "Inside each fold using only that fold\u2019s training partition; final refitting uses all training data after recipe selection."
+  },
+  {
+    "file": "l9-10-C_regression_capacity.svg",
+    "title": "Underfitting, appropriate capacity and overfitting",
+    "caption": "Reproducible synthetic regression, seed 42: y=0.7x\u00b2\u22120.5x+1 plus noise SD 0.65. Prespecified polynomial degrees 1,2,15 share 24 training observations and 400 independent held-out observations. MSE values are calculated; extreme curve segments outside the stated axis are clipped.",
+    "alt": "Three panels show identical training points with linear, quadratic and degree-15 polynomial fits. Training MSE: 4.3248, 0.2815, 0.0829; held-out MSE: 4.1442, 0.4425, 0.6539. The quadratic generalizes best in this stated example.",
+    "lectures": [
+      10
+    ],
+    "question": "Why is the smallest training error not the strongest evidence of generalization?",
+    "answer": "A flexible model can fit training noise. Here degree 15 reduces training MSE but has larger held-out MSE than degree 2."
+  },
+  {
+    "file": "l11-distribution-shapes.svg",
+    "title": "Shape is more than mean and SD",
+    "caption": "Synthetic samples, seed 11. Mean\u2013median\u2013mode ordering is not a universal theorem; a symmetric distribution can have two modes.",
+    "alt": "Synthetic samples, seed 11. Mean\u2013median\u2013mode ordering is not a universal theorem; a symmetric distribution can have two modes.",
+    "lectures": [
+      11
+    ],
+    "question": "Does symmetry guarantee a unique mode?",
+    "answer": "No. The bimodal example has two peaks."
+  },
+  {
+    "file": "l11-spread.svg",
+    "title": "Same center, different spread",
+    "caption": "Exact samples: narrow [-2,-1,0,1,2]; wide [-6,-3,0,3,6]. Population SD; linear-interpolated quartiles.",
+    "alt": "Exact samples: narrow [-2,-1,0,1,2]; wide [-6,-3,0,3,6]. Population SD; linear-interpolated quartiles.",
+    "lectures": [
+      11
+    ],
+    "question": "Can equal means imply equal variability?",
+    "answer": "No."
+  },
+  {
+    "file": "l12-correlations.svg",
+    "title": "Association depends on relationship shape",
+    "caption": "Synthetic examples, seed 12. A near-zero Pearson coefficient does not rule out a nonlinear association. Neither coefficient proves causation.",
+    "alt": "Synthetic examples, seed 12. A near-zero Pearson coefficient does not rule out a nonlinear association. Neither coefficient proves causation.",
+    "lectures": [
+      12
+    ],
+    "question": "Why is the U-shape correlation weak?",
+    "answer": "Positive and negative slopes cancel in a linear summary."
+  },
+  {
+    "file": "l12-test-selection.svg",
+    "title": "Choose the question before the test",
+    "caption": "A normality test alone does not choose the method. The design and estimand determine interpretation.",
+    "alt": "A normality test alone does not choose the method. The design and estimand determine interpretation.",
+    "lectures": [
+      12
+    ],
+    "question": "What does Mann\u2013Whitney generally compare?",
+    "answer": "Distributions/ranks; a location interpretation needs additional assumptions."
+  },
+  {
+    "file": "l13-group-pivot.svg",
+    "title": "Split, aggregate, and change layout",
+    "caption": "Synthetic six-row example. North=180, South=140; grand total=320. Pivot totals reconcile to raw revenue.",
+    "alt": "Synthetic six-row example. North=180, South=140; grand total=320. Pivot totals reconcile to raw revenue.",
+    "lectures": [
+      13
+    ],
+    "question": "What is the pivot grand total?",
+    "answer": "320."
+  },
+  {
+    "file": "l14-components.svg",
+    "title": "Time-series components and smoothing",
+    "caption": "Synthetic 36 months, seed 14. Known construction: trend + annual seasonality + noise. This does not prove such components exist in arbitrary real data.",
+    "alt": "Synthetic 36 months, seed 14. Known construction: trend + annual seasonality + noise. This does not prove such components exist in arbitrary real data.",
+    "lectures": [
+      14
+    ],
+    "question": "Why are the first two full-window averages absent?",
+    "answer": "Three observations are required for a complete trailing window."
+  },
+  {
+    "file": "l15-eda.svg",
+    "title": "EDA answers questions with limitations",
+    "caption": "Generated synthetic accidents, seed 399. Counts lack traffic exposure and reporting denominators, so they do not establish real-world road risk.",
+    "alt": "Generated synthetic accidents, seed 399. Counts lack traffic exposure and reporting denominators, so they do not establish real-world road risk.",
+    "lectures": [
+      15
+    ],
+    "question": "Does the highest casualty count identify the most dangerous region?",
+    "answer": "No. Exposure and reporting coverage must be considered."
+  },
+  {
+    "file": "l16-chart-choice.svg",
+    "title": "Same data, different visual questions",
+    "caption": "Synthetic values: North=40, South=20, East=30, West=10 USD. Regions have no natural continuous order; a connecting line can imply one.",
+    "alt": "Synthetic values: North=40, South=20, East=30, West=10 USD. Regions have no natural continuous order; a connecting line can imply one.",
+    "lectures": [
+      16
+    ],
+    "question": "Which chart best compares regional revenue?",
+    "answer": "A bar chart with an appropriate order."
+  },
+  {
+    "file": "l17-redesign.svg",
+    "title": "Make the comparison easier to read",
+    "caption": "Same synthetic values in both panels. The improved chart uses a zero baseline, ranking, units, and a focused title.",
+    "alt": "Same synthetic values in both panels. The improved chart uses a zero baseline, ranking, units, and a focused title.",
+    "lectures": [
+      17
+    ],
+    "question": "Why is the zero baseline important for bars?",
+    "answer": "Bar length encodes magnitude; truncation distorts that comparison."
+  },
+  {
+    "file": "l18-waterfall-funnel.svg",
+    "title": "Advanced forms for specific questions",
+    "caption": "Synthetic examples. A waterfall reconciles signed contributions. Funnel stages describe the same defined cohort; stage conversion and overall conversion differ.",
+    "alt": "Synthetic examples. A waterfall reconciles signed contributions. Funnel stages describe the same defined cohort; stage conversion and overall conversion differ.",
+    "lectures": [
+      18
+    ],
+    "question": "What is overall purchase conversion?",
+    "answer": "60/1000 = 6%."
+  },
+  {
+    "file": "l18-small-multiples.svg",
+    "title": "Shared scales support comparison",
+    "caption": "Synthetic six-month regional revenue. All panels use 0\u201325 USD, so vertical positions are comparable.",
+    "alt": "Synthetic six-month regional revenue. All panels use 0\u201325 USD, so vertical positions are comparable.",
+    "lectures": [
+      18
+    ],
+    "question": "How would independent y-scales change the impression?",
+    "answer": "They can hide differences in level even while showing each trend clearly."
+  },
+  {
+    "file": "l19-wireframe.svg",
+    "title": "A dashboard organized around a decision",
+    "caption": "Conceptual wireframe, not a software screenshot. KPI definitions and filter context make numbers interpretable.",
+    "alt": "Conceptual wireframe, not a software screenshot. KPI definitions and filter context make numbers interpretable.",
+    "lectures": [
+      19,
+      26
+    ],
+    "question": "Why show filter context?",
+    "answer": "The same measure changes under different dates and segments."
+  },
+  {
+    "file": "l20-query-shaping.svg",
+    "title": "Power Query: shape before loading",
+    "caption": "Conceptual workflow, not a fabricated Power BI screenshot. The lab supplies exact Desktop steps.",
+    "alt": "Conceptual workflow, not a fabricated Power BI screenshot. The lab supplies exact Desktop steps.",
+    "lectures": [
+      20
+    ],
+    "question": "How does append differ from merge?",
+    "answer": "Append adds rows; merge joins columns by keys."
+  },
+  {
+    "file": "l21-report-interactions.svg",
+    "title": "Report interactions have distinct purposes",
+    "caption": "A report and a Power BI Service dashboard are different objects. The bundled HTML report is a teaching implementation, not Power BI UI.",
+    "alt": "A report and a Power BI Service dashboard are different objects. The bundled HTML report is a teaching implementation, not Power BI UI.",
+    "lectures": [
+      21
+    ],
+    "question": "Does a screenshot demonstrate filter behavior?",
+    "answer": "No; test the interactive report."
+  },
+  {
+    "file": "l22-star.svg",
+    "title": "Order-line star schema",
+    "caption": "Dimension keys are unique. Sales contains one order line; distinct orders differ from row count.",
+    "alt": "Four dimensions connect with one-to-many dimension-to-fact arrows to Sales.",
+    "lectures": [
+      22
+    ],
+    "question": "Can OrderID be the unique key of this fact?",
+    "answer": "No; orders can have multiple lines. Use OrderID plus LineID."
+  },
+  {
+    "file": "l23-context.svg",
+    "title": "Row context and filter context",
+    "caption": "Synthetic example. COUNTROWS measures lines; DISTINCTCOUNT(OrderID) measures orders.",
+    "alt": "Synthetic example. COUNTROWS measures lines; DISTINCTCOUNT(OrderID) measures orders.",
+    "lectures": [
+      23
+    ],
+    "question": "What is AOV if you divide total by four lines?",
+    "answer": "125 USD is average line revenue, not average order value."
+  },
+  {
+    "file": "l24-time-context.svg",
+    "title": "Date sets control time intelligence",
+    "caption": "Classic date-column patterns require a suitable calendar and relationship. A missing prior-year fact period may correctly return BLANK.",
+    "alt": "Classic date-column patterns require a suitable calendar and relationship. A missing prior-year fact period may correctly return BLANK.",
+    "lectures": [
+      24
+    ],
+    "question": "Why remove the whole date table for full-history totals?",
+    "answer": "A remaining Year/Month filter could constrain the cumulative date set."
+  },
+  {
+    "file": "l25-performance.svg",
+    "title": "Measure performance; do not invent improvements",
+    "caption": "Procedure, not fabricated benchmark results. Native Power BI measurements must be supplied by executing Desktop.",
+    "alt": "Procedure, not fabricated benchmark results. Native Power BI measurements must be supplied by executing Desktop.",
+    "lectures": [
+      25
+    ],
+    "question": "Does hiding a column reduce model storage?",
+    "answer": "No; removing a stored column can."
+  },
+  {
+    "file": "l26-project.svg",
+    "title": "Dashboard project acceptance criteria",
+    "caption": "The bundled interactive HTML report demonstrates concepts; a Power BI submission still requires a .pbix built in Desktop.",
+    "alt": "The bundled interactive HTML report demonstrates concepts; a Power BI submission still requires a .pbix built in Desktop.",
+    "lectures": [
+      26
+    ],
+    "question": "What proves the dashboard total is correct?",
+    "answer": "Reconcile it to source/Python reference totals under identical filters."
+  },
+  {
+    "file": "l27-ethics.svg",
+    "title": "Ethics at every project stage",
+    "caption": "Risk review is continuous. Synthetic teaching data avoids exposing patient or customer identities.",
+    "alt": "Risk review is continuous. Synthetic teaching data avoids exposing patient or customer identities.",
+    "lectures": [
+      27
+    ],
+    "question": "Does hashing guarantee anonymous data?",
+    "answer": "No; linkage and re-identification can remain possible."
+  },
+  {
+    "file": "l27-proposal.svg",
+    "title": "Capstone proposal canvas",
+    "caption": "Proposal criteria are course guidance, not a claim of institutional assessment policy.",
+    "alt": "Proposal criteria are course guidance, not a claim of institutional assessment policy.",
+    "lectures": [
+      27
+    ],
+    "question": "What makes a proposal feasible?",
+    "answer": "A bounded question, accessible data, realistic methods and explicit acceptance criteria."
+  },
+  {
+    "file": "l28-checkpoints.svg",
+    "title": "Capstone lab checkpoints",
+    "caption": "A surprising finding is not mandatory: honest, reproducible evidence is more valuable than a dramatic narrative.",
+    "alt": "A surprising finding is not mandatory: honest, reproducible evidence is more valuable than a dramatic narrative.",
+    "lectures": [
+      28
+    ],
+    "question": "What if the EDA contradicts the proposal hypothesis?",
+    "answer": "Report it honestly and revise the interpretation."
+  },
+  {
+    "file": "l29-qa.svg",
+    "title": "Final dashboard quality checks",
+    "caption": "Example failures: multiplied join rows, order-line counts mislabeled as orders, stale refresh, or inaccessible color-only status.",
+    "alt": "Example failures: multiplied join rows, order-line counts mislabeled as orders, stale refresh, or inaccessible color-only status.",
+    "lectures": [
+      29
+    ],
+    "question": "How can a plausible number still be wrong?",
+    "answer": "Incorrect grain, joins or filter context can produce believable but invalid totals."
+  },
+  {
+    "file": "l30-story.svg",
+    "title": "Presentation: evidence to decision",
+    "caption": "Use associated with for observational findings. Reserve causal claims for appropriate designs and assumptions.",
+    "alt": "Use associated with for observational findings. Reserve causal claims for appropriate designs and assumptions.",
+    "lectures": [
+      30
+    ],
+    "question": "What belongs next to the recommendation?",
+    "answer": "Its evidence, limits, and an evaluation plan."
+  }
+]

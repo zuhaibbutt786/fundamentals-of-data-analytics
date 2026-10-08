@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -36,7 +37,7 @@
       </nav>
     </aside>
 
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 5</span> › <span>Lecture 26</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-advanced">Advanced</span>
@@ -45,7 +46,7 @@
       </div>
 
       <h1>Lecture 26: Dashboard Design Project</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Apply Module 5 end-to-end: build an interactive dashboard with a clean star model, core and advanced DAX measures, and performance-aware design — as specified in the syllabus.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Apply Module 5 end-to-end: build an interactive dashboard with a clean star model, core and advanced DAX measures, and performance-aware design — in this course.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
@@ -99,14 +100,14 @@
 
       <section id="requirements">
         <h2>4. Required Measures (Minimum)</h2>
-        <pre><code class="language-dax">Total Amount := SUM ( Fact[Amount] )
-Row Count := COUNTROWS ( Fact )
-Avg Amount := DIVIDE ( [Total Amount], [Row Count] )
-YTD Amount := TOTALYTD ( [Total Amount], DimDate[Date] )
-Amount % of All :=
+        <pre><code class="language-dax">Total Sales = SUM ( Sales[NetRevenue] )
+Order Count = DISTINCTCOUNT ( Sales[OrderID] )
+Average Order Value = DIVIDE ( [Total Sales], [Order Count] )
+Sales YTD = TOTALYTD ( [Total Sales], DimDate[Date] )
+Sales Share All Regions =
 DIVIDE (
-    [Total Amount],
-    CALCULATE ( [Total Amount], REMOVEFILTERS ( DimGeography[Region] ) )
+    [Total Sales],
+    CALCULATE ( [Total Sales], REMOVEFILTERS ( DimRegion[Region] ) )
 )</code></pre>
         <p>Adapt table/column names to your dataset. Document any substitute measures.</p>
       </section>
@@ -210,17 +211,29 @@ DIVIDE (
 
       <section id="next">
         <h2>12. What’s Next</h2>
-        <p><strong>Module 6 — Capstone</strong> begins with Lecture 27 (Project Proposal), scaling these skills into a full industry-style analytics project.</p>
+        <p><strong>Module 6 — Capstone</strong> begins with Lecture 27 (Ethics &amp; Project Proposal), scaling these skills into a full industry-style analytics project.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Deliver a reconciled report</h2>
+<p>Build the retail semantic model, apply all base measures and accessible interactions, and compare cards and annual totals to reference_totals.json. Document refresh and access.</p><p><strong>Interpretation check:</strong> A passing screenshot is insufficient: test multiple filters, distinct order counts, margins, dates and security. The browser report supports exploration; Desktop is required to validate actual DAX.</p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>A dashboard organized around a decision</h2><a href="../../assets/visuals/l19-wireframe.svg" aria-label="Open full-size editable diagram: A dashboard organized around a decision"><img src="../../assets/visuals/l19-wireframe.svg" alt="Conceptual wireframe, not a software screenshot. KPI definitions and filter context make numbers interpretable." loading="lazy"></a><figcaption>Conceptual wireframe, not a software screenshot. KPI definitions and filter context make numbers interpretable. <a href="../../assets/visuals/l19-wireframe.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Why show filter context?</summary><p>The same measure changes under different dates and segments.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Decision: which region needs investigation?</li><li>Revenue KPI</li><li>Definition + period</li><li>Profit margin</li><li>Ratio of totals</li><li>Distinct orders</li><li>OrderID grain</li><li>Monthly trend</li><li>Context for change</li><li>Region comparison</li><li>Identify exceptions</li><li>Filters: Year / Region · Source, units, definitions, limitations</li><li>A dashboard organized around a decision</li><li>Conceptual wireframe, not a software screenshot. KPI definitions and filter context make numbers</li><li>interpretable.</li></ul></details></figure>
+<figure class="teaching-figure"><h2>Dashboard project acceptance criteria</h2><a href="../../assets/visuals/l26-project.svg" aria-label="Open full-size editable diagram: Dashboard project acceptance criteria"><img src="../../assets/visuals/l26-project.svg" alt="The bundled interactive HTML report demonstrates concepts; a Power BI submission still requires a .pbix built in Desktop." loading="lazy"></a><figcaption>The bundled interactive HTML report demonstrates concepts; a Power BI submission still requires a .pbix built in Desktop. <a href="../../assets/visuals/l26-project.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: What proves the dashboard total is correct?</summary><p>Reconcile it to source/Python reference totals under identical filters.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Dashboard project acceptance criteria</li><li>1. Frame</li><li>Specify one decision, KPI formulas, grain, units and time scope.</li><li>2. Build</li><li>Load star tables, define measures, and test known reference totals.</li><li>3. Interact</li><li>Test year and region filters, reset, detail views, and no-data states.</li><li>4. Optimize</li><li>Measure performance; simplify only with verified correctness.</li><li>5. Submit</li><li>Model/report, data dictionary, QA notes, limitations, and screenshots.</li><li>The bundled interactive HTML report demonstrates concepts; a Power BI submission still</li><li>requires a .pbix built in Desktop.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="26"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="lecture25.html" class="nav-btn">← Lecture 25</a>
-        <a href="../week14/lecture27.html" class="nav-btn primary" onclick="markLectureComplete(26)">Next: Lecture 27 — Capstone Proposal →</a>
+        <a href="../week14/lecture27.html" class="nav-btn primary">Next: Lecture 27 — Ethics &amp; Proposal →</a>
       </div>
       <footer class="site-footer"><p>Lecture 26 of 30 · Module 5 · Dashboard Design Project · End of Module 5</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 26: Dashboard Design Project",url:"lecture26.html",module:"Module 5",keywords:"dashboard project power bi star schema measures rubric viva",summary:"End-to-end dashboard design project for Module 5"}];</script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

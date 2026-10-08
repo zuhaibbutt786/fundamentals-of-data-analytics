@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -36,7 +37,7 @@
       </nav>
     </aside>
 
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 5</span> › <span>Lecture 22</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-intermediate">Intermediate</span>
@@ -266,14 +267,26 @@
         <p><strong>Lecture 23 — DAX Basics</strong> introduces calculated columns vs measures, SUM/COUNT/AVERAGE, and filter context on top of a clean model.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Validate the star schema</h2>
+<p>Import Sales and DimDate/DimProduct/DimCustomer/DimRegion. Use unique dimension keys with 1:* single-direction relationships; Date connects to OrderDate. Reconcile reference totals.</p><p><strong>Interpretation check:</strong> One row is one order line. OrderID repeats, so order count is DISTINCTCOUNT(OrderID), not COUNTROWS. Use a continuous date table and mark it as the date table.</p>
+<p><a href="../../labs/L22_PowerBI_Data_Modeling_Lab.ipynb" download>Download runnable/guided lab: L22 PowerBI Data Modeling Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Order-line star schema</h2><a href="../../assets/visuals/l22-star.svg" aria-label="Open full-size editable diagram: Order-line star schema"><img src="../../assets/visuals/l22-star.svg" alt="Four dimensions connect with one-to-many dimension-to-fact arrows to Sales." loading="lazy"></a><figcaption>Dimension keys are unique. Sales contains one order line; distinct orders differ from row count. <a href="../../assets/visuals/l22-star.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Can OrderID be the unique key of this fact?</summary><p>No; orders can have multiple lines. Use OrderID plus LineID.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Star schema: one row per order line</li><li>Sales</li><li>OrderID + LineID (grain)</li><li>OrderDate / ProductKey</li><li>CustomerKey / RegionKey</li><li>Quantity / NetRevenue / Profit</li><li>DimDate</li><li>Date (unique)</li><li>Year / Month / Quarter</li><li>DimProduct</li><li>ProductKey (unique)</li><li>Product / Category</li><li>DimRegion</li><li>RegionKey (unique)</li><li>Region</li><li>DimCustomer</li><li>CustomerKey (unique)</li><li>Segment</li><li>1 → *</li><li>1 → *</li><li>1 → *</li><li>1 → *</li><li>Single-direction filtering: dimension → fact. OrderID can repeat across lines.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="22"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="../week11/lecture21.html" class="nav-btn">← Lecture 21</a>
-        <a href="lecture23.html" class="nav-btn primary" onclick="markLectureComplete(22)">Next: Lecture 23 — DAX Basics →</a>
+        <a href="lecture23.html" class="nav-btn primary">Next: Lecture 23 — DAX Basics →</a>
       </div>
       <footer class="site-footer"><p>Lecture 22 of 30 · Module 5 · Data Modeling</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 22: Data Modeling",url:"lecture22.html",module:"Module 5",keywords:"star schema snowflake fact dimension relationship cardinality grain power bi",summary:"Fact/dimension tables, star vs snowflake, Power BI relationships"}];</script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

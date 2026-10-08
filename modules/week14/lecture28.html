@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -27,13 +28,13 @@
       <div class="sidebar-section">Course Navigation</div>
       <nav class="sidebar-nav">
         <div class="module-title">Module 6 · Capstone & Ethics</div>
-        <a href="lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Ethics</a>
+        <a href="lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Ethics &amp; Proposal</a>
         <a href="lecture28.html" class="active" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
         <a href="../week15/lecture29.html" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
         <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation & Viva</a>
       </nav>
     </aside>
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › Module 6 › <span>Lecture 28</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-advanced">Advanced</span>
@@ -54,7 +55,7 @@
       </section>
 
       <section id="domain">
-        <h2>2. Recommended Domains (Syllabus)</h2>
+        <h2>2. Recommended Domains (Course practice)</h2>
         <ul>
           <li>Retail / e-commerce sales performance</li>
           <li>Healthcare operational or outcome metrics (de-identified)</li>
@@ -145,18 +146,25 @@
         <p>By the end of this lab you should have clean data, evidence-based insights, draft visuals, and an ethics note — ready for the modelling and dashboard work in L29.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Execute with checkpoints</h2>
+<p>Keep a run log with source version, cleaning decisions, environment, key tests and unresolved questions. Review milestones against the proposal.</p><p><strong>Interpretation check:</strong> A reproducible checkpoint includes code and inputs, not only outputs. Preserve evidence when scope changes; explain what the revised question can support.</p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Capstone lab checkpoints</h2><a href="../../assets/visuals/l28-checkpoints.svg" aria-label="Open full-size editable diagram: Capstone lab checkpoints"><img src="../../assets/visuals/l28-checkpoints.svg" alt="A surprising finding is not mandatory: honest, reproducible evidence is more valuable than a dramatic narrative." loading="lazy"></a><figcaption>A surprising finding is not mandatory: honest, reproducible evidence is more valuable than a dramatic narrative. <a href="../../assets/visuals/l28-checkpoints.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: What if the EDA contradicts the proposal hypothesis?</summary><p>Report it honestly and revise the interpretation.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Capstone lab checkpoints</li><li>1. Source and profile</li><li>Record grain, units, schema, permissions, and missingness.</li><li>2. Clean and validate</li><li>Keep raw data; log decisions and quarantine; check totals.</li><li>3. EDA</li><li>Inspect distributions, groups, and time; distinguish counts from rates.</li><li>4. Draft evidence</li><li>Link each insight to a chart and limitation.</li><li>5. Feedback loop</li><li>Failed checks return to their source stage; revise data/methods before dashboard</li><li>build.</li><li>A surprising finding is not mandatory: honest, reproducible evidence is more valuable than</li><li>a dramatic narrative.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="28"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="lecture27.html" class="nav-btn">← Lecture 27</a>
-        <a href="../week15/lecture29.html" class="nav-btn primary" onclick="markLectureComplete(28)">Next: Lecture 29 →</a>
+        <a href="../week15/lecture29.html" class="nav-btn primary">Next: Lecture 29 →</a>
       </div>
-      <footer class="site-footer"><p>Lecture 28 of 30 · Module 6 · Capstone Project Lab · CS-399 aligned</p></footer>
+      <footer class="site-footer"><p>Lecture 28 of 30 · Module 6 · Capstone Project Lab · Course learning outcomes mapped</p></footer>
     </main>
   </div>
-  <script>
-    window.COURSE_SEARCH_INDEX = [
-      { title: "Lecture 28: Capstone Project Lab", url: "modules/week14/lecture28.html", module: "Module 6", keywords: "capstone lab cleaning eda visualisation ethics", summary: "Capstone lab: cleaning, EDA, visuals and ethics integration" }
-    ];
-  </script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

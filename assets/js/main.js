@@ -6,16 +6,21 @@
 (function () {
   'use strict';
 
+  const courseBase = new URL('../../', document.currentScript.src);
+  const storage = {
+    get(key) { try { return localStorage.getItem(key); } catch { return null; } },
+    set(key, value) { try { localStorage.setItem(key, value); } catch { /* Reading works without storage. */ } }
+  };
   // ----- Theme -----
   const root = document.documentElement;
-  const savedTheme = localStorage.getItem('da-theme') || 
+  const savedTheme = storage.get('da-theme') ||
     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   root.setAttribute('data-theme', savedTheme);
 
   function toggleTheme() {
     const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
-    localStorage.setItem('da-theme', next);
+    storage.set('da-theme', next);
     updateThemeIcon(next);
   }
 
@@ -34,8 +39,7 @@
     const link = document.createElement('link');
     link.id = 'dark-mode-fixes-css';
     link.rel = 'stylesheet';
-    const depth = (location.pathname.match(/\/modules\//) ? '../../' : '');
-    link.href = depth + 'assets/css/dark-mode-fixes.css';
+    link.href = new URL('assets/css/dark-mode-fixes.css', courseBase).href;
     link.onerror = function () {
       this.onerror = null;
       this.href = '/fundamentals-of-data-analytics/assets/css/dark-mode-fixes.css';
@@ -59,11 +63,13 @@
   const sidebar = document.getElementById('sidebar');
   const menuBtn = document.getElementById('menuToggle');
   if (menuBtn && sidebar) {
-    menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+    menuBtn.setAttribute('aria-controls', 'sidebar');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.addEventListener('click', () => { sidebar.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', String(sidebar.classList.contains('open'))); });
     document.addEventListener('click', (e) => {
       if (window.innerWidth <= 992 && sidebar.classList.contains('open') &&
           !sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
-        sidebar.classList.remove('open');
+        sidebar.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false');
       }
     });
   }
@@ -74,6 +80,7 @@
       const target = document.getElementById(header.getAttribute('data-collapse'));
       if (!target) return;
       target.classList.toggle('open');
+      header.setAttribute('aria-expanded', String(target.classList.contains('open')));
       const icon = header.querySelector('.collapse-icon');
       if (icon) icon.textContent = target.classList.contains('open') ? '\u2212' : '+';
     });
@@ -105,31 +112,31 @@
         ? (quiz.dataset.success || 'Correct! Well done.')
         : (quiz.dataset.fail || 'Not quite. Review the explanation and try again.');
     }
-    markProgress(quizId, isCorrect);
+    markProgress(location.pathname + ':' + quizId, isCorrect);
   };
 
   document.querySelectorAll('.quiz-option').forEach(opt => {
     opt.addEventListener('click', function () {
       const parent = this.closest('.quiz-card');
       if (!parent) return;
-      parent.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
-      this.classList.add('selected');
+      parent.querySelectorAll('.quiz-option').forEach(o => { o.classList.remove('selected'); o.setAttribute('aria-checked', 'false'); });
+      this.classList.add('selected'); this.setAttribute('aria-checked', 'true');
     });
   });
 
   // ----- Flashcards -----
   document.querySelectorAll('.flashcard').forEach(card => {
-    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    card.addEventListener('click', () => { card.classList.toggle('flipped'); card.setAttribute('aria-pressed', String(card.classList.contains('flipped'))); updateFlashcard(card); });
   });
 
   // ----- Progress -----
   const PROGRESS_KEY = 'da-course-progress';
   function getProgress() {
-    try { return JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}'); }
+    try { const data = JSON.parse(storage.get(PROGRESS_KEY) || '{}'); return data && typeof data === 'object' && !Array.isArray(data) ? data : {}; }
     catch { return {}; }
   }
   function saveProgress(data) {
-    localStorage.setItem(PROGRESS_KEY, JSON.stringify(data));
+    storage.set(PROGRESS_KEY, JSON.stringify(data));
   }
   function markProgress(id, value) {
     const p = getProgress();
@@ -145,7 +152,7 @@
     document.querySelectorAll('[data-lecture-id]').forEach(el => {
       const id = el.getAttribute('data-lecture-id');
       const ring = el.querySelector('.progress-ring');
-      if (ring && p['lecture-' + id]) ring.classList.add('done');
+      if (ring) ring.classList.toggle('done', Boolean(p['lecture-' + id]));
     });
   }
   updateSidebarProgress();
@@ -156,14 +163,16 @@
   const searchInput = document.getElementById('searchInput');
   const searchResults = document.getElementById('searchResults');
 
+  let searchOrigin;
   function openSearch() {
+    searchOrigin = document.activeElement;
     if (searchOverlay) {
-      searchOverlay.classList.add('open');
+      searchOverlay.classList.add('open'); searchOverlay.removeAttribute('aria-hidden'); searchOverlay.inert = false;
       if (searchInput) setTimeout(() => searchInput.focus(), 50);
     }
   }
   function closeSearch() {
-    if (searchOverlay) searchOverlay.classList.remove('open');
+    if (searchOverlay) { searchOverlay.classList.remove('open'); searchOverlay.setAttribute('aria-hidden', 'true'); searchOverlay.inert = true; searchOrigin?.focus(); }
   }
 
   document.getElementById('searchBtn')?.addEventListener('click', openSearch);
@@ -195,25 +204,101 @@
       searchResults.innerHTML = '<div class="search-result-item"><p>No results found.</p></div>';
       return;
     }
-    searchResults.innerHTML = hits.map(h => `
-      <a href="${h.url}" class="search-result-item" style="display:block;text-decoration:none;color:inherit;">
-        <h4>${h.title}</h4>
-        <p>${h.module || ''} \u00b7 ${h.summary || ''}</p>
-      </a>
-    `).join('');
+    searchResults.replaceChildren(...hits.map(h => {
+      const link = document.createElement('a');
+      link.setAttribute('href', new URL(h.url, courseBase).href); link.className = 'search-result-item';
+      link.style.display = 'block'; link.style.textDecoration = 'none'; link.style.color = 'inherit';
+      const title = document.createElement('h4'), description = document.createElement('p');
+      title.textContent = h.title; description.textContent = (h.module || '') + ' · ' + (h.summary || '');
+      link.append(title, description); return link;
+    }));
   });
 
   document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('animate-in');
+  // Content remains visible when motion or IntersectionObserver is unavailable.
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const observer = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('animate-in'); observer.unobserve(e.target); }
+    }), { threshold: 0.08 });
+    document.querySelectorAll('.card, .callout, .diagram-box, .quiz-card').forEach(el => observer.observe(el));
+  }
+
+  function activateByKeyboard(el) {
+    el.tabIndex = 0;
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
     });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.card, .callout, .diagram-box, .quiz-card').forEach(el => {
-    el.style.opacity = '0';
-    observer.observe(el);
+  }
+  function updateFlashcard(card) {
+    const flipped = card.classList.contains('flipped');
+    card.querySelector('.flashcard-front')?.setAttribute('aria-hidden', String(flipped));
+    card.querySelector('.flashcard-back')?.setAttribute('aria-hidden', String(!flipped));
+  }
+  document.querySelectorAll('.flashcard').forEach(card => {
+    card.setAttribute('role', 'button'); card.setAttribute('aria-pressed', 'false');
+    activateByKeyboard(card); updateFlashcard(card);
   });
+  document.querySelectorAll('[data-collapse]').forEach(el => {
+    const id = el.dataset.collapse;
+    el.setAttribute('role', 'button'); el.setAttribute('aria-controls', id);
+    el.setAttribute('aria-expanded', String(Boolean(document.getElementById(id)?.classList.contains('open'))));
+    activateByKeyboard(el);
+  });
+  document.querySelectorAll('.quiz-card').forEach(quiz => {
+    quiz.setAttribute('role', 'group');
+    const question = quiz.querySelector('p');
+    if (question) { question.id = quiz.id + '-question'; quiz.setAttribute('aria-labelledby', question.id); }
+    quiz.querySelector('.quiz-feedback')?.setAttribute('aria-live', 'polite');
+    const choices = document.createElement('div'); choices.setAttribute('role', 'radiogroup');
+    if (question) choices.setAttribute('aria-labelledby', question.id);
+    const options = [...quiz.querySelectorAll('.quiz-option')];
+    if (options.length) { options[0].before(choices); options.forEach(opt => choices.append(opt)); }
+    quiz.querySelectorAll('.quiz-option').forEach(opt => {
+      opt.setAttribute('role', 'radio'); opt.setAttribute('aria-checked', 'false'); activateByKeyboard(opt);
+      opt.addEventListener('keydown', e => {
+        if (!['ArrowDown','ArrowUp','ArrowLeft','ArrowRight'].includes(e.key)) return;
+        e.preventDefault(); const options = [...quiz.querySelectorAll('.quiz-option')];
+        const offset = ['ArrowDown','ArrowRight'].includes(e.key) ? 1 : -1;
+        const next = options[(options.indexOf(opt) + offset + options.length) % options.length]; next.focus(); next.click();
+      });
+    });
+  });
+  const completion = document.querySelector('[data-complete-lecture]');
+  if (completion) {
+    const key = 'lecture-' + completion.dataset.completeLecture;
+    completion.checked = Boolean(getProgress()[key]);
+    completion.addEventListener('change', () => markProgress(key, completion.checked));
+  }
+  if (searchOverlay) {
+    searchOverlay.setAttribute('role', 'dialog'); searchOverlay.setAttribute('aria-modal', 'true');
+    searchOverlay.setAttribute('aria-label', 'Search all 30 lectures'); searchOverlay.setAttribute('aria-hidden', 'true'); searchOverlay.inert = true;
+    searchInput?.setAttribute('aria-label', 'Search course topics');
+    searchResults?.setAttribute('aria-live', 'polite');
+    if (!document.getElementById('searchClose')) {
+      const close = document.createElement('button'); close.id = 'searchClose'; close.textContent = 'Close search';
+      close.type = 'button'; close.className = 'search-close'; close.addEventListener('click', closeSearch);
+      searchOverlay.querySelector('.search-box')?.prepend(close);
+    }
+    searchOverlay.addEventListener('keydown', e => {
+      if (e.key !== 'Tab') return;
+      const items = [...searchOverlay.querySelectorAll('button,input,a[href]')];
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  }
+  // Every lecture is reachable without relying on JavaScript search.
+  if (sidebar) {
+    const all = document.createElement('details'); const summary = document.createElement('summary');
+    summary.textContent = 'All 30 lectures'; all.append(summary);
+    const nav = document.createElement('nav'); nav.setAttribute('aria-label', 'All lectures'); nav.className = 'sidebar-nav';
+    (window.COURSE_SEARCH_INDEX || []).forEach(item => {
+      const link = document.createElement('a'); link.href = new URL(item.url, courseBase).href; link.textContent = item.title;
+      if (new URL(link.href).pathname === location.pathname) link.setAttribute('aria-current', 'page'); nav.append(link);
+    });
+    all.append(nav); sidebar.append(all);
+  }
 
   // ----- KaTeX -----
   function loadKaTeX() {
@@ -222,8 +307,7 @@
         delimiters: [
           { left: '\\[', right: '\\]', display: true },
           { left: '\\(', right: '\\)', display: false },
-          { left: '$$', right: '$$', display: true },
-          { left: '$', right: '$', display: false }
+          { left: '$$', right: '$$', display: true }
         ],
         throwOnError: false
       });
@@ -260,8 +344,7 @@
             delimiters: [
               { left: '\\[', right: '\\]', display: true },
               { left: '\\(', right: '\\)', display: false },
-              { left: '$$', right: '$$', display: true },
-              { left: '$', right: '$', display: false }
+              { left: '$$', right: '$$', display: true }
             ],
             throwOnError: false
           });

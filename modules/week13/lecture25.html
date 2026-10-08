@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
     <a href="../../index.html" class="header-brand"><div class="logo">DA</div><span>Data Analytics Course</span></a>
@@ -36,7 +37,7 @@
       </nav>
     </aside>
 
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 5</span> › <span>Lecture 25</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-advanced">Advanced</span>
@@ -45,7 +46,7 @@
       </div>
 
       <h1>Lecture 25: Performance Optimization</h1>
-      <p style="font-size:1.1rem;color:var(--text-muted)">Avoid circular dependencies, optimize the model, remove redundant columns, and write DAX that stays fast as data grows — syllabus focus for production-ready models.</p>
+      <p style="font-size:1.1rem;color:var(--text-muted)">Avoid circular dependencies, optimize the model, remove redundant columns, and write DAX that stays fast as data grows — course focus for production-ready models.</p>
 
       <section class="card" id="objectives">
         <h2 style="margin-top:0">1. Learning Objectives</h2>
@@ -128,7 +129,7 @@
         <div class="card">
           <ol>
             <li>List every column in your practice model; mark used vs unused.</li>
-            <li>Remove or hide at least three unused columns; note any refresh change.</li>
+            <li>Remove unused columns to reduce storage, and hide technical keys separately for usability. Hiding does not reduce memory. Measure changes rather than assuming a speed-up.</li>
             <li>Confirm no bidirectional filters remain without justification.</li>
             <li>Rewrite one calculated column as a measure if it was only used for aggregation.</li>
             <li>Document one circular dependency scenario and how you would break it.</li>
@@ -214,14 +215,25 @@
         <p><strong>Lecture 26 — Dashboard Design Project</strong> applies modeling and DAX to an end-to-end interactive dashboard build.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Measure a performance change</h2>
+<p>Use Performance Analyzer to record a baseline interaction, query duration and environment. Change one factor, repeat the same interaction and record the result.</p><p><strong>Interpretation check:</strong> No measured performance values are invented here. Removing unused columns differs from hiding them; constrain cardinality and relationships before adding complex DAX.</p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Measure performance; do not invent improvements</h2><a href="../../assets/visuals/l25-performance.svg" aria-label="Open full-size editable diagram: Measure performance; do not invent improvements"><img src="../../assets/visuals/l25-performance.svg" alt="Procedure, not fabricated benchmark results. Native Power BI measurements must be supplied by executing Desktop." loading="lazy"></a><figcaption>Procedure, not fabricated benchmark results. Native Power BI measurements must be supplied by executing Desktop. <a href="../../assets/visuals/l25-performance.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Does hiding a column reduce model storage?</summary><p>No; removing a stored column can.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Measure performance; do not invent improvements</li><li>1. Baseline</li><li>Record Performance Analyzer duration for the same visual and filter state.</li><li>2. Reduce unnecessary storage</li><li>Remove unused columns; retain relationship keys. Hiding only affects usability.</li><li>3. Simplify model and measures</li><li>Check cardinality, single-direction relationships, unnecessary iterators, and Auto</li><li>Date/Time.</li><li>4. Repeat controlled measurement</li><li>Use the same machine, query, refresh state, and repeated runs; separate cold/warm</li><li>effects.</li><li>5. Report evidence</li><li>Compare durations and model size; a change may not improve speed.</li><li>Procedure, not fabricated benchmark results. Native Power BI measurements must be supplied</li><li>by executing Desktop.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="25"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="lecture24.html" class="nav-btn">← Lecture 24</a>
-        <a href="lecture26.html" class="nav-btn primary" onclick="markLectureComplete(25)">Next: Lecture 26 — Dashboard Project →</a>
+        <a href="lecture26.html" class="nav-btn primary">Next: Lecture 26 — Dashboard Project →</a>
       </div>
       <footer class="site-footer"><p>Lecture 25 of 30 · Module 5 · Performance Optimization</p></footer>
     </main>
   </div>
-  <script>window.COURSE_SEARCH_INDEX=[{title:"Lecture 25: Performance Optimization",url:"lecture25.html",module:"Module 5",keywords:"performance circular dependency optimize model redundant columns dax",summary:"Model and DAX performance optimization"}];</script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
@@ -74,7 +75,7 @@
         <a href="../week13/lecture25.html" data-lecture-id="25"><span class="progress-ring"></span> L25 · Performance</a>
         <a href="../week13/lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
         <div class="module-title">Module 6 · Capstone</div>
-        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Project Proposal</a>
+        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Ethics &amp; Proposal</a>
         <a href="../week14/lecture28.html" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
         <a href="../week15/lecture29.html" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
         <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation & Viva</a>
@@ -82,7 +83,7 @@
     </aside>
 
     <!-- Main -->
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <a href="../../index.html">Home</a> ›
         <a href="../../index.html">Module 1</a> ›
@@ -93,7 +94,7 @@
         <span class="badge badge-beginner">Beginner</span>
         <span class="badge badge-time">⏱ ~90 min</span>
         <span class="badge">Module 1 · Foundations</span>
-        <span class="badge">CLO 1–5</span>
+        <span class="badge">CLO 1–4</span>
       </div>
 
       <h1>Lecture 1: Modern Data Analytics Ecosystem</h1>
@@ -649,9 +650,20 @@
         <p>In <strong>Lecture 2</strong> we move from the conceptual ecosystem to the concrete architecture of data pipelines: ingestion, storage, processing, ETL vs ELT, warehouses vs lakes, and batch vs real-time.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Frame a decision</h2>
+<p>Write a stakeholder, decision, measurable outcome and analysis scope for declining orders.</p><p><strong>Interpretation check:</strong> A 20% order decline describes a change; it does not identify its cause. Separate evidence from a hypothesis.</p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>One question, four analytical approaches</h2><a href="../../assets/visuals/l1-analytics-types.svg" aria-label="Open full-size editable diagram: One question, four analytical approaches"><img src="../../assets/visuals/l1-analytics-types.svg" alt="Illustrative retail scenario. Observational diagnostics alone do not establish causation." loading="lazy"></a><figcaption>Illustrative retail scenario. Observational diagnostics alone do not establish causation. <a href="../../assets/visuals/l1-analytics-types.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Can an association prove why orders fell?</summary><p>No. A causal claim requires a suitable design and assumptions.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>One question, four analytical approaches</li><li>1. Descriptive: what happened?</li><li>Orders fell from 1000 to 800: a 20% decrease.</li><li>2. Diagnostic: what is associated with the change?</li><li>Compare device, region, traffic, and checkout changes; investigate alternatives.</li><li>3. Predictive: what might happen?</li><li>Estimate future orders with a validated model and uncertainty.</li><li>4. Prescriptive: what should we do?</li><li>Choose an intervention subject to budget, risk, and an evaluation plan.</li><li>Illustrative retail scenario. Observational diagnostics alone do not establish causation.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="1"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="../../index.html" class="nav-btn">← Course Home</a>
-        <a href="lecture2.html" class="nav-btn primary" onclick="markLectureComplete(1)">Next: Lecture 2 — Designing a Data Pipeline →</a>
+        <a href="lecture2.html" class="nav-btn primary">Next: Lecture 2 — Designing a Data Pipeline →</a>
       </div>
 
       <footer class="site-footer">
@@ -660,12 +672,8 @@
     </main>
   </div>
 
-  <script>
-    window.COURSE_SEARCH_INDEX = [
-      { title: "Lecture 1: Modern Data Analytics Ecosystem", url: "lecture1.html", module: "Module 1", keywords: "data analytics bi data science crisp-dm roles types descriptive diagnostic predictive prescriptive", summary: "Ecosystem, types of analytics, CRISP-DM, roles" },
-      { title: "Lecture 2: Designing a Data Pipeline", url: "lecture2.html", module: "Module 1", keywords: "etl elt pipeline warehouse lake", summary: "Pipeline architecture" }
-    ];
-  </script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

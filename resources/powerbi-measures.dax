@@ -1,0 +1,38 @@
+// Teaching reference: create each measure separately in Power BI Desktop.
+// Import sales_multiyear.csv as Sales and the four dimension CSVs.
+// Connect DimProduct[ProductKey], DimCustomer[CustomerKey], DimRegion[RegionKey],
+// and DimDate[Date] (1) to corresponding Sales columns (*) with single-direction filters.
+// Date -> Sales[OrderDate]. Set both to Date; mark DimDate as the date table.
+// Sales grain: one order line; OrderID repeats across lines.
+Total Sales = SUM ( Sales[NetRevenue] )
+Total Profit = SUM ( Sales[Profit] )
+Total Cost = SUM ( Sales[TotalCost] )
+Line Count = COUNTROWS ( Sales )
+Order Count = DISTINCTCOUNT ( Sales[OrderID] )
+Customer Count = DISTINCTCOUNT ( Sales[CustomerKey] )
+Average Order Value = DIVIDE ( [Total Sales], [Order Count] )
+Profit Margin = DIVIDE ( [Total Profit], [Total Sales] )
+// Format sales/profit/cost/AOV as USD; margin and growth as percentages.
+// This ratio of totals is not the average of individual line margins.
+Electronics Sales = CALCULATE ( [Total Sales], DimProduct[Category] = "Electronics" )
+// The direct filter replaces an existing filter on this category column.
+Electronics Within Selection = CALCULATE ( [Total Sales], KEEPFILTERS ( DimProduct[Category] = "Electronics" ) )
+Sales All Regions = CALCULATE ( [Total Sales], REMOVEFILTERS ( DimRegion ) )
+Sales Share All Regions = DIVIDE ( [Total Sales], [Sales All Regions] )
+Sales Selected Regions = CALCULATE ( [Total Sales], ALLSELECTED ( DimRegion ) )
+Sales Share Selected Regions = DIVIDE ( [Total Sales], [Sales Selected Regions] )
+Sales YTD = TOTALYTD ( [Total Sales], DimDate[Date] )
+Sales Previous Year = CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( DimDate[Date] ) )
+Sales YoY % =
+VAR CurrentSales = [Total Sales]
+VAR PriorSales = [Sales Previous Year]
+RETURN IF ( NOT ISBLANK ( CurrentSales ) && NOT ISBLANK ( PriorSales ), DIVIDE ( CurrentSales - PriorSales, PriorSales ) )
+// ALL(DimDate) clears Year/Month as well as Date. Other dimensions retain filters.
+Sales Running Total =
+VAR Cutoff = MAX ( DimDate[Date] )
+RETURN CALCULATE ( [Total Sales], FILTER ( ALL ( DimDate ), DimDate[Date] <= Cutoff ) )
+Sales Running Total Selected =
+VAR Cutoff = MAX ( DimDate[Date] )
+RETURN CALCULATE ( [Total Sales], FILTER ( ALLSELECTED ( DimDate ), DimDate[Date] <= Cutoff ) )
+// Compare the two running totals with a year/month slicer. They answer different questions.
+// Prior-year functions depend on date context and calendar semantics; test leap days.

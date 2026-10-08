@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
@@ -61,14 +62,14 @@
         <a href="../week13/lecture25.html" data-lecture-id="25"><span class="progress-ring"></span> L25 · Performance</a>
         <a href="../week13/lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
         <div class="module-title">Module 6 · Capstone</div>
-        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Project Proposal</a>
+        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Ethics &amp; Proposal</a>
         <a href="../week14/lecture28.html" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
         <a href="../week15/lecture29.html" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
         <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation &amp; Viva</a>
       </nav>
     </aside>
 
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb"><a href="../../index.html">Home</a> › <span>Module 1</span> › <span>Lecture 3</span></nav>
       <div class="lecture-meta">
         <span class="badge badge-beginner">Beginner</span>
@@ -280,7 +281,7 @@
           <li>Never scrape personal data without a lawful basis and clear purpose.</li>
           <li>Store the acquisition date and source URL for every record (lineage and auditability).</li>
         </ul>
-        <p>In later practicals you will see how libraries such as BeautifulSoup are used for HTML parsing; the principles above always come first. Ethics and legality are not optional extras — they are part of professional practice (CLO-5).</p>
+        <p>In later practicals you will see how libraries such as BeautifulSoup are used for HTML parsing; the principles above always come first. Ethics and legality are not optional extras — they are part of professional practice (CLO-4).</p>
 
         <div class="callout callout-warning">
           <div class="callout-title">Common Mistakes</div>
@@ -351,6 +352,8 @@
         <pre><code class="language-python">import pandas as pd
 
 # CSV (watch encoding and separator)
+# File-format patterns: these external filenames are illustrative, not bundled.
+# Run the linked local-input acquisition notebook for a self-contained lab.
 df_csv = pd.read_csv("sales.csv", encoding="utf-8", sep=",")
 
 # Excel — specify sheet and skip title rows if needed
@@ -565,23 +568,29 @@ WHERE order_date >= '2025-01-01'
         <p><strong>Lecture 4</strong> moves from “how do we get the data?” to “what question are we actually answering?” You will learn business framing, KPI thinking, and how to turn vague stakeholder requests into clear analytical problems.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Acquire and join safely</h2>
+<p>Use the local CSV/JSON/HTML examples and join ProductKey with validate=&quot;many_to_one&quot;. Record source, retrieval date, permission, grain and types.</p><p><strong>Interpretation check:</strong> A join must preserve the order-line count. A duplicated dimension key can inflate totals even when the code runs.</p>
+<p><a href="../../labs/L3_Python_Data_Structures_Guide.ipynb" download>Download runnable/guided lab: L3 Python Data Structures Guide</a></p>
+<p><a href="../../labs/L3_Data_Acquisition_and_Scraping.ipynb" download>Download runnable/guided lab: L3 Data Acquisition and Scraping</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>One order in three representations</h2><a href="../../assets/visuals/l3-record-formats.svg" aria-label="Open full-size editable diagram: One order in three representations"><img src="../../assets/visuals/l3-record-formats.svg" alt="Representation affects parsing; CSV does not provide native types or a relational constraint system." loading="lazy"></a><figcaption>Representation affects parsing; CSV does not provide native types or a relational constraint system. <a href="../../assets/visuals/l3-record-formats.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Does CSV enforce a unique key?</summary><p>No. The reader must validate uniqueness.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>One order in three representations</li><li>1. CSV row</li><li>OrderID,Region,Quantity → O1,North,3</li><li>2. JSON record</li><li>{&quot;OrderID&quot;:&quot;O1&quot;,&quot;customer&quot;:{&quot;region&quot;:&quot;North&quot;},&quot;Quantity&quot;:3}</li><li>3. Relational tables</li><li>Orders: O1, CustomerKey=7, Quantity=3; Customers: 7, North</li><li>4. Acquisition checks</li><li>Confirm schema, types, encoding, grain, permissions, and provenance.</li><li>Representation affects parsing; CSV does not provide native types or a relational</li><li>constraint system.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="3"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="lecture2.html" class="nav-btn">← Lecture 2</a>
-        <a href="../week2/lecture4.html" class="nav-btn primary" onclick="markLectureComplete(3)">Next: Lecture 4 — Business Framing →</a>
+        <a href="../week2/lecture4.html" class="nav-btn primary">Next: Lecture 4 — Business Framing →</a>
       </div>
       <footer class="site-footer"><p>Lecture 3 of 30 · Module 1 · Fundamentals of Data Analytics</p></footer>
     </main>
   </div>
 
-  <script>
-    window.COURSE_SEARCH_INDEX = [{
-      title: "Lecture 3: Data Acquisition Types & Storage",
-      url: "lecture3.html",
-      module: "Module 1",
-      keywords: "structured semi-structured unstructured csv json excel parquet sql scraping relational primary key foreign key acquisition storage lineage ethics",
-      summary: "Data shapes, acquisition formats, relational basics, scraping ethics, and storage choices"
-    }];
-  </script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>

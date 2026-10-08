@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="572.4pt" height="756.764231pt" viewBox="0 0 572.4 756.764231" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-08T17:09:52.948812</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 756.764231
+L 572.4 756.764231
+L 572.4 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183153" x="7.2" y="21.637031" transform="rotate(-0 7.2 21.637031)">B · A safe predictive workflow</text>
+   </g>
+   <g id="text_2">
+    <g id="patch_2">
+     <path d="M 177.680312 102.376519
+L 394.719687 102.376519
+Q 403.819687 102.376519 403.819687 93.276519
+L 403.819687 79.727144
+Q 403.819687 70.627144 394.719687 70.627144
+L 177.680312 70.627144
+Q 168.580312 70.627144 168.580312 79.727144
+L 168.580312 93.276519
+Q 168.580312 102.376519 177.680312 102.376519
+z
+" style="fill: #ffffff; stroke: #183153; stroke-width: 1.8; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #183153" x="286.2" y="90.364956" transform="rotate(-0 286.2 90.364956)">Split using the correct strategy</text>
+   </g>
+   <g id="text_3">
+    <g id="patch_3">
+     <path d="M 87.150781 196.070119
+L 206.249219 196.070119
+Q 215.349219 196.070119 215.349219 186.970119
+L 215.349219 173.420744
+Q 215.349219 164.320744 206.249219 164.320744
+L 87.150781 164.320744
+Q 78.050781 164.320744 78.050781 173.420744
+L 78.050781 186.970119
+Q 78.050781 196.070119 87.150781 196.070119
+z
+" style="fill: #ffffff; stroke: #2563eb; stroke-width: 1.8; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2563eb" x="146.7" y="184.058556" transform="rotate(-0 146.7 184.058556)">Training partition</text>
+   </g>
+   <g id="text_4">
+    <g id="patch_4">
+     <path d="M 374.384219 203.908587
+L 488.175781 203.908587
+Q 497.275781 203.908587 497.275781 194.808587
+L 497.275781 165.582275
+Q 497.275781 156.482275 488.175781 156.482275
+L 374.384219 156.482275
+Q 365.284219 156.482275 365.284219 165.582275
+L 365.284219 194.808587
+Q 365.284219 203.908587 374.384219 203.908587
+z
+" style="fill: #ffffff; stroke: #0f766e; stroke-width: 1.8; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; fill: #0f766e" transform="translate(385.532812 176.220087)">Held-out test</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; fill: #0f766e" transform="translate(374.384219 191.897025)">Keep untouched</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 267.515651 126.59804
+Q 208.083037 140.555118 150.827271 154.000988
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 155.613704 155.136799
+L 150.827271 154.000988
+L 154.607779 150.853329
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 304.917896 126.419113
+Q 367.109816 135.150405 427.087384 143.570819
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 423.03598 140.780456
+L 427.087384 143.570819
+L 422.424251 145.137724
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="text_5">
+    <g id="patch_7">
+     <path d="M 72.099375 307.651969
+L 299.420625 307.651969
+Q 307.220625 307.651969 307.220625 299.851969
+L 307.220625 247.926094
+Q 307.220625 240.126094 299.420625 240.126094
+L 72.099375 240.126094
+Q 64.299375 240.126094 64.299375 247.926094
+L 64.299375 299.851969
+Q 64.299375 307.651969 72.099375 307.651969
+z
+" style="fill: #ffffff; stroke: #2563eb; stroke-width: 1.8; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #2563eb" transform="translate(101.458125 257.044219)">Training-side validation loop</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #2563eb" transform="translate(72.099375 270.481594)">Fit preprocessing on fold-training only</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #2563eb" transform="translate(72.702187 283.918969)">Transform fold-training and validation</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #2563eb" transform="translate(95.124375 297.356344)">Train and compare candidates</text>
+   </g>
+   <g id="patch_8">
+    <path d="M 148.002704 199.727761
+Q 160.650381 214.430074 171.839809 227.437242
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 170.638155 222.666914
+L 171.839809 227.437242
+L 167.302554 225.536368
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="text_6">
+    <g id="patch_9">
+     <path d="M 69.095625 402.322594
+L 302.424375 402.322594
+Q 310.224375 402.322594 310.224375 394.522594
+L 310.224375 369.471469
+Q 310.224375 361.671469 302.424375 361.671469
+L 69.095625 361.671469
+Q 61.295625 361.671469 61.295625 369.471469
+L 61.295625 394.522594
+Q 61.295625 402.322594 69.095625 402.322594
+z
+" style="fill: #ffffff; stroke: #2563eb; stroke-width: 1.8; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #2563eb" transform="translate(93.649687 378.589594)">Choose recipe using validation</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #2563eb" transform="translate(69.095625 392.026969)">Refit preprocessing on all training data</text>
+   </g>
+   <g id="patch_10">
+    <path d="M 185.76 322.738222
+Q 185.76 335.151003 185.76 345.327717
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 187.96 340.927717
+L 185.76 345.327717
+L 183.56 340.927717
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <g id="patch_11">
+     <path d="M 72.54 482.090306
+L 298.98 482.090306
+Q 306.78 482.090306 306.78 474.290306
+L 306.78 462.676556
+Q 306.78 454.876556 298.98 454.876556
+L 72.54 454.876556
+Q 64.74 454.876556 64.74 462.676556
+L 64.74 474.290306
+Q 64.74 482.090306 72.54 482.090306
+z
+" style="fill: #ffffff; stroke: #2563eb; stroke-width: 1.8; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2563eb" x="185.76" y="471.794681" transform="rotate(-0 185.76 471.794681)">Transform training → train final model</text>
+   </g>
+   <g id="patch_12">
+    <path d="M 185.76 405.617063
+Q 185.76 423.438263 185.76 439.023395
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 187.96 434.623395
+L 185.76 439.023395
+L 183.56 434.623395
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="text_8">
+    <g id="patch_13">
+     <path d="M 279.39 575.295394
+L 516.21 575.295394
+Q 524.01 575.295394 524.01 567.495394
+L 524.01 542.444269
+Q 524.01 534.644269 516.21 534.644269
+L 279.39 534.644269
+Q 271.59 534.644269 271.59 542.444269
+L 271.59 567.495394
+Q 271.59 575.295394 279.39 575.295394
+z
+" style="fill: #ffffff; stroke: #0f766e; stroke-width: 1.8; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #0f766e" transform="translate(327.550312 551.562394)">Transform held-out test</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #0f766e" transform="translate(279.39 564.999769)">using final training-fitted preprocessing</text>
+   </g>
+   <g id="patch_14">
+    <path d="M 187.723847 490.467393
+Q 283.408073 508.122676 376.893351 525.372217
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 372.96559 522.410345
+L 376.893351 525.372217
+L 372.167196 526.737303
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 548.46 218.231403
+Q 548.46 367.58465 548.46 514.701829
+" style="fill: none; stroke: #0f766e; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 550.66 510.301829
+L 548.46 514.701829
+L 546.26 510.301829
+" style="fill: none; stroke: #0f766e; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="text_9">
+    <g id="patch_16">
+     <path d="M 167.147422 670.682791
+L 405.252578 670.682791
+Q 413.702578 670.682791 413.702578 662.232791
+L 413.702578 635.094072
+Q 413.702578 626.644072 405.252578 626.644072
+L 167.147422 626.644072
+Q 158.697422 626.644072 158.697422 635.094072
+L 158.697422 662.232791
+Q 158.697422 670.682791 167.147422 670.682791
+z
+" style="fill: #ffffff; stroke: #0f766e; stroke-width: 1.8; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-size: 13px; font-family: 'DejaVu Sans'; fill: #0f766e" transform="translate(201.431875 644.972041)">Predict and evaluate once</text>
+    <text style="font-size: 13px; font-family: 'DejaVu Sans'; fill: #0f766e" transform="translate(167.147422 659.529197)">Report held-out error and limitations</text>
+   </g>
+   <g id="patch_17">
+    <path d="M 384.825751 581.031927
+Q 347.579891 598.213082 312.364482 614.457609
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 317.2814 614.61227
+L 312.364482 614.457609
+L 315.438361 610.616871
+" style="fill: none; stroke: #183153; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="text_10">
+    <g id="patch_18">
+     <path d="M 400.945938 393.421597
+L 483.934062 393.421597
+Q 491.084063 393.421597 491.084063 386.271597
+L 491.084063 363.308066
+Q 491.084063 356.158066 483.934062 356.158066
+L 400.945938 356.158066
+Q 393.795938 356.158066 393.795938 363.308066
+L 393.795938 386.271597
+Q 393.795938 393.421597 400.945938 393.421597
+z
+" style="fill: #ffffff; stroke: #b44444; stroke-width: 1.8; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #b44444" transform="translate(417.224219 371.666347)">LEAKAGE</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #b44444" transform="translate(400.945938 383.983941)">Fit on test data</text>
+   </g>
+   <g id="patch_19">
+    <path d="M 418.156749 396.04918
+Q 361.531134 385.600841 307.104468 375.558243
+" style="fill: none; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #b44444; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 311.03223 378.520116
+L 307.104468 375.558243
+L 311.830623 374.193157
+" style="fill: none; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #b44444; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #b44444" transform="translate(347.58 320.348819)">Do not use test values to fit</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #b44444" transform="translate(347.58 331.546631)">imputers, scalers, or encoders.</text>
+   </g>
+   <g id="patch_20">
+    <path d="M 35.626446 679.169267
+Q 60.209726 589.205033 84.203597 501.397787
+" style="fill: none; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #b44444; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 80.921596 505.062275
+L 84.203597 501.397787
+L 85.165986 506.22208
+" style="fill: none; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #b44444; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b44444" x="7.2" y="702.717431" transform="rotate(-0 7.2 702.717431)">LEAKAGE: features built from future outcomes or later observations.</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(7.2 720.348419)">Solid arrows = approved workflow. Red dashed arrow = prohibited leakage path.</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #183153" transform="translate(7.2 731.546231)">Future-derived features are excluded before any training or evaluation.</text>
+   </g>
+  </g>
+ </g>
+</svg>

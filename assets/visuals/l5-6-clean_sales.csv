@@ -1,0 +1,7 @@
+SaleID,Region,Quantity,UnitPriceUSD,RevenueUSD,QuantityWasMissing
+S01,North,2,50,100,False
+S02,North,3,40,120,False
+S03,South,3,30,90,True
+S05,West,4,25,100,False
+S06,North,100,500,50000,False
+S07,South,1,60,60,False

@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css" />
 </head>
 <body>
+  <a href="#content" class="skip-link">Skip to content</a>
   <header class="site-header">
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
@@ -72,14 +73,14 @@
         <a href="../week13/lecture25.html" data-lecture-id="25"><span class="progress-ring"></span> L25 · Performance</a>
         <a href="../week13/lecture26.html" data-lecture-id="26"><span class="progress-ring"></span> L26 · Dashboard Project</a>
         <div class="module-title">Module 6 · Capstone</div>
-        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Project Proposal</a>
+        <a href="../week14/lecture27.html" data-lecture-id="27"><span class="progress-ring"></span> L27 · Ethics &amp; Proposal</a>
         <a href="../week14/lecture28.html" data-lecture-id="28"><span class="progress-ring"></span> L28 · Project Lab</a>
         <a href="../week15/lecture29.html" data-lecture-id="29"><span class="progress-ring"></span> L29 · Final Dashboard</a>
         <a href="../week15/lecture30.html" data-lecture-id="30"><span class="progress-ring"></span> L30 · Presentation & Viva</a>
       </nav>
     </aside>
 
-    <main class="main-content">
+    <main class="main-content" id="content">
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <a href="../../index.html">Home</a> ›
         <a href="../../index.html">Module 1</a> ›
@@ -258,7 +259,7 @@
           <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" aria-label="Warehouse Lake Lakehouse comparison">
             <rect x="20" y="30" width="200" height="160" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
             <text x="120" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#1e40af">Data Warehouse</text>
-            <text x="120" y="90" text-anchor="middle" font-size="11" fill="#334155">Structured only</text>
+            <text x="120" y="90" text-anchor="middle" font-size="11" fill="#334155">Primarily tabular</text>
             <text x="120" y="110" text-anchor="middle" font-size="11" fill="#334155">Schema-on-write</text>
             <text x="120" y="130" text-anchor="middle" font-size="11" fill="#334155">Highly optimized</text>
             <text x="120" y="150" text-anchor="middle" font-size="11" fill="#334155">for BI & SQL</text>
@@ -274,7 +275,7 @@
 
             <rect x="500" y="30" width="200" height="160" rx="12" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
             <text x="600" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#065f46">Lakehouse</text>
-            <text x="600" y="90" text-anchor="middle" font-size="11" fill="#334155">Best of both</text>
+            <text x="600" y="90" text-anchor="middle" font-size="11" fill="#334155">Lake + table layer</text>
             <text x="600" y="110" text-anchor="middle" font-size="11" fill="#334155">ACID on files</text>
             <text x="600" y="130" text-anchor="middle" font-size="11" fill="#334155">BI + ML ready</text>
             <text x="600" y="150" text-anchor="middle" font-size="11" fill="#334155">Open formats</text>
@@ -289,7 +290,7 @@
         <p>Stores raw and processed data in cheap object storage (files). Flexible, but without careful governance it becomes a “data swamp”. Schema is applied when you read the data.</p>
 
         <h3>Lakehouse</h3>
-        <p>Modern architecture that brings warehouse reliability (ACID transactions, schema enforcement, time travel) on top of lake storage. Popular platforms: Databricks, Snowflake (with stages), Microsoft Fabric, etc.</p>
+        <p>Modern architecture that brings warehouse reliability (ACID transactions, schema enforcement, time travel) on top of lake storage. Popular platforms: Databricks, table formats such as Delta Lake or Apache Iceberg, Microsoft Fabric, etc.</p>
 
         <h3>Medallion layers (Bronze → Silver → Gold)</h3>
         <p>Common lakehouse pattern for progressive quality:</p>
@@ -548,9 +549,22 @@
         <p><strong>Lecture 3</strong> focuses on the first stage in more detail: how we acquire data — structured, semi-structured, unstructured sources, files, databases, and web scraping concepts.</p>
       </section>
 
-      <div class="lecture-nav">
+
+
+
+
+
+<!-- course-enhancement:start -->
+<section class="card teaching-practice" id="worked-practice"><h2>Worked practice: Defend the architecture</h2>
+<p>Trace an invalid quantity from extraction to quarantine and correction. Identify where permissions, schema checks and lineage apply.</p><p><strong>Interpretation check:</strong> Immutable raw storage retains the original record; correction creates a new processing version. ETL and ELT both require governance.</p>
+<p><a href="../../labs/L2_Python_Basics_Comprehensive_Lab.ipynb" download>Download runnable/guided lab: L2 Python Basics Comprehensive Lab</a></p>
+<p><a href="../../resources/index.html">Setup, all labs, datasets, DAX measures and capstone guidance</a> · <a href="../../resources/retail-report.html">Interactive retail teaching report</a></p></section>
+<figure class="teaching-figure"><h2>Retail analytics pipeline</h2><a href="../../assets/visuals/l2-retail-pipeline.svg" aria-label="Open full-size editable diagram: Retail analytics pipeline"><img src="../../assets/visuals/l2-retail-pipeline.svg" alt="Three sources feed ingestion, immutable storage, transformation, curated tables, Power BI and a report; a quarantine branch reprocesses corrections." loading="lazy"></a><figcaption>Immutable raw records support traceability; validated facts and dimensions feed the semantic model. Failed records are reviewed. <a href="../../assets/visuals/l2-retail-pipeline.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Why keep the raw layer?</summary><p>To preserve provenance and enable reproducible reprocessing.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>Retail analytics pipeline</li><li>Sales CSV</li><li>Customer database</li><li>Product API</li><li>Ingestion</li><li>Immutable raw storage</li><li>Transform and validate</li><li>Curated FactSales</li><li>Date / Product / Customer / Region</li><li>Power BI semantic model</li><li>Interactive report</li><li>Pass</li><li>Fail: quarantine</li><li>Review / correct records</li><li>SUPPORT THROUGHOUT</li><li>Orchestration / monitoring</li><li>Access control / lineage</li><li>Solid arrows: data flow / reprocessing. Dashed: support connections.</li><li>Raw records stay unchanged; verified corrections enter a new processing version.</li><li>FactSales grain: one order line. Supporting layers apply to every stage.</li></ul></details></figure>
+<figure class="teaching-figure"><h2>ETL versus ELT: transformation location</h2><a href="../../assets/visuals/l2-etl-elt.svg" aria-label="Open full-size editable diagram: ETL versus ELT: transformation location"><img src="../../assets/visuals/l2-etl-elt.svg" alt="Two parallel data paths: ETL extraction, staging transformation outside the warehouse, and curated load; ELT extraction, raw warehouse load, and transformation within the warehouse. Amber and location labels identify transformation." loading="lazy"></a><figcaption>Same retail operational database and analytics warehouse in both. ETL transforms before loading; ELT loads raw then transforms inside the target. Both require governance and can retain raw history. <a href="../../assets/visuals/l2-etl-elt.svg" download>Download editable SVG</a></figcaption><details><summary>Interpret: Can ETL retain raw history?</summary><p>Yes. It can archive extracts before transformation; neither approach is universally superior.</p></details><details class="visual-transcript"><summary>Read diagram labels (mobile text)</summary><ul><li>ETL versus ELT: where transformation happens</li><li>SAME SOURCE</li><li>Retail operational database</li><li>ETL</li><li>Extract</li><li>ELT</li><li>Extract</li><li>Transform + validate in staging</li><li>OUTSIDE the target</li><li>TARGET: analytics warehouse</li><li>Load curated data</li><li>TARGET: analytics warehouse</li><li>Load raw data</li><li>Transform + validate</li><li>INSIDE the target</li><li>Both require governance, validation, access control and lineage.</li><li>Both can retain raw history under a retention policy:</li><li>ETL can archive extracts; ELT can retain raw landing tables.</li><li>Choose by constraints, cost, privacy and workload.</li><li>Amber + location labels: transformation. Dashed boundary: target environment.</li><li>Solid arrows: data flow. Neither approach is always superior.</li></ul></details></figure>
+<section class="card completion-control"><h2>Your reading progress</h2><p>Completion is self-reported reading progress, not a mastery score. Use the lab and interpretation checks to assess understanding.</p><label><input type="checkbox" id="lectureComplete" data-complete-lecture="2"> I have reviewed this lecture and its practice.</label></section><!-- course-enhancement:end -->
+<div class="lecture-nav">
         <a href="lecture1.html" class="nav-btn">← Lecture 1</a>
-        <a href="lecture3.html" class="nav-btn primary" onclick="markLectureComplete(2)">Next: Lecture 3 — Data Acquisition →</a>
+        <a href="lecture3.html" class="nav-btn primary">Next: Lecture 3 — Data Acquisition →</a>
       </div>
 
       <footer class="site-footer">
@@ -559,11 +573,8 @@
     </main>
   </div>
 
-  <script>
-    window.COURSE_SEARCH_INDEX = [
-      { title: "Lecture 2: Designing a Data Pipeline", url: "lecture2.html", module: "Module 1", keywords: "etl elt pipeline warehouse lake lakehouse batch realtime ingestion", summary: "Pipeline architecture, ETL vs ELT, storage patterns" }
-    ];
-  </script>
+
+  <script src="../../assets/js/search-index.js"></script>
   <script src="../../assets/js/main.js"></script>
 </body>
 </html>
